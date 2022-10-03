@@ -1,5 +1,10 @@
 # Vocabify
 
+This Project was Developed during the Silicon Valley IT-Weeks. 
+We are a Team of 5 Developers: @DeNicola, @Sili-Dev, @fabianmueller7, @DawidKapka and @maxdeans. Special Thanks to Ben Pietrzak for Mentoring and Supporting us during this Project.
+
+# Angular
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.4.
 
 ## Development server
