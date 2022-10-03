@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@master
-      - name: Intall Angular CLI
+      - name: Install Angular CLI
         run: npm install -g @angular/cli
       - name: Install Dependencies
         run: npm install
