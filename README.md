@@ -1,7 +1,7 @@
 # Vocabify
 
 This Project was Developed during the Silicon Valley IT-Weeks. 
-We are a Team of 5 Developers: @DeNicola, @Sili-Dev, @fabianmueller7, @DawidKapka and @maxdeans. Special Thanks to Ben Pietrzak for Mentoring and Supporting us during this Project.
+We are a Team of 5 Developers: [Nicola](https://github.com/DeNic0la), [Silvan](https://github.com/Sili-Dev), [Fabian](https://github.com/fabianmueller7), [Dawid](https://github.com/DawidKapka) and [Max](https://github.com/maxdeans). Special Thanks to Ben Pietrzak for Mentoring and Supporting us during this Project.
 
 # Angular
 
