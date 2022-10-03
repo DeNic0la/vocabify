@@ -10,12 +10,12 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@master
-      - name: Intall Ionic CLI
-        run: npm install -g @ionic/cli
+      - name: Intall Angular CLI
+        run: npm install -g @angular/cli
       - name: Install Dependencies
         run: npm install
       - name: Build
-        run: ionic build
+        run: ng build
       - name: Archive Dev Artifact
         uses: actions/upload-artifact@master
         with:
