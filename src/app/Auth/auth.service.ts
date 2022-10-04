@@ -40,5 +40,14 @@ export class AuthService {
     await this.fireStore.collection("users").doc(user.uid).set(user);
   }
 
+  /**
+   * Login with Email and Password
+   * @param email
+   * @param password
+   */
+  public async login(email:string,password:string){
+    await this.fireAuth.signInWithEmailAndPassword(email, password)
+  }
+
 
 }
