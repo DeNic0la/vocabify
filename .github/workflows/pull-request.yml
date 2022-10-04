@@ -23,7 +23,7 @@ jobs:
           path: www
 
   deploy_hosting:
-    if: ${{ contains(github.event.*.labels.*.name, 'ui') }}
+    if: ${{ contains(github.event.*.labels.*.name, 'preview') }}
     name: Deploy Hosting
     needs: build
     runs-on: ubuntu-latest
@@ -46,3 +46,10 @@ jobs:
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           PROJECT_ID: vocabify-3d855
+      - uses: mshick/add-pr-comment@v1
+        with:
+          message: |
+            Preview URL: https://vocabify-3d855-${{ steps.extract_branch.outputs.branch }}.web.app
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token-user-login: 'github-actions[bot]'
+          allow-repeats: false
