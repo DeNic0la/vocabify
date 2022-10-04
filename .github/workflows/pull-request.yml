@@ -35,22 +35,11 @@ jobs:
         with:
           name: www
           path: www
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
       - name: Deploy to Firebase
         id: deploy_firebase
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-#          args: hosting:channel:deploy ${{ steps.extract_branch.outputs.branch }}
           projectId: vocabify-3d855
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_VOCABIFY_3D855 }}"
-      - uses: mshick/add-pr-comment@v1
-        with:
-          message: |
-            Preview URL: ${{ steps.deploy_firebase.outputs.details_url }}
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          repo-token-user-login: 'github-actions[bot]'
-          allow-repeats: false
+
