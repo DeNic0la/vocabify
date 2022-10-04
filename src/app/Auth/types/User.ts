@@ -1,8 +1,8 @@
 export interface User {
   /**
-   * Use Timestamp for this.
+   * Firebase UserId
    */
-  id: string;
+  uid: string;
   username: string;
   email: string;
 }
