@@ -40,12 +40,12 @@ jobs:
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         id: extract_branch
       - name: Deploy to Firebase
-        uses: joinflux/firebase-tools@master
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           args: hosting:channel:deploy ${{ steps.extract_branch.outputs.branch }}
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          PROJECT_ID: vocabify-3d855
+          projectId: vocabify-3d855
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_TOKEN }}"
       - uses: mshick/add-pr-comment@v1
         with:
           message: |
