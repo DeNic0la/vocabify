@@ -46,7 +46,7 @@ jobs:
 #          args: hosting:channel:deploy ${{ steps.extract_branch.outputs.branch }}
           projectId: vocabify-3d855
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_VOCABIFY_3D855 }}"
       - uses: mshick/add-pr-comment@v1
         with:
           message: |
