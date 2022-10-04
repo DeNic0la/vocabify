@@ -23,7 +23,7 @@ jobs:
           path: www
 
   deploy_hosting:
-    if: ${{ github.event.label.name == 'ui' }}
+    if: ${{ contains(github.event.*.labels.*.name, 'ui') }}
     name: Deploy Hosting
     needs: build
     runs-on: ubuntu-latest
