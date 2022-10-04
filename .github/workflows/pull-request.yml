@@ -21,3 +21,28 @@ jobs:
         with:
           name: www
           path: www
+
+  deploy_hosting:
+    if: ${{ github.event.label.name == 'ui' }}
+    name: Deploy Hosting
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Download Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: www
+          path: www
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+      - name: Deploy to Firebase
+        uses: joinflux/firebase-tools@master
+        with:
+          args: hosting:channel:deploy ${{ steps.extract_branch.outputs.branch }}
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          PROJECT_ID: vocabify-3d855
