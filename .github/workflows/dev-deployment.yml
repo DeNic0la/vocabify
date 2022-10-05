@@ -54,3 +54,20 @@ jobs:
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           PROJECT_ID: vocabify-3d855
+  deploy_functions:
+    name: Deploy Functions
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Install Dependencies
+        working-directory: ./functions
+        run: npm install
+      - name: Deploy Functions
+        uses: joinflux/firebase-tools@master
+        with:
+          args: deploy --only functions
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          PROJECT_ID: vocabify-3d855
