@@ -1,10 +1,17 @@
-import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
-import {TextfieldSize, TextfieldColor} from "./textfield.types";
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { TextfieldSize, TextfieldColor } from './textfield.types';
 
 @Component({
   selector: 'app-textfield',
   templateUrl: './textfield.component.html',
-  styleUrls: ['./textfield.component.scss']
+  styleUrls: ['./textfield.component.scss'],
 })
 export class TextfieldComponent {
   @Input('placeholder') placeholder: string = 'Placeholder';
@@ -14,11 +21,13 @@ export class TextfieldComponent {
 
   @ViewChild('textfield') textfield: ElementRef | undefined;
 
-  @Output('valueChange') valueChange: EventEmitter<string> = new EventEmitter<string>();
+  @Output('valueChange') valueChange: EventEmitter<string> =
+    new EventEmitter<string>();
 
   emitValueChange() {
-    this.value = (this.textfield?.nativeElement as HTMLInputElement | HTMLTextAreaElement).value;
+    this.value = (
+      this.textfield?.nativeElement as HTMLInputElement | HTMLTextAreaElement
+    ).value;
     this.valueChange.emit(this.value);
   }
-
 }
