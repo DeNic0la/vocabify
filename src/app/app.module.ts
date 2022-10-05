@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { environment } from 'src/environments/environment';
 
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AngularFireModule } from '@angular/fire/compat';
@@ -27,7 +26,7 @@ import { HeaderComponent } from './ui/header/header.component';
     CardComponent,
     DialogComponent,
     IconComponent,
-    HeaderComponent
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,6 +34,6 @@ import { HeaderComponent } from './ui/header/header.component';
     AngularFireModule.initializeApp(environment.firebaseConfig),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

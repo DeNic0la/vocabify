@@ -1,1 +1,7 @@
-export type IconColor = 'black' | 'white' | 'primary' | 'success' | 'danger' | 'error';
+export type IconColor =
+  | 'black'
+  | 'white'
+  | 'primary'
+  | 'success'
+  | 'danger'
+  | 'error';

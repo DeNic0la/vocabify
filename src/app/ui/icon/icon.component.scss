@@ -1,4 +1,4 @@
-@import 'src/app/styles/filters.scss';
+@import "src/app/styles/filters.scss";
 
 .icon {
   height: 48px;
@@ -10,7 +10,7 @@
 }
 
 .white {
- filter: $color-white-filter;
+  filter: $color-white-filter;
 }
 
 .primary {
