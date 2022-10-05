@@ -1,7 +1,7 @@
-import * as admin from "firebase-admin";
-import { Lobby } from "../_types/lobby";
-import { Participant } from "../_types/participant";
-import { UserService } from "./user.service";
+import * as admin from 'firebase-admin';
+import { Lobby } from '../_types/lobby';
+import { Participant } from '../_types/participant';
+import { UserService } from './user.service';
 
 export class LobbyService {
   private db = admin.firestore();
@@ -13,7 +13,7 @@ export class LobbyService {
       id: Date.now().toString(),
       hostid: host.uid,
       name: 'Lobby from ' + host.username,
-    }
+    };
     await this.db.collection('lobbies').doc(lobby.id).create(lobby);
     return lobby;
   }
@@ -23,7 +23,12 @@ export class LobbyService {
     const particpant: Participant = {
       uid: user.uid,
       username: user.username,
-    }
-    await this.db.collection('lobbies').doc(lobbyid).collection('users').doc(user.uid).create(particpant);
+    };
+    await this.db
+      .collection('lobbies')
+      .doc(lobbyid)
+      .collection('users')
+      .doc(user.uid)
+      .create(particpant);
   }
 }

@@ -1,14 +1,14 @@
-import * as functions from "firebase-functions";
-import * as admin from "firebase-admin";
-import { AuthService } from "./_services/auth.service";
-import { LobbyService } from "./_services/lobby.service";
+import * as functions from 'firebase-functions';
+import * as admin from 'firebase-admin';
+import { AuthService } from './_services/auth.service';
+import { LobbyService } from './_services/lobby.service';
 const cors = require('cors')({ origin: true });
 
 admin.initializeApp();
 
 exports.lobby = functions.https.onRequest(async (req, res) => {
   cors(req, res, async () => {
-    if (req.method !== "POST") res.status(400).send('Bad request');
+    if (req.method !== 'POST') res.status(400).send('Bad request');
     const authService = new AuthService();
     const idToken = await authService.validateFirebaseIdToken(req);
     if (!idToken) res.status(403).send('Unauthorized');
@@ -23,7 +23,8 @@ exports.lobby = functions.https.onRequest(async (req, res) => {
 
 exports.join = functions.https.onRequest(async (req, res) => {
   cors(req, res, async () => {
-    if (req.method !== "PUT" || !req.body.lobbyid) res.status(400).send('Bad request');
+    if (req.method !== 'PUT' || !req.body.lobbyid)
+      res.status(400).send('Bad request');
     const authService = new AuthService();
     const idToken = await authService.validateFirebaseIdToken(req);
     if (!idToken) res.status(403).send('Unauthorized');
@@ -33,5 +34,5 @@ exports.join = functions.https.onRequest(async (req, res) => {
     await lobbyService.join(uid, req.body.lobbyid);
 
     res.status(200).send();
-  })
+  });
 });

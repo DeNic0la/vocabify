@@ -3,9 +3,8 @@ import * as admin from 'firebase-admin';
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
 
 export class AuthService {
-
   async validateFirebaseIdToken(
-    req: functions.https.Request,
+    req: functions.https.Request
   ): Promise<DecodedIdToken | undefined> {
     if (
       (!req.headers.authorization ||
