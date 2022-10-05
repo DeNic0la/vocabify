@@ -1,0 +1,15 @@
+<div class="dialog" [ngClass]="{
+  'primary': color === 'primary',
+  'success': color === 'success',
+  'danger': color === 'danger',
+  'error': color === 'error',
+  'open': isOpen,
+  'closed': !isOpen,
+  'initial-closed': initialClose
+}">
+  <p class="title">{{title}}</p>
+  <div class="content">
+    <ng-content></ng-content>
+  </div>
+  <app-button class="action-button" (click)="action ? action() : closeDialog()" [color]="buttonColor()" [size]="actionSize">{{actionText}}</app-button>
+</div>

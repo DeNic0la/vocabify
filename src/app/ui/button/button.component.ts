@@ -7,8 +7,6 @@ import {ButtonColor, ButtonSize} from "./button.types";
   styleUrls: ['./button.component.scss']
 })
 export class ButtonComponent {
-  @Input('text') value: string = 'text'
   @Input('size') size: ButtonSize = 'medium';
   @Input('color') color: ButtonColor = 'primary';
-
 }

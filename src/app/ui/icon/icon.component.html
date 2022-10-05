@@ -1,0 +1,8 @@
+<img [src]="'../../../assets/images/icons/' + name + '.svg'" type="image/svg+xml" [alt]="name" class="icon" [ngClass]="{
+  'black': color === 'black',
+  'white': color === 'white',
+  'primary': color === 'primary',
+  'success': color === 'success',
+  'danger': color === 'danger',
+  'error': color === 'error'
+}">

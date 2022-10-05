@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./ui-test.component.scss']
 })
 export class UiTestComponent {
+  dialogOpen: boolean = false;
 
+  openDialog() {
+    this.dialogOpen = true;
+  }
 }

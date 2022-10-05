@@ -1,0 +1,30 @@
+@import 'src/app/styles/filters.scss';
+
+.icon {
+  height: 48px;
+  width: 48px;
+}
+
+.black {
+  filter: $color-black-filter;
+}
+
+.white {
+ filter: $color-white-filter;
+}
+
+.primary {
+  filter: $color-main-filter;
+}
+
+.success {
+  filter: $color-success-filter;
+}
+
+.danger {
+  filter: $color-danger-filter;
+}
+
+.error {
+  filter: $color-error-filter;
+}

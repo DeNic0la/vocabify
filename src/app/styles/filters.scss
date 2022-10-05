@@ -1,0 +1,18 @@
+// color filters for svg icons
+
+$color-main-filter: invert(21%) sepia(36%) saturate(6465%) hue-rotate(282deg) brightness(94%) contrast(88%);
+$color-main-light-filter: invert(100%) sepia(56%) saturate(7149%) hue-rotate(196deg) brightness(100%) contrast(89%);;
+$color-main-dark-filter: invert(16%) sepia(69%) saturate(2579%) hue-rotate(276deg) brightness(97%) contrast(99%);
+
+$color-white-filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(103deg) brightness(105%) contrast(105%);;
+$color-black-filter: invert(0%) sepia(9%) saturate(6430%) hue-rotate(260deg) brightness(85%) contrast(109%);;
+$color-gray-filter: invert(80%) sepia(12%) saturate(5%) hue-rotate(315deg) brightness(105%) contrast(97%);;
+
+$color-success-filter: invert(64%) sepia(58%) saturate(534%) hue-rotate(41deg) brightness(98%) contrast(94%);;
+$color-danger-filter: invert(92%) sepia(12%) saturate(4093%) hue-rotate(327deg) brightness(106%) contrast(102%);
+$color-error-filter: invert(68%) sepia(81%) saturate(4523%) hue-rotate(322deg) brightness(101%) contrast(123%);
+
+$color-main-active-filter: invert(17%) sepia(48%) saturate(4201%) hue-rotate(279deg) brightness(100%) contrast(94%);
+$color-success-active-filter: invert(54%) sepia(63%) saturate(530%) hue-rotate(41deg) brightness(98%) contrast(87%);
+$color-danger-active-filter: invert(79%) sepia(18%) saturate(4519%) hue-rotate(351deg) brightness(105%) contrast(102%);
+$color-error-active-filter: invert(24%) sepia(100%) saturate(4650%) hue-rotate(348deg) brightness(128%) contrast(102%);

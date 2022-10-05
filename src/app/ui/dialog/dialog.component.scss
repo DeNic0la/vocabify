@@ -1,0 +1,79 @@
+@import 'src/app/styles/colors.scss';
+
+.dialog {
+  width: 384px;
+  height: 192px;
+  border-radius: 4px;
+  font-family: 'Silkscreen', cursive;
+  font-size: 16px;
+  color: $color-white;
+  box-shadow: 6px 6px 6px $color-shadow;
+
+  .title {
+    font-size: 36px;
+    width: 360px;
+    height: 46px;
+    margin: 6px 12px 16px 12px;
+  }
+
+  .content {
+    width: 360px;
+    margin: 0 12px auto 12px;
+    overflow-wrap: break-word;
+  }
+
+  .action-button {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+  }
+}
+
+.initial-closed {
+  opacity: 0;
+}
+
+.open {
+  animation: open-dialog 300ms;
+  animation-fill-mode: forwards;
+}
+
+.closed {
+  animation: close-dialog 300ms;
+  animation-fill-mode: forwards;
+}
+
+.primary {
+  background-color: $color-main;
+}
+
+.success {
+  background-color: $color-success;
+}
+
+.danger {
+  background-color: $color-danger;
+}
+
+.error {
+  background-color: $color-error;
+}
+
+@keyframes open-dialog {
+  0% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes close-dialog {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
