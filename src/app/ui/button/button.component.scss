@@ -1,13 +1,13 @@
-@import 'src/app/styles/colors.scss';
+@import "src/app/styles/colors.scss";
 
 .button {
-  font-family: 'Silkscreen', cursive;
+  font-family: "Silkscreen", cursive;
   font-size: 24px;
   height: 48px;
   border: none;
   color: $color-white;
   border-radius: 4px;
-  box-shadow: 0 4px 4px rgba(0,0,0,0.25);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .mini {
@@ -19,7 +19,7 @@
 }
 
 .large {
- width: 256px;
+  width: 256px;
 }
 
 .primary {
