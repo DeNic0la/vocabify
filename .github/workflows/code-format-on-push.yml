@@ -1,7 +1,11 @@
 name: Lint
 
 on:
-  push:
+  pull_request:
+    types:
+      - synchronize
+      - opened
+      - reopened
 
 jobs:
   run-linters:
