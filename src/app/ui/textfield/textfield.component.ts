@@ -18,6 +18,7 @@ export class TextfieldComponent {
   @Input('value') value: string = '';
   @Input('size') size: TextfieldSize = 'small';
   @Input('color') color: TextfieldColor = 'primary';
+  @Input('type') type: string = 'text';
 
   @ViewChild('textfield') textfield: ElementRef | undefined;
 
