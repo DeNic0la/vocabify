@@ -14,6 +14,11 @@ import { CardComponent } from './ui/card/card.component';
 import { DialogComponent } from './ui/dialog/dialog.component';
 import { IconComponent } from './ui/icon/icon.component';
 import { HeaderComponent } from './ui/header/header.component';
+import { StorifyComponent } from './storify/storify.component';
+import { JoinComponent } from './storify/join/join.component';
+import { CreateComponent } from './storify/create/create.component';
+import { GameComponent } from './storify/game/game.component';
+import { ShomeComponent } from './storify/shome/shome.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +32,11 @@ import { HeaderComponent } from './ui/header/header.component';
     DialogComponent,
     IconComponent,
     HeaderComponent,
+    StorifyComponent,
+    JoinComponent,
+    CreateComponent,
+    GameComponent,
+    ShomeComponent
   ],
   imports: [
     BrowserModule,
