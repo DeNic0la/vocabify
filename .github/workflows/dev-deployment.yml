@@ -3,9 +3,10 @@ on:
   push:
     branches:
       - master
+
 jobs:
-  build:
-    name: Build
+  frontend-build:
+    name: Frontend Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -21,9 +22,23 @@ jobs:
         with:
           name: www
           path: www
+
+  backend-build:
+    name: Backend Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Install Dependencies
+        working-directory: ./functions
+        run: npm install
+      - name: Build
+        working-directory: ./functions
+        run: npm run build
+
   deploy_firestore:
     name: Deploy Firestore
-    needs: build
+    needs: frontend-build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -35,9 +50,10 @@ jobs:
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           PROJECT_ID: vocabify-3d855
+
   deploy_hosting:
     name: Deploy Hosting
-    needs: build
+    needs: frontend-build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -54,9 +70,10 @@ jobs:
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           PROJECT_ID: vocabify-3d855
+
   deploy_functions:
     name: Deploy Functions
-    needs: build
+    needs: backend-build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
