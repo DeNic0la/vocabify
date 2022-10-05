@@ -1,0 +1,47 @@
+@import "src/app/styles/colors.scss";
+
+.header {
+  height: 96px;
+  width: 100vw;
+  position: relative;
+  top: 0;
+  background-color: $color-main;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 4px 4px $color-shadow;
+
+  .sign-in {
+    position: absolute;
+    right: 32px;
+    top: 24px;
+  }
+
+  .logo {
+    position: absolute;
+    color: $color-white;
+    left: 50vw;
+    transform: translateX(-50%);
+    top: 24px;
+
+    .logo-text {
+      font-size: 36px;
+      font-family: "Silkscreen", cursive;
+      margin: 0;
+    }
+  }
+
+  .home {
+    position: absolute;
+    top: 26px;
+    left: 32px;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .logo-text {
+    display: none;
+  }
+}

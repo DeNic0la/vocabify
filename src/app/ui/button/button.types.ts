@@ -4,5 +4,8 @@ export type ButtonColor =
   | 'primary'
   | 'inverted'
   | 'success'
+  | 'success-inverted'
   | 'danger'
-  | 'error';
+  | 'danger-inverted'
+  | 'error'
+  | 'error-inverted';

@@ -5,4 +5,10 @@ import { Component } from '@angular/core';
   templateUrl: './ui-test.component.html',
   styleUrls: ['./ui-test.component.scss'],
 })
-export class UiTestComponent {}
+export class UiTestComponent {
+  dialogOpen: boolean = false;
+
+  openDialog() {
+    this.dialogOpen = true;
+  }
+}
