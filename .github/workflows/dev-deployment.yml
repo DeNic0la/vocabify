@@ -44,7 +44,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@master
       - name: Deploy Firestore
-        uses: joinflux/firebase-tools@master
+        uses: w9jds/firebase-action@master
         with:
           args: deploy --only firestore
         env:
@@ -64,7 +64,7 @@ jobs:
           name: www
           path: www
       - name: Deploy to Firebase
-        uses: joinflux/firebase-tools@master
+        uses: w9jds/firebase-action@master
         with:
           args: deploy --only hosting
         env:
@@ -82,7 +82,7 @@ jobs:
         working-directory: ./functions
         run: npm install
       - name: Deploy Functions
-        uses: joinflux/firebase-tools@master
+        uses: w9jds/firebase-action@master
         with:
           args: deploy --only functions
         env:
