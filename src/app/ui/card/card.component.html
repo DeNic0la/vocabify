@@ -1,9 +1,12 @@
-<div class="card" [ngClass]="{
-  'small': size === 'small',
-  'large': size === 'large',
-  'primary': color === 'primary',
-  'inverted': color === 'inverted'
-}">
+<div
+  class="card"
+  [ngClass]="{
+    small: size === 'small',
+    large: size === 'large',
+    primary: color === 'primary',
+    inverted: color === 'inverted'
+  }"
+>
   <p class="text">
     <ng-content></ng-content>
   </p>
