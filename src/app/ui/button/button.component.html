@@ -7,9 +7,12 @@
     primary: color === 'primary',
     inverted: color === 'inverted',
     success: color === 'success',
+    'success-inverted': color === 'success-inverted',
     danger: color === 'danger',
-    error: color === 'error'
+    'danger-inverted': color === 'danger-inverted',
+    error: color === 'error',
+    'error-inverted': color === 'error-inverted'
   }"
 >
-  {{ value }}
+  <ng-content></ng-content>
 </button>

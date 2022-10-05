@@ -4,8 +4,8 @@ on:
     types: [opened, reopened, synchronize, labeled]
 
 jobs:
-  build:
-    name: Build
+  frontend-build:
+    name: Frontend Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -22,10 +22,23 @@ jobs:
           name: www
           path: www
 
+  backend-build:
+    name: Backend Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Install Dependencies
+        working-directory: ./functions
+        run: npm install
+      - name: Build
+        working-directory: ./functions
+        run: npm run build
+
   deploy_hosting:
     if: ${{ contains(github.event.*.labels.*.name, 'preview') }}
     name: Deploy Hosting
-    needs: build
+    needs: frontend-build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
