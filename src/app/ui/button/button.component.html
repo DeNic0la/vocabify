@@ -1,0 +1,15 @@
+<button
+  class="button"
+  [ngClass]="{
+    medium: size === 'medium',
+    mini: size === 'mini',
+    large: size === 'large',
+    primary: color === 'primary',
+    inverted: color === 'inverted',
+    success: color === 'success',
+    danger: color === 'danger',
+    error: color === 'error'
+  }"
+>
+  {{ value }}
+</button>

@@ -1,0 +1,27 @@
+<input
+  *ngIf="size === 'small'"
+  #textfield
+  type="text"
+  (input)="emitValueChange()"
+  class="textfield small"
+  [value]="value ? value : ''"
+  [placeholder]="placeholder"
+  [ngClass]="{
+    primary: color === 'primary',
+    error: color === 'error'
+  }"
+/>
+<textarea
+  *ngIf="size === 'large'"
+  #textfield
+  class="textfield large"
+  (input)="emitValueChange()"
+  rows="6"
+  cols="20"
+  [placeholder]="placeholder"
+  [value]="value ? value : ''"
+  [ngClass]="{
+    primary: color === 'primary',
+    error: color === 'error'
+  }"
+></textarea>

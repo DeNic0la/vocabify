@@ -1,0 +1,64 @@
+@import "src/app/styles/colors.scss";
+
+.button {
+  font-family: "Silkscreen", cursive;
+  font-size: 24px;
+  height: 48px;
+  border: none;
+  color: $color-white;
+  border-radius: 4px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.mini {
+  width: 48px;
+}
+
+.medium {
+  width: 128px;
+}
+
+.large {
+  width: 256px;
+}
+
+.primary {
+  background-color: $color-main;
+
+  &:active {
+    background-color: $color-main-active;
+  }
+}
+
+.success {
+  background-color: $color-success;
+
+  &:active {
+    background-color: $color-success-active;
+  }
+}
+
+.danger {
+  background-color: $color-danger;
+
+  &:active {
+    background-color: $color-danger-active;
+  }
+}
+
+.error {
+  background-color: $color-error;
+
+  &:active {
+    background-color: $color-error-active;
+  }
+}
+
+.inverted {
+  background-color: $color-white;
+  color: $color-main;
+
+  &:active {
+    background-color: $color-gray;
+  }
+}

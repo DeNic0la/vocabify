@@ -1,0 +1,36 @@
+@import "src/app/styles/colors.scss";
+
+.textfield {
+  font-family: "Silkscreen", cursive;
+  font-size: 24px;
+  border-radius: 4px;
+  padding: 0 6px;
+  resize: none;
+  outline: none;
+}
+
+.small {
+  height: 48px;
+  width: 256px;
+}
+
+.large {
+  height: 192px;
+  width: 512px;
+}
+
+.primary {
+  border: 4px solid $color-main;
+
+  &:focus {
+    border: 4px solid $color-main-active;
+  }
+}
+
+.error {
+  border: 4px solid $color-error;
+
+  &:focus {
+    border: 4px solid $color-error-active;
+  }
+}
