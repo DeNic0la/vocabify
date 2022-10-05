@@ -1,11 +1,11 @@
 name: Pull Request
 on:
   pull_request:
-    types: [opened, reopened]
+    types: [opened, reopened, synchronize, labeled]
 
 jobs:
-  build:
-    name: Build
+  frontend-build:
+    name: Frontend Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -21,3 +21,37 @@ jobs:
         with:
           name: www
           path: www
+
+  backend-build:
+    name: Backend Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Install Dependencies
+        working-directory: ./functions
+        run: npm install
+      - name: Build
+        working-directory: ./functions
+        run: npm run build
+
+  deploy_hosting:
+    if: ${{ contains(github.event.*.labels.*.name, 'preview') }}
+    name: Deploy Hosting
+    needs: frontend-build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Download Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: www
+          path: www
+      - name: Deploy to Firebase
+        id: deploy_firebase
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          projectId: vocabify-3d855
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_VOCABIFY_3D855 }}"
