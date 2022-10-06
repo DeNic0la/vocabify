@@ -18,6 +18,5 @@ export class RegisterComponent {
     this.isLoading = false;
 
     // TODO Redirect
-    
   }
 }

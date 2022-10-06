@@ -5,6 +5,4 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './join.component.html',
   styleUrls: ['./join.component.scss'],
 })
-export class JoinComponent {
-
-}
+export class JoinComponent {}
