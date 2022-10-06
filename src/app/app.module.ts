@@ -21,7 +21,9 @@ import { GameComponent } from './storify/game/game.component';
 import { ShomeComponent } from './storify/shome/shome.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { AuthHandlingComponent } from './auth/auth-handling/auth-handling.component';
 import { LoaderComponent } from './ui/loader/loader.component';
+import { PasswordResetComponent } from './auth/password-reset/password-reset.component';
 import { CardGridComponent } from './ui/card-grid/card-grid.component';
 import { ToasterComponent } from './ui/toaster/toaster.component';
 
@@ -45,7 +47,9 @@ import { ToasterComponent } from './ui/toaster/toaster.component';
     LoginComponent,
     UiTestComponent,
     RegisterComponent,
+    AuthHandlingComponent,
     LoaderComponent,
+    PasswordResetComponent,
     CardGridComponent,
     ToasterComponent,
   ],

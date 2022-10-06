@@ -1,0 +1,30 @@
+<app-header></app-header>
+
+<app-loader *ngIf="!isLoading"></app-loader>
+
+<div *ngIf="isLoading" class="container">
+  <div>
+    <h2>Reset your password</h2>
+    <app-textfield
+      [(value)]="password"
+      color="primary"
+      type="password"
+      placeholder="New Password"
+      size="small"
+    ></app-textfield>
+    <app-textfield
+      [(value)]="repeatedPassword"
+      color="primary"
+      type="password"
+      placeholder="Repeat Password"
+      size="small"
+    ></app-textfield>
+    <app-button (click)="resetPassword(password, repeatedPassword)"
+      >Reset</app-button
+    >
+  </div>
+</div>
+
+<app-toaster [color]="toaster.color" [(show)]="toaster.show">{{
+  toaster.message
+}}</app-toaster>
