@@ -1,0 +1,13 @@
+<div class="toaster" [ngClass]="{
+  'primary': color === 'primary',
+  'inverted': color === 'inverted',
+  'success': color === 'success',
+  'danger': color === 'danger',
+  'error': color === 'error',
+  'visible': show,
+  'invisible': !show
+}">
+  <p class="content">
+    <ng-content></ng-content>
+  </p>
+</div>
