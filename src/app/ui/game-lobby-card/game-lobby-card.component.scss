@@ -1,0 +1,77 @@
+@import 'src/app/styles/colors.scss';
+
+.card {
+  width: 512px;
+  height: 256px;
+  box-shadow: 6px 6px 6px $color-shadow;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+
+  .image {
+    background-color: $color-gray;
+    margin: 16px;
+    height: calc(100% - 32px);
+    width: calc(50% - 32px);
+  }
+
+  .content {
+    padding: 16px 16px 16px 0;
+    height: calc(100% - 32px);
+    width: calc(50% - 16px);
+
+    .title {
+      height: 32px;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .description {
+      height: 128px;
+      margin-bottom: 8px;
+      overflow-wrap: break-word;
+      font-size: 12px;
+    }
+
+    .players {
+      height: 32px;
+      margin-top: -52px;
+      padding-bottom: 20px;
+      text-align: center;
+    }
+
+    .action {
+      margin: 0 0 0 auto;
+      display: block;
+
+      .action-button {
+        float: right;
+      }
+    }
+  }
+}
+
+.primary {
+  background-color: $color-main;
+}
+
+.inverted {
+  background-color: $color-white;
+  color: $color-main;
+
+  .content {
+
+    .title {
+      color: $color-main;
+    }
+
+    .description {
+      color: $color-main;
+    }
+
+    .players {
+      color: $color-main;
+    }
+
+  }
+}

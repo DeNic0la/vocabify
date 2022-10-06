@@ -16,6 +16,7 @@ import { IconComponent } from './ui/icon/icon.component';
 import { HeaderComponent } from './ui/header/header.component';
 import { LoaderComponent } from './ui/loader/loader.component';
 import { ToasterComponent } from './ui/toaster/toaster.component';
+import { GameLobbyCardComponent } from './ui/game-lobby-card/game-lobby-card.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { ToasterComponent } from './ui/toaster/toaster.component';
     HeaderComponent,
     LoaderComponent,
     ToasterComponent,
+    GameLobbyCardComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,17 @@
+<div class="card" [ngClass]="{
+  'primary': color === 'primary',
+  'inverted': color === 'inverted'
+}">
+  <img src="" alt="" class="image">
+  <div class="content">
+    <h5 class="title" *ngIf="titleSize === 'large'">{{title}}</h5>
+    <p class="title" *ngIf="titleSize === 'small'">{{title}}</p>
+    <p class="description">
+      <ng-content></ng-content>
+    </p>
+    <h5 class="players" *ngIf="maxPlayers > 0">{{players}} / {{maxPlayers}}</h5>
+    <div class="action">
+      <app-button class="action-button" (click)="emitClick()" [color]="color === 'primary' ? 'inverted' : 'primary'">play</app-button>
+    </div>
+  </div>
+</div>
