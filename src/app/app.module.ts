@@ -17,6 +17,7 @@ import { HeaderComponent } from './ui/header/header.component';
 import { AuthHandlingComponent } from './auth/auth-handling/auth-handling.component';
 import { LoaderComponent } from './ui/loader/loader.component';
 import { PasswordResetComponent } from './auth/password-reset/password-reset.component';
+import { CardGridComponent } from './ui/card-grid/card-grid.component';
 import { ToasterComponent } from './ui/toaster/toaster.component';
 
 @NgModule({
@@ -34,6 +35,7 @@ import { ToasterComponent } from './ui/toaster/toaster.component';
     AuthHandlingComponent,
     LoaderComponent,
     PasswordResetComponent,
+    CardGridComponent,
     ToasterComponent,
   ],
   imports: [
