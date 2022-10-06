@@ -92,4 +92,8 @@ export class AuthService {
       throw new Error('The password has to be longer than 6 characters.');
     }
   }
+
+  public async sendPasswordReset(email: string) {
+    await this.fireAuth.sendPasswordResetEmail(email);
+  }
 }
