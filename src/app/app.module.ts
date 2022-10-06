@@ -14,6 +14,8 @@ import { CardComponent } from './ui/card/card.component';
 import { DialogComponent } from './ui/dialog/dialog.component';
 import { IconComponent } from './ui/icon/icon.component';
 import { HeaderComponent } from './ui/header/header.component';
+import { LoaderComponent } from './ui/loader/loader.component';
+import { ToasterComponent } from './ui/toaster/toaster.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { HeaderComponent } from './ui/header/header.component';
     DialogComponent,
     IconComponent,
     HeaderComponent,
+    LoaderComponent,
+    ToasterComponent,
   ],
   imports: [
     BrowserModule,
