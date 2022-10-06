@@ -1,6 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ToasterService } from 'src/app/services/toaster.service';
 import { AuthService } from '../auth.service';
 import { Toaster } from '../types/toaster';
 
@@ -12,11 +13,6 @@ import { Toaster } from '../types/toaster';
 export class AuthHandlingComponent implements OnDestroy {
   subscriptions = new Subscription();
   isLoading: boolean = true;
-  toaster: Toaster = {
-    show: false,
-    color: 'error',
-    message: '',
-  };
   password: string = '';
   repeatedPassword: string = '';
   mode: string = '';
@@ -25,7 +21,8 @@ export class AuthHandlingComponent implements OnDestroy {
   constructor(
     private auth: AuthService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toasterService: ToasterService,
   ) {
     const sub = this.auth.currentUser.subscribe(() => {
       const routeSub = this.route.queryParams.subscribe(async (params) => {
@@ -47,8 +44,7 @@ export class AuthHandlingComponent implements OnDestroy {
       await this.auth.resetPassword(this.oobCode, password);
       this.router.navigate(['login']);
     } catch (error: any) {
-      this.toaster.message = error.message;
-      this.toaster.show = true;
+      this.toasterService.showToast('error', error.message);
     }
     this.isLoading = false;
   }

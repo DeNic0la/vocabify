@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToasterService } from 'src/app/services/toaster.service';
 import { AuthService } from '../auth.service';
 import { Toaster } from '../types/toaster';
 
@@ -10,14 +11,9 @@ import { Toaster } from '../types/toaster';
 })
 export class PasswordResetComponent {
   isLoading: boolean = false;
-  toaster: Toaster = {
-    show: false,
-    color: 'error',
-    message: '',
-  };
   email: string = '';
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router, private toasterService: ToasterService) { }
 
   async sendPasswordReset(email: string) {
     this.isLoading = true;
@@ -28,8 +24,7 @@ export class PasswordResetComponent {
       await this.auth.sendPasswordReset(email);
       this.router.navigate(['login']);
     } catch (error: any) {
-      this.toaster.message = error.message;
-      this.toaster.show = true;
+      this.toasterService.showToast('error', error.message);
       this.isLoading = false;
     }
   }
