@@ -45,7 +45,7 @@ import { ToasterComponent } from './ui/toaster/toaster.component';
     UiTestComponent,
     RegisterComponent,
     LoaderComponent,
-    ToasterComponent,
+    ToasterComponent
   ],
   imports: [
     BrowserModule,

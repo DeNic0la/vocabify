@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NavigationCancel } from '@angular/router';
 import { AuthService } from '../Auth/auth.service';
 
 @Component({
@@ -17,5 +18,6 @@ export class RegisterComponent {
     this.isLoading = false;
 
     // TODO Redirect
+    
   }
 }

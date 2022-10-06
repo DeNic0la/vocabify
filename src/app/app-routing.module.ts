@@ -12,7 +12,7 @@ import { ShomeComponent } from './storify/shome/shome.component';
 import { StorifyComponent } from './storify/storify.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'design', component: UiTestComponent },
   { path: 'login', component: LoginComponent },
@@ -22,7 +22,8 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: ShomeComponent,
+        redirectTo: 'home',
+        pathMatch: 'full'
       },
       {
         path: 'home',

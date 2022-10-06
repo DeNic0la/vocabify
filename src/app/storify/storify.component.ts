@@ -5,8 +5,6 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './storify.component.html',
   styleUrls: ['./storify.component.scss'],
 })
-export class StorifyComponent implements OnInit {
-  constructor() {}
+export class StorifyComponent {
 
-  ngOnInit(): void {}
 }

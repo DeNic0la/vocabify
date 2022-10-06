@@ -5,8 +5,6 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './join.component.html',
   styleUrls: ['./join.component.scss'],
 })
-export class JoinComponent implements OnInit {
-  constructor() {}
+export class JoinComponent {
 
-  ngOnInit(): void {}
 }
