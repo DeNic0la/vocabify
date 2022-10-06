@@ -1,1 +1,6 @@
-export type ToasterColor = 'primary' | 'inverted' | 'success' | 'danger' | 'error';
+export type ToasterColor =
+  | 'primary'
+  | 'inverted'
+  | 'success'
+  | 'danger'
+  | 'error';

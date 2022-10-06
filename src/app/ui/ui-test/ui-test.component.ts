@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-ui-test',
@@ -9,7 +9,7 @@ export class UiTestComponent implements OnInit {
   toasterOpen: boolean = false;
 
   ngOnInit() {
-    setTimeout(() => this.toasterOpen = true, 1000)
+    setTimeout(() => (this.toasterOpen = true), 1000);
   }
 
   open() {
