@@ -22,7 +22,7 @@ export class AuthHandlingComponent implements OnDestroy {
     private auth: AuthService,
     private route: ActivatedRoute,
     private router: Router,
-    private toasterService: ToasterService,
+    private toasterService: ToasterService
   ) {
     const sub = this.auth.currentUser.subscribe(() => {
       const routeSub = this.route.queryParams.subscribe(async (params) => {

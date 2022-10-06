@@ -13,7 +13,11 @@ export class PasswordResetComponent {
   isLoading: boolean = false;
   email: string = '';
 
-  constructor(private auth: AuthService, private router: Router, private toasterService: ToasterService) { }
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private toasterService: ToasterService
+  ) {}
 
   async sendPasswordReset(email: string) {
     this.isLoading = true;
