@@ -85,7 +85,7 @@ export class AuthService {
   public validatePassword(password: string, repeatedPassword?: string) {
     if (repeatedPassword) {
       if (password !== repeatedPassword) {
-        throw new Error("The passwords doesn't match!")
+        throw new Error("The passwords doesn't match!");
       }
     }
     if (password.trim().length >= 6) {
