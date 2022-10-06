@@ -15,6 +15,7 @@ import { DialogComponent } from './ui/dialog/dialog.component';
 import { IconComponent } from './ui/icon/icon.component';
 import { HeaderComponent } from './ui/header/header.component';
 import { AuthHandlingComponent } from './auth/auth-handling/auth-handling.component';
+import { LoaderComponent } from './ui/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { AuthHandlingComponent } from './auth/auth-handling/auth-handling.compon
     IconComponent,
     HeaderComponent,
     AuthHandlingComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,
