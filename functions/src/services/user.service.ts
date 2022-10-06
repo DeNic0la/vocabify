@@ -1,5 +1,5 @@
 import * as admin from 'firebase-admin';
-import { User } from '../_types/user';
+import { User } from '../types/user';
 
 export class UserService {
   private db = admin.firestore();

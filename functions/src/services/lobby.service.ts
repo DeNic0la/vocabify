@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin';
-import { Lobby } from '../_types/lobby';
-import { Participant } from '../_types/participant';
+import { Lobby } from '../types/lobby';
+import { Participant } from '../types/participant';
 import { UserService } from './user.service';
 
 export class LobbyService {
