@@ -11,7 +11,7 @@ import { Toaster } from '../types/toaster';
 })
 export class AuthHandlingComponent implements OnDestroy {
   subscriptions = new Subscription();
-  isLoading = true;
+  isLoading: boolean = true;
   toaster: Toaster = {
     show: false,
     color: 'error',

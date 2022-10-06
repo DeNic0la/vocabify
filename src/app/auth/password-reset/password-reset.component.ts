@@ -9,7 +9,7 @@ import { Toaster } from '../types/toaster';
   styleUrls: ['./password-reset.component.scss'],
 })
 export class PasswordResetComponent {
-  isLoading = false;
+  isLoading: boolean = false;
   toaster: Toaster = {
     show: false,
     color: 'error',
