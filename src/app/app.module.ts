@@ -14,7 +14,9 @@ import { CardComponent } from './ui/card/card.component';
 import { DialogComponent } from './ui/dialog/dialog.component';
 import { IconComponent } from './ui/icon/icon.component';
 import { HeaderComponent } from './ui/header/header.component';
+import { AuthHandlingComponent } from './auth/auth-handling/auth-handling.component';
 import { LoaderComponent } from './ui/loader/loader.component';
+import { PasswordResetComponent } from './auth/password-reset/password-reset.component';
 import { CardGridComponent } from './ui/card-grid/card-grid.component';
 import { ToasterComponent } from './ui/toaster/toaster.component';
 import { GameLobbyCardComponent } from './ui/game-lobby-card/game-lobby-card.component';
@@ -31,7 +33,9 @@ import { GameLobbyCardComponent } from './ui/game-lobby-card/game-lobby-card.com
     DialogComponent,
     IconComponent,
     HeaderComponent,
+    AuthHandlingComponent,
     LoaderComponent,
+    PasswordResetComponent,
     CardGridComponent,
     ToasterComponent,
     GameLobbyCardComponent,
