@@ -1,10 +1,13 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {GameLobbyCardColor, GameLobbyCardTitleSize} from "./game-lobby-card.types";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  GameLobbyCardColor,
+  GameLobbyCardTitleSize,
+} from './game-lobby-card.types';
 
 @Component({
   selector: 'app-game-lobby-card',
   templateUrl: './game-lobby-card.component.html',
-  styleUrls: ['./game-lobby-card.component.scss']
+  styleUrls: ['./game-lobby-card.component.scss'],
 })
 export class GameLobbyCardComponent {
   @Input('title') title: string = '';
@@ -18,6 +21,4 @@ export class GameLobbyCardComponent {
   emitClick(): void {
     this.click.emit();
   }
-
-
 }

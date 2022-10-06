@@ -1,4 +1,4 @@
-@import 'src/app/styles/colors.scss';
+@import "src/app/styles/colors.scss";
 
 .card {
   width: 512px;
@@ -60,7 +60,6 @@
   color: $color-main;
 
   .content {
-
     .title {
       color: $color-main;
     }
@@ -72,6 +71,5 @@
     .players {
       color: $color-main;
     }
-
   }
 }
