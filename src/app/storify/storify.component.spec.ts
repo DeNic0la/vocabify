@@ -7,9 +7,8 @@ describe('StorifyComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StorifyComponent ]
-    })
-    .compileComponents();
+      declarations: [StorifyComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(StorifyComponent);
     component = fixture.componentInstance;

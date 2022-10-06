@@ -16,29 +16,32 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'design', component: UiTestComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'storify', component: StorifyComponent,
-  children: [
-    {
-      path: '',
-      component: ShomeComponent,
-    },
-    {
-      path: 'home',
-      component: ShomeComponent,
-    },
-    {
-      path: 'join',
-      component: JoinComponent,
-    },
-    {
-      path: 'create',
-      component: CreateComponent,
-    },
-    {
-      path: 'game',
-      component: GameComponent,
-    }
-  ]},
+  {
+    path: 'storify',
+    component: StorifyComponent,
+    children: [
+      {
+        path: '',
+        component: ShomeComponent,
+      },
+      {
+        path: 'home',
+        component: ShomeComponent,
+      },
+      {
+        path: 'join',
+        component: JoinComponent,
+      },
+      {
+        path: 'create',
+        component: CreateComponent,
+      },
+      {
+        path: 'game',
+        component: GameComponent,
+      },
+    ],
+  },
   { path: 'register', component: RegisterComponent },
   { path: '**', component: NotFoundComponent },
 ];

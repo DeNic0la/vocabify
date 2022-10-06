@@ -4,14 +4,12 @@ import { AuthService } from '../Auth/auth.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  styleUrls: ['./register.component.scss'],
 })
-export class RegisterComponent{
+export class RegisterComponent {
+  constructor(private authServie: AuthService) {}
 
-  constructor(private authServie: AuthService) { }
-
-  public isLoading:boolean = false;
-
+  public isLoading: boolean = false;
 
   public async register(username: string, email: string, password: string) {
     this.isLoading = true;
@@ -20,5 +18,4 @@ export class RegisterComponent{
 
     // TODO Redirect
   }
-
 }
