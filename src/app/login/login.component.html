@@ -1,4 +1,4 @@
-<div class="center login">
+<div class="center login" *ngIf!="isLoading">
   <h2 class="title">Login</h2>
   <form name="register">
     <div class="label">
@@ -11,9 +11,9 @@
       <app-textfield type="password" id="password" name="password" placeholder="password" #password></app-textfield>
       <br />
     </div>
-    <app-loader *ngIf="isLoading"></app-loader>
     <app-button class="button" (click)="login(email.value, password.value)" size="large">Login</app-button>
   </form>
   <h2 class="text link"><a routerLink="/home">I FORGOT MY PASSWORD</a></h2>
   <h2 class="text">NO ACCOUNT YET? <a routerLink="/register">REGISTER</a></h2>
 </div>
+<app-loader *ngIf="isLoading"></app-loader>
