@@ -1,17 +1,18 @@
 <div class="center login">
   <h2 class="title">Login</h2>
-
-  <form name="login">
-    <label for="email">Email:</label><br>
-    <app-textfield type="text" id="email" name="email" placeholder="Email" #email></app-textfield><br>
-    <div class="left">
-      <label for="lname" class="left">Password:</label><br>
-      <app-textfield type="password" id="password" name="password" placeholder="Password" #password></app-textfield><br>
+  <form name="register">
+    <div class="label">
+      <label class="text" for="email">Email:</label><br>
+      <app-textfield type="email" id="email" name="email" placeholder="email" #email></app-textfield>
     </div>
-    <app-button (click)="login(email.value, password.value)" size="large">Login</app-button>
+    <br>
+    <div class="label">
+      <label class="text" for="password">Password:</label><br>
+      <app-textfield type="password" id="password" name="password" placeholder="password" #password></app-textfield>
+      <br>
+    </div>
+    <app-button class="button" (click)="login( email.value, password.value)" size="large">Login</app-button>
   </form>
-
-  <a class="text">I FORGOT MY PASSWORD</a>
-  <p class="text">NO ACCOUNT YET? <a size="large" class="text" routerLink="/register"> Register</a></p>
-
+  <h2 class="text" style="margin-bottom: 0px;"><a routerLink="/home">I FORGOT MY PASSWORD</a></h2>
+  <h2 class="text">NO ACCOUNT YET? <a routerLink="/register">REGISTER</a></h2>
 </div>
