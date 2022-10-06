@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { User } from './types/User';
 import { Observable, of, switchMap } from 'rxjs';
+import * as firebase from 'firebase/compat/app';
+import { User } from './types/User';
 
 @Injectable({
   providedIn: 'root',
@@ -58,5 +59,9 @@ export class AuthService {
    */
   public async login(email: string, password: string) {
     await this.fireAuth.signInWithEmailAndPassword(email, password);
+  }
+
+  public async verifyPasswordResetCode(oobCode: string): Promise<string> {
+    return await firebase.default.auth().verifyPasswordResetCode(oobCode);
   }
 }

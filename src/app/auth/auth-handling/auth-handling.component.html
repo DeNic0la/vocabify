@@ -1,0 +1,10 @@
+<app-header></app-header>
+
+<div class="container">
+  <div *ngIf="!isLoading">
+    <h2>Reset your password</h2>
+    <app-textfield color="primary" type="password" placeholder="New Password" size="small"></app-textfield>
+    <app-textfield color="primary" type="password" placeholder="Repeat Password" size="small"></app-textfield>
+    <app-button>Reset</app-button>
+  </div>
+</div>
