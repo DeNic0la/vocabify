@@ -3,15 +3,12 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-card-grid',
   templateUrl: './card-grid.component.html',
-  styleUrls: ['./card-grid.component.scss']
+  styleUrls: ['./card-grid.component.scss'],
 })
 export class CardGridComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
+  public test = ['a', 'b', 'c', 'd'];
 
-  public test = ['a','b','c','d'];
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
