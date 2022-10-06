@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
-import { AuthService } from './_services/auth.service';
-import { LobbyService } from './_services/lobby.service';
+import { AuthService } from './services/auth.service';
+import { LobbyService } from './services/lobby.service';
 const cors = require('cors')({ origin: true });
 
 admin.initializeApp();
