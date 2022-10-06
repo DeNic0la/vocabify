@@ -2,21 +2,43 @@
   <h2 class="title">Register</h2>
   <div class="label">
     <label class="text" for="username">Username:</label><br />
-    <app-textfield type="text" id="username" name="username" placeholder="username" #username></app-textfield>
+    <app-textfield
+      type="text"
+      id="username"
+      name="username"
+      placeholder="username"
+      #username
+    ></app-textfield>
   </div>
   <br />
   <div class="label">
     <label class="text" for="email">Email:</label><br />
-    <app-textfield type="email" id="email" name="email" placeholder="email" #email></app-textfield>
+    <app-textfield
+      type="email"
+      id="email"
+      name="email"
+      placeholder="email"
+      #email
+    ></app-textfield>
   </div>
   <br />
   <div class="label">
     <label class="text" for="password">Password:</label><br />
-    <app-textfield type="password" id="password" name="password" placeholder="password" #password></app-textfield>
+    <app-textfield
+      type="password"
+      id="password"
+      name="password"
+      placeholder="password"
+      #password
+    ></app-textfield>
     <br />
   </div>
 
-  <app-button class="button" (click)="register(username.value, email.value, password.value)" size="large">Register
+  <app-button
+    class="button"
+    (click)="register(username.value, email.value, password.value)"
+    size="large"
+    >Register
   </app-button>
   <h2 class="text">ALREADY GOT AN ACCOUNT? <a routerLink="/login">LOGIN</a></h2>
 </div>

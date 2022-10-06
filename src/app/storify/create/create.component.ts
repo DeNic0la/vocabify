@@ -5,5 +5,4 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss'],
 })
-export class CreateComponent {
-}
+export class CreateComponent {}

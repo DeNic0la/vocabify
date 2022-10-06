@@ -5,6 +5,4 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './storify.component.html',
   styleUrls: ['./storify.component.scss'],
 })
-export class StorifyComponent {
-
-}
+export class StorifyComponent {}
