@@ -21,6 +21,8 @@ import { GameComponent } from './storify/game/game.component';
 import { ShomeComponent } from './storify/shome/shome.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { LoaderComponent } from './ui/loader/loader.component';
+import { ToasterComponent } from './ui/toaster/toaster.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,10 @@ import { RegisterComponent } from './register/register.component';
     ShomeComponent,
     LoginComponent,
     UiTestComponent,
-    RegisterComponent
+    RegisterComponent,
+    LoaderComponent,
+    ToasterComponent
+
   ],
   imports: [
     BrowserModule,
