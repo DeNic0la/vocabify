@@ -15,6 +15,7 @@ import { DialogComponent } from './ui/dialog/dialog.component';
 import { IconComponent } from './ui/icon/icon.component';
 import { HeaderComponent } from './ui/header/header.component';
 import { LoaderComponent } from './ui/loader/loader.component';
+import { CardGridComponent } from './ui/card-grid/card-grid.component';
 import { ToasterComponent } from './ui/toaster/toaster.component';
 import { GameLobbyCardComponent } from './ui/game-lobby-card/game-lobby-card.component';
 
@@ -31,6 +32,7 @@ import { GameLobbyCardComponent } from './ui/game-lobby-card/game-lobby-card.com
     IconComponent,
     HeaderComponent,
     LoaderComponent,
+    CardGridComponent,
     ToasterComponent,
     GameLobbyCardComponent,
   ],
