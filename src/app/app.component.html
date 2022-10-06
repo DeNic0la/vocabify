@@ -1,2 +1,8 @@
 <app-header></app-header>
 <router-outlet></router-outlet>
+
+<app-toaster
+  [color]="toasterService.toaster.color"
+  [(show)]="toasterService.toaster.show"
+  >{{ toasterService.toaster.message }}</app-toaster
+>
