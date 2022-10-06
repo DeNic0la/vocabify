@@ -16,6 +16,7 @@ import { IconComponent } from './ui/icon/icon.component';
 import { HeaderComponent } from './ui/header/header.component';
 import { LoaderComponent } from './ui/loader/loader.component';
 import { CardGridComponent } from './ui/card-grid/card-grid.component';
+import { ToasterComponent } from './ui/toaster/toaster.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { CardGridComponent } from './ui/card-grid/card-grid.component';
     HeaderComponent,
     LoaderComponent,
     CardGridComponent,
+    ToasterComponent,
   ],
   imports: [
     BrowserModule,

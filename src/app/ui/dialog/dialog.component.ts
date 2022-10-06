@@ -32,7 +32,6 @@ export class DialogComponent implements OnInit {
   }
 
   buttonColor() {
-    console.log(this.color);
     switch (this.color) {
       case 'success':
         return 'success-inverted';
