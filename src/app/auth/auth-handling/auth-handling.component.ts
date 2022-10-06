@@ -7,7 +7,7 @@ import { Toaster } from '../types/toaster';
 @Component({
   selector: 'app-auth-handling',
   templateUrl: './auth-handling.component.html',
-  styleUrls: ['./auth-handling.component.scss']
+  styleUrls: ['./auth-handling.component.scss'],
 })
 export class AuthHandlingComponent implements OnDestroy {
   subscriptions = new Subscription();
@@ -16,7 +16,7 @@ export class AuthHandlingComponent implements OnDestroy {
     show: false,
     color: 'error',
     message: '',
-  }
+  };
   password: string = '';
   repeatedPassword: string = '';
   mode: string = '';
@@ -25,10 +25,10 @@ export class AuthHandlingComponent implements OnDestroy {
   constructor(
     private auth: AuthService,
     private route: ActivatedRoute,
-    private router: Router,
+    private router: Router
   ) {
     const sub = this.auth.currentUser.subscribe(() => {
-      const routeSub = this.route.queryParams.subscribe(async params => {
+      const routeSub = this.route.queryParams.subscribe(async (params) => {
         await this.checkRequest(params);
       });
       this.subscriptions.add(routeSub);
@@ -54,7 +54,11 @@ export class AuthHandlingComponent implements OnDestroy {
   }
 
   private async checkRequest(params: Params) {
-    if (!params['oobCode'] || !params['mode'] || !(await this.isCodeValid(params['oobCode']))) {
+    if (
+      !params['oobCode'] ||
+      !params['mode'] ||
+      !(await this.isCodeValid(params['oobCode']))
+    ) {
       this.router.navigate(['home']);
       return;
     }
