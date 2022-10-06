@@ -15,6 +15,7 @@ import { DialogComponent } from './ui/dialog/dialog.component';
 import { IconComponent } from './ui/icon/icon.component';
 import { HeaderComponent } from './ui/header/header.component';
 import { LoaderComponent } from './ui/loader/loader.component';
+import { ToasterComponent } from './ui/toaster/toaster.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { LoaderComponent } from './ui/loader/loader.component';
     IconComponent,
     HeaderComponent,
     LoaderComponent,
+    ToasterComponent,
   ],
   imports: [
     BrowserModule,
