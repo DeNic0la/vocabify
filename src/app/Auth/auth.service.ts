@@ -61,7 +61,35 @@ export class AuthService {
     await this.fireAuth.signInWithEmailAndPassword(email, password);
   }
 
+  /**
+   * Verifies the oobCode sent from firebase reset link
+   * @param oobCode
+   */
   public async verifyPasswordResetCode(oobCode: string): Promise<string> {
     return await firebase.default.auth().verifyPasswordResetCode(oobCode);
+  }
+
+  /**
+   * Resets the password
+   * @param oobCode
+   * @param password
+   */
+  public async resetPassword(oobCode: string, password: string) {
+    await firebase.default.auth().confirmPasswordReset(oobCode, password);
+  }
+
+  /**
+   * Validates the password
+   * @param password
+   */
+  public validatePassword(password: string, repeatedPassword?: string) {
+    if (repeatedPassword) {
+      if (password !== repeatedPassword) {
+        throw new Error("The passwords doesn't match!")
+      }
+    }
+    if (password.trim().length >= 6) {
+      throw new Error('The password has to be longer than 6 characters.');
+    }
   }
 }
