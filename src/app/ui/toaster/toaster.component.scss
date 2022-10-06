@@ -1,0 +1,72 @@
+@import "src/app/styles/colors.scss";
+
+.toaster {
+  width: 512px;
+  height: 96px;
+  font-family: "Silkscreen", cursive;
+  font-size: 16px;
+  color: $color-white;
+  border-radius: 4px;
+  box-shadow: 6px 6px 6px $color-shadow;
+  position: absolute;
+  bottom: 32px;
+  margin-left: 50vw;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: space-around;
+
+  .content {
+    height: 100%;
+    width: 448px;
+    overflow-wrap: break-word;
+  }
+}
+
+.visible {
+  animation: appear 200ms;
+  animation-fill-mode: forwards;
+}
+
+.invisible {
+  animation: disappear 200ms;
+  animation-fill-mode: forwards;
+}
+
+.primary {
+  background-color: $color-main;
+}
+
+.inverted {
+  background-color: $color-white;
+  color: $color-main;
+}
+
+.success {
+  background-color: $color-success;
+}
+
+.danger {
+  background-color: $color-danger;
+}
+
+.error {
+  background-color: $color-error;
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes disappear {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

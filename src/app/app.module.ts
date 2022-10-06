@@ -17,6 +17,7 @@ import { HeaderComponent } from './ui/header/header.component';
 import { AuthHandlingComponent } from './auth/auth-handling/auth-handling.component';
 import { LoaderComponent } from './ui/loader/loader.component';
 import { PasswordResetComponent } from './auth/password-reset/password-reset.component';
+import { ToasterComponent } from './ui/toaster/toaster.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { PasswordResetComponent } from './auth/password-reset/password-reset.com
     AuthHandlingComponent,
     LoaderComponent,
     PasswordResetComponent,
+    ToasterComponent,
   ],
   imports: [
     BrowserModule,
