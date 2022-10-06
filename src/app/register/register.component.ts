@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { NavigationCancel } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 
 @Component({

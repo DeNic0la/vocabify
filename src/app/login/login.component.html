@@ -5,11 +5,9 @@
       <label class="text" for="email">Email:</label><br />
       <app-textfield type="email" id="email" name="email" placeholder="email" #email></app-textfield>
     </div>
-    <br />
-    <div class="label">
+    <div class="label pt-3">
       <label class="text" for="password">Password:</label><br />
       <app-textfield type="password" id="password" name="password" placeholder="password" #password></app-textfield>
-      <br />
     </div>
     <div class="pt-3">
       <app-button (click)="login(email.value, password.value)" size="large">Login</app-button>
