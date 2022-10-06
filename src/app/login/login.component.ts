@@ -10,7 +10,7 @@ export class LoginComponent {
 
   constructor(private authSerivce: AuthService) {  }
 
-  public login(email: string, password: string) {
-    this.authSerivce.login(email, password);
+  public async login(email: string, password: string) {
+    await this.authSerivce.login(email, password);
   }
 }

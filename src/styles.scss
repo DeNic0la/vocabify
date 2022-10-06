@@ -3,3 +3,44 @@
 body {
   margin: 0;
 }
+
+.center {
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  margin: auto;
+}
+
+.left {
+  justify-content: left;
+  text-align: left;
+  align-items: left;
+  margin: auto;
+}
+
+.login {
+
+  .title {
+    font-size: 36px;
+    font-family: "Silkscreen", cursive;
+    margin: 1;
+    white-space: normal;
+    display: block;
+  }
+
+  .subtitle {
+    font-size: 18px;
+    font-family: "Silkscreen", cursive;
+    margin: 1;
+    white-space: normal;
+    display: block;
+  }
+
+  .text {
+    font-size: 14px;
+    font-family: "Silkscreen", cursive;
+    margin: 1;
+    white-space: normal;
+    display: block;
+  }
+}

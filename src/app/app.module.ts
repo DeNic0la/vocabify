@@ -19,6 +19,8 @@ import { JoinComponent } from './storify/join/join.component';
 import { CreateComponent } from './storify/create/create.component';
 import { GameComponent } from './storify/game/game.component';
 import { ShomeComponent } from './storify/shome/shome.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,10 @@ import { ShomeComponent } from './storify/shome/shome.component';
     JoinComponent,
     CreateComponent,
     GameComponent,
-    ShomeComponent
+    ShomeComponent,
+    LoginComponent,
+    UiTestComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

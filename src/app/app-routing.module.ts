@@ -39,7 +39,7 @@ const routes: Routes = [
       component: GameComponent,
     }
   ]},
-  { path: 'registetr', component: RegisterComponent },
+  { path: 'register', component: RegisterComponent },
   { path: '**', component: NotFoundComponent },
 ];
 @NgModule({
