@@ -26,6 +26,7 @@ import { LoaderComponent } from './ui/loader/loader.component';
 import { PasswordResetComponent } from './auth/password-reset/password-reset.component';
 import { CardGridComponent } from './ui/card-grid/card-grid.component';
 import { ToasterComponent } from './ui/toaster/toaster.component';
+import { GameLobbyCardComponent } from './ui/game-lobby-card/game-lobby-card.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { ToasterComponent } from './ui/toaster/toaster.component';
     PasswordResetComponent,
     CardGridComponent,
     ToasterComponent,
+    GameLobbyCardComponent,
   ],
   imports: [
     BrowserModule,
