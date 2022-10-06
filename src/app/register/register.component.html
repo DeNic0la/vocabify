@@ -1,6 +1,5 @@
 <div class="center login">
   <h2 class="title">Register</h2>
-  <form name="register">
     <div class="label">
       <label class="text" for="username">Username:</label><br>
       <app-textfield type="text" id="username" name="username" placeholder="username"  #username></app-textfield>
@@ -16,8 +15,7 @@
       <app-textfield type="password" id="password" name="password" placeholder="password" #password></app-textfield>
       <br>
     </div>
-
+    <!-- TODO: Improve this--> <div *ngIf="isLoading">LOADING...</div>
     <app-button class="button" (click)="register(username.value, email.value, password.value)" size="large">Register</app-button>
-  </form>
   <h2 class="text">ALREADY GOT AN ACCOUNT? <a routerLink="/login">LOGIN</a></h2>
 </div>
