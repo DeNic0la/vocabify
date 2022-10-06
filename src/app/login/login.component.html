@@ -1,8 +1,8 @@
-<div class="center login" *ngIf="!isLoading">
+<div class="center flex flex-column login" *ngIf="!isLoading">
   <h2 class="title">Login</h2>
   <form name="register">
-    <div class="label">
-      <label class="text" for="email">Email:</label><br />
+    <div class="label flex flex-column align-items-start">
+      <label class="text" for="email">Email:</label>
       <app-textfield
         type="email"
         id="email"
@@ -11,8 +11,8 @@
         #email
       ></app-textfield>
     </div>
-    <div class="label pt-3">
-      <label class="text" for="password">Password:</label><br />
+    <div class="label pt-3 flex flex-column align-items-start">
+      <label class="text" for="password">Password:</label>
       <app-textfield
         type="password"
         id="password"
@@ -21,7 +21,7 @@
         #password
       ></app-textfield>
     </div>
-    <div class="pt-3 pl-0">
+    <div class="pt-3 pl-0 flex flex-column align-items-start">
       <app-button (click)="login(email.value, password.value)" size="large"
         >Login</app-button
       >
