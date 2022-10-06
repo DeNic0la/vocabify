@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavigationCancel } from '@angular/router';
-import { AuthService } from '../Auth/auth.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-register',

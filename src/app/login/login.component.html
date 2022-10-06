@@ -11,7 +11,9 @@
       <app-textfield type="password" id="password" name="password" placeholder="password" #password></app-textfield>
       <br />
     </div>
-    <app-button class="button" (click)="login(email.value, password.value)" size="large">Login</app-button>
+    <div class="pt-3">
+      <app-button (click)="login(email.value, password.value)" size="large">Login</app-button>
+    </div>
   </form>
   <h2 class="text link"><a routerLink="/home">I FORGOT MY PASSWORD</a></h2>
   <h2 class="text">NO ACCOUNT YET? <a routerLink="/register">REGISTER</a></h2>
