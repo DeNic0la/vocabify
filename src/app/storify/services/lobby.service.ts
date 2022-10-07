@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Lobby } from 'functions/src/types/lobby';
+import { Lobby, LobbyState } from '../types/lobby';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +15,15 @@ export class LobbyService {
       throw new Error('The lobby does not exist.');
     }
     return lobby;
+  }
+
+  async getLobbiesToJoin() {
+    let lobbies: Lobby[] = [];
+    const firebaseLobbies = await (await this.fireStore.collection<Lobby>('lobbies').ref.where('state', '==', LobbyState.JOINING).get()).docs;
+    for (let lobby of firebaseLobbies) {
+      lobbies.push(lobby.data());
+    }
+    return lobbies;
   }
 
   async getAllLobbies() {
