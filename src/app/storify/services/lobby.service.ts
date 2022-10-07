@@ -14,7 +14,7 @@ export class LobbyService {
     private fireStore: AngularFirestore,
     private httpService: HttpService,
     private router: Router
-  ) {}
+  ) { }
 
   async getLobby(id: string) {
     const lobby = <Lobby>(
@@ -92,10 +92,26 @@ export class LobbyService {
     return resp.lobbyId;
   }
 
+  /**
+   * Join to a lobby
+   * @param lobbyId
+   */
   async joinLobby(lobbyId: string) {
     try {
       await this.httpService.put(Functions.JOIN, { lobbyid: lobbyId });
       this.router.navigate(['/storify/lobby/', lobbyId]);
+    } catch (error: any) {
+      throw new Error(error.error);
+    }
+  }
+
+  /**
+   * Starts a game
+   * @param lobbyId
+   */
+  async start(lobbyId: string) {
+    try {
+      this.httpService.put(Functions.START, { lobbyId: lobbyId });
     } catch (error: any) {
       throw new Error(error.error);
     }

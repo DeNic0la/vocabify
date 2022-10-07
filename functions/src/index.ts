@@ -45,3 +45,22 @@ exports.join = functions.https.onRequest(async (req, res) => {
     res.status(200).send();
   });
 });
+
+exports.start = functions.https.onRequest(async (req, res) => {
+  cors(req, res, async () => {
+    if (req.method !== 'PUT' || !req.body.lobbyId) res.status(400).send('Bad request');
+    const authService = new AuthService();
+    const idToken = await authService.validateFirebaseIdToken(req);
+    if (!idToken) res.status(403).send('Unauthorized');
+
+    try {
+      const lobbyService = new LobbyService();
+      const uid = idToken?.uid || '';
+      await lobbyService.start(uid, req.body.lobbyId);
+
+      res.status(200).send();
+    } catch (error: any) {
+      res.status(500).send(error.message);
+    }
+  });
+});

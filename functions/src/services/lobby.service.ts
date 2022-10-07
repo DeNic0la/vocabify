@@ -46,6 +46,14 @@ export class LobbyService {
     }
   }
 
+  public async start(uid: string, lobbyId: string) {
+    const lobby = await this.getLobby(lobbyId);
+    if (lobby.hostid === uid) {
+      throw new Error('Not Authorized');
+    }
+    await this.db.collection('lobbies').doc(lobbyId).update({ state: LobbyState.IN_PROGRESS });
+  }
+
   private async getLobby(id: string): Promise<Lobby> {
     const lobby = <Lobby>(
       (await this.db.collection('lobbies').doc(id).get()).data()
