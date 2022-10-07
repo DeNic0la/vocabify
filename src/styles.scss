@@ -40,3 +40,17 @@ h5 {
 p {
   font-size: 16px;
 }
+
+.center {
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  margin: auto;
+}
+
+.left {
+  justify-content: left;
+  text-align: left;
+  align-items: left;
+  margin: auto;
+}
