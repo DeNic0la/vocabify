@@ -33,4 +33,9 @@ export class HttpService {
     );
     return await lastValueFrom(resp);
   }
+
+  async put(functionName: Functions, body: any): Promise<any> {
+    const resp = this.httpClient.put<any>(this.FUNCTION_URL + functionName, body, await this.getAuthorizationHeader());
+    return (await lastValueFrom(resp));
+  }
 }

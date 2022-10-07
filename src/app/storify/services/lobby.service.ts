@@ -89,7 +89,14 @@ export class LobbyService {
    */
   async createLobby(): Promise<string> {
     const resp = await this.httpService.post(Functions.CREATE_LOBBY, {});
-    console.log(resp.lobbyId);
     return resp.lobbyId;
+  }
+
+  async joinLobby(lobbyId: string) {
+    try {
+      await this.httpService.put(Functions.JOIN, { lobbyid: lobbyId });
+    } catch (error: any) {
+      throw new Error(error.error);
+    }
   }
 }
