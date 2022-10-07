@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Functions } from '../types/functions.enum';
 import { Lobby, LobbyState } from '../types/lobby';
 import { Participant } from '../types/participant';
+import { HttpService } from './http.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LobbyService {
-  constructor(private fireStore: AngularFirestore) {}
+  constructor(
+    private fireStore: AngularFirestore,
+    private httpService: HttpService
+  ) {}
 
   async getLobby(id: string) {
     const lobby = <Lobby>(
@@ -75,5 +80,15 @@ export class LobbyService {
     }
     console.log(participants);
     return participants;
+  }
+
+  /**
+   * Creates a lobby
+   * @returns created lobbyId
+   */
+  async createLobby(): Promise<string> {
+    const resp = await this.httpService.post(Functions.CREATE_LOBBY, {});
+    console.log(resp.lobbyId);
+    return resp.lobbyId;
   }
 }
