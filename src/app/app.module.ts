@@ -16,7 +16,6 @@ import { IconComponent } from './ui/icon/icon.component';
 import { HeaderComponent } from './ui/header/header.component';
 import { StorifyComponent } from './storify/storify.component';
 import { GameComponent } from './storify/game/game.component';
-import { ShomeComponent } from './storify/shome/shome.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AuthHandlingComponent } from './auth/auth-handling/auth-handling.component';
@@ -31,6 +30,7 @@ import {
   HttpClientModule,
   HttpHandler,
 } from '@angular/common/http';
+import { StorifyExploreComponent } from './storify/storify-explore/storify-explore.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +46,6 @@ import {
     HeaderComponent,
     StorifyComponent,
     GameComponent,
-    ShomeComponent,
     LoginComponent,
     UiTestComponent,
     RegisterComponent,
@@ -57,6 +56,7 @@ import {
     ToasterComponent,
     GameLobbyCardComponent,
     LobbyComponent,
+    StorifyExploreComponent,
   ],
   imports: [
     BrowserModule,
