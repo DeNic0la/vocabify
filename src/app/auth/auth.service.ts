@@ -40,6 +40,11 @@ export class AuthService {
     email: string,
     password: string
   ) {
+    if (username.trim().length == 0) {
+      throw new Error('Please enter an username.');
+    }
+    this.validateEmail(email);
+    this.validatePassword(password);
     const userCredential = await this.fireAuth.createUserWithEmailAndPassword(
       email,
       password
@@ -48,7 +53,7 @@ export class AuthService {
     if (!uid) {
       throw new Error('Could not create user on firebase');
     }
-    const user: User = { uid, username, email };
+    const user: User = { uid, username: username.trim(), email };
     await this.fireStore.collection('users').doc(user.uid).set(user);
   }
 
@@ -80,8 +85,8 @@ export class AuthService {
     await firebase.default.auth().confirmPasswordReset(oobCode, password);
   }
 
-  private validatePassword(password: string, repeatedPassword?: string) {
-    if (password.trim().length >= 6) {
+  private validatePassword(password: string) {
+    if (password.trim().length <= 6) {
       throw new Error('The password has to be longer than 6 characters.');
     }
   }
