@@ -40,6 +40,11 @@ export class AuthService {
     email: string,
     password: string
   ) {
+    if (username.trim().length == 0) {
+      throw new Error('Please enter an username.');
+    }
+    this.validateEmail(email);
+    this.validatePassword(password);
     const userCredential = await this.fireAuth.createUserWithEmailAndPassword(
       email,
       password
@@ -48,7 +53,7 @@ export class AuthService {
     if (!uid) {
       throw new Error('Could not create user on firebase');
     }
-    const user: User = { uid, username, email };
+    const user: User = { uid, username: username.trim(), email };
     await this.fireStore.collection('users').doc(user.uid).set(user);
   }
 
@@ -58,6 +63,8 @@ export class AuthService {
    * @param password
    */
   public async login(email: string, password: string) {
+    this.validateEmail(email);
+    this.validatePassword(password);
     await this.fireAuth.signInWithEmailAndPassword(email, password);
   }
 
@@ -75,25 +82,24 @@ export class AuthService {
    * @param password
    */
   public async resetPassword(oobCode: string, password: string) {
+    this.validatePassword(password);
     await firebase.default.auth().confirmPasswordReset(oobCode, password);
   }
 
-  /**
-   * Validates the password
-   * @param password
-   */
-  public validatePassword(password: string, repeatedPassword?: string) {
-    if (repeatedPassword) {
-      if (password !== repeatedPassword) {
-        throw new Error("The passwords doesn't match!");
-      }
-    }
-    if (password.trim().length >= 6) {
+  private validatePassword(password: string) {
+    if (password.trim().length <= 6) {
       throw new Error('The password has to be longer than 6 characters.');
     }
   }
 
+  private validateEmail(email: string) {
+    if (!RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}').test(email)) {
+      throw new Error('The email is badly formatted.');
+    }
+  }
+
   public async sendPasswordReset(email: string) {
+    this.validateEmail(email);
     await this.fireAuth.sendPasswordResetEmail(email);
   }
 }
