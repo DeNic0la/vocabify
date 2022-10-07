@@ -10,6 +10,7 @@ export class CardGridComponent implements OnInit {
   constructor() {}
 
   @Input() cards: LobbyCardItem[] = [];
+  @Input() title: string = 'Explore';
 
   onCallback(index: number) {
     this.cards[index].callback();
