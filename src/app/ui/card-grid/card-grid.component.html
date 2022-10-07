@@ -6,7 +6,9 @@
   </div>
 </div>
 <div class="cont grid">
-  <div class=" col-8 col-offset-2 justify-content-around flex flex-row flex-wrap gap-8 column-gap-8">
+  <div
+    class="col-8 col-offset-2 justify-content-around flex flex-row flex-wrap gap-8 column-gap-8"
+  >
     <div class="" *ngFor="let card of Cards; let i = index">
       <app-game-lobby-card
         [title-size]="card.titleSize"
