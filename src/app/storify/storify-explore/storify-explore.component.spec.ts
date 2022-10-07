@@ -8,9 +8,8 @@ describe('StorifyExploreComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StorifyExploreComponent ]
-    })
-    .compileComponents();
+      declarations: [StorifyExploreComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(StorifyExploreComponent);
     component = fixture.componentInstance;
