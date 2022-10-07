@@ -25,6 +25,11 @@ import { CardGridComponent } from './ui/card-grid/card-grid.component';
 import { ToasterComponent } from './ui/toaster/toaster.component';
 import { GameLobbyCardComponent } from './ui/game-lobby-card/game-lobby-card.component';
 import { LobbyComponent } from './storify/lobby/lobby.component';
+import {
+  HttpClient,
+  HttpClientModule,
+  HttpHandler,
+} from '@angular/common/http';
 import { StorifyExploreComponent } from './storify/storify-explore/storify-explore.component';
 
 @NgModule({
@@ -57,6 +62,7 @@ import { StorifyExploreComponent } from './storify/storify-explore/storify-explo
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
