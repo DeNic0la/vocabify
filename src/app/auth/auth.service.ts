@@ -41,13 +41,17 @@ export class AuthService {
   public async createAccount(
     username: string,
     email: string,
-    password: string
+    password: string,
+    repeatedpassword: string
   ) {
     if (username.trim().length == 0) {
       throw new Error('Please enter an username.');
     }
     this.validateEmail(email);
     this.validatePassword(password);
+    if (password != repeatedpassword) {
+      throw new Error('The passwords did not match each other');
+    }
     const userCredential = await this.fireAuth.createUserWithEmailAndPassword(
       email,
       password
