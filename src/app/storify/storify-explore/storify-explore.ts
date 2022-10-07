@@ -1,7 +1,10 @@
-import {LobbyCardItem} from "../../ui/card-grid/card-grid.types";
-import {GameLobbyCardColor, GameLobbyCardTitleSize} from "../../ui/game-lobby-card/game-lobby-card.types";
+import { LobbyCardItem } from '../../ui/card-grid/card-grid.types';
+import {
+  GameLobbyCardColor,
+  GameLobbyCardTitleSize,
+} from '../../ui/game-lobby-card/game-lobby-card.types';
 
-export class LobbyItem implements LobbyCardItem{
+export class LobbyItem implements LobbyCardItem {
   color: GameLobbyCardColor;
   description: string;
   imgSrc: string | undefined;
@@ -10,18 +13,17 @@ export class LobbyItem implements LobbyCardItem{
   title: string;
   titleSize: GameLobbyCardTitleSize;
   callback: Function;
-  id:string;
+  id: string;
 
-  constructor(title:string, id:string, players:number) {
-    this.color = "primary";
-    this.description = "";
-    this.imgSrc = "";
+  constructor(title: string, id: string, players: number) {
+    this.color = 'primary';
+    this.description = '';
+    this.imgSrc = '';
     this.maxPlayers = 4;
     this.players = players;
     this.title = title;
-    this.titleSize = "small"
-    this.callback = ()=> alert("callback")
+    this.titleSize = 'small';
+    this.callback = () => alert('callback');
     this.id = id;
   }
-
 }
