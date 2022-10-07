@@ -10,7 +10,8 @@
   <div class="logo">
     <p class="logo-text">vocabify</p>
   </div>
-  <app-button class="sign-in" color="inverted" routerLink="/login"
-    >sign in</app-button
-  >
+  <app-button *ngIf="!isLoggedIn" class="sign-in" size="large" color="inverted" routerLink="/login"
+    >sign in</app-button>
+  <app-button *ngIf="isLoggedIn" (click)="signOut()" class="sign-in" size="large" color="danger" routerLink="/login"
+  >sign out</app-button>
 </div>
