@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Router } from '@angular/router';
 import { Functions } from '../types/functions.enum';
 import { Lobby, LobbyState } from '../types/lobby';
 import { Participant } from '../types/participant';
@@ -11,8 +12,9 @@ import { HttpService } from './http.service';
 export class LobbyService {
   constructor(
     private fireStore: AngularFirestore,
-    private httpService: HttpService
-  ) {}
+    private httpService: HttpService,
+    private router: Router,
+  ) { }
 
   async getLobby(id: string) {
     const lobby = <Lobby>(
@@ -95,6 +97,7 @@ export class LobbyService {
   async joinLobby(lobbyId: string) {
     try {
       await this.httpService.put(Functions.JOIN, { lobbyid: lobbyId });
+      this.router.navigate(['/storify/lobby/', lobbyId]);
     } catch (error: any) {
       throw new Error(error.error);
     }
