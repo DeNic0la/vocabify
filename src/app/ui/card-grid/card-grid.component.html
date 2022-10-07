@@ -1,18 +1,26 @@
-<div class="grid md:mx-8 md:pt-3">
-  <div class="col-12">
+<div class="grid pt-3 pb-3">
+  <div class="col-10 col-offset-1">
     <p class="logo-text flex align-items-center justify-content-center">
       Explore
     </p>
   </div>
+</div>
+<div class="cont grid">
   <div
-    class="md:col-6 sm:col-12 md:px-4 flex align-items-center justify-content-center"
-    *ngFor="let char of test"
+    class="lg:col-8 lg:col-offset-2 md:col-12 md:col-offset-0 sm:col-12 justify-content-around flex flex-row flex-wrap gap-8 column-gap-8"
   >
-    <div
-      style="height: 300px; width: 500px; background: #7c1f89; display: block"
-      class="justify-content-center"
-    >
-      <!-- Card Placeholder Object-->
+    <div class="" *ngFor="let card of cards; let i = index">
+      <app-game-lobby-card
+        [title-size]="card.titleSize"
+        [title]="card.title"
+        [color]="card.color"
+        [max-players]="card.maxPlayers ? card.maxPlayers : 0"
+        [players]="card.players ? card.players : 0"
+        [img-src]="card.imgSrc ? card.imgSrc : ''"
+        (click)="onCallback(i)"
+      >
+        {{ card.description }}
+      </app-game-lobby-card>
     </div>
   </div>
 </div>

@@ -4,14 +4,15 @@ import { Lobby, LobbyState } from '../types/lobby';
 import { Participant } from '../types/participant';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LobbyService {
-
-  constructor(private fireStore: AngularFirestore) { }
+  constructor(private fireStore: AngularFirestore) {}
 
   async getLobby(id: string) {
-    const lobby = <Lobby>(await this.fireStore.collection('lobbies').doc(id).ref.get()).data();
+    const lobby = <Lobby>(
+      (await this.fireStore.collection('lobbies').doc(id).ref.get()).data()
+    );
     if (!lobby) {
       throw new Error('The lobby does not exist.');
     }
@@ -21,7 +22,12 @@ export class LobbyService {
 
   async getLobbiesToJoin() {
     let lobbies: Lobby[] = [];
-    const firebaseLobbies = (await this.fireStore.collection<Lobby>('lobbies').ref.where('state', '==', LobbyState.JOINING).get()).docs;
+    const firebaseLobbies = (
+      await this.fireStore
+        .collection<Lobby>('lobbies')
+        .ref.where('state', '==', LobbyState.JOINING)
+        .get()
+    ).docs;
     for (let firebaseLobby of firebaseLobbies) {
       const lobby: Lobby = {
         id: firebaseLobby.data().id,
@@ -30,7 +36,7 @@ export class LobbyService {
         state: firebaseLobby.data().state,
         story: firebaseLobby.data().story,
         participants: await this.getAllParticipants(firebaseLobby.data().id),
-      }
+      };
       lobbies.push(lobby);
     }
     return lobbies;
@@ -38,7 +44,9 @@ export class LobbyService {
 
   async getAllLobbies() {
     let lobbies: Lobby[] = [];
-    const firebaseLobbies = (await this.fireStore.collection<Lobby>('lobbies').ref.get()).docs;
+    const firebaseLobbies = (
+      await this.fireStore.collection<Lobby>('lobbies').ref.get()
+    ).docs;
     for (let firebaseLobby of firebaseLobbies) {
       const lobby: Lobby = {
         id: firebaseLobby.data().id,
@@ -47,7 +55,7 @@ export class LobbyService {
         state: firebaseLobby.data().state,
         story: firebaseLobby.data().story,
         participants: await this.getAllParticipants(firebaseLobby.data().id),
-      }
+      };
       lobbies.push(lobby);
     }
     return lobbies;
@@ -56,7 +64,13 @@ export class LobbyService {
   private async getAllParticipants(lobbyId: string): Promise<Participant[]> {
     let participants: Participant[] = [];
     console.log(lobbyId);
-    const firebaseParticipants = (await this.fireStore.collection('lobbies').doc(lobbyId).collection<Participant>('participants').ref.get()).docs;
+    const firebaseParticipants = (
+      await this.fireStore
+        .collection('lobbies')
+        .doc(lobbyId)
+        .collection<Participant>('participants')
+        .ref.get()
+    ).docs;
     for (let participant of firebaseParticipants) {
       participants.push(participant.data());
     }

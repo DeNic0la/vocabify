@@ -3,21 +3,24 @@
   <div class="leave-btn-wrapper">
     <app-button class="leave-btn" color="error" size="medium">Leave</app-button>
   </div>
-  <h3 class="title">{{lobby.name}}</h3>
+  <h3 class="title">{{ lobby.name }}</h3>
   <div class="story-wrapper">
     <div class="story-container">
-      <p class="story">{{lobby.story}}</p>
+      <p class="story">{{ lobby.story }}</p>
     </div>
   </div>
   <div class="participants-wrapper">
     <div class="participants-container">
       <div class="participants">
         <h5 class="participants-title">participants</h5>
-        <h5 class="participants-amount">{{lobby.participants.length}} / 4</h5>
+        <h5 class="participants-amount">{{ lobby.participants.length }} / 4</h5>
         <div class="participants-grid">
-          <div class="participant-wrapper" *ngFor="let participant of lobby.participants">
+          <div
+            class="participant-wrapper"
+            *ngFor="let participant of lobby.participants"
+          >
             <div class="participant">
-              <h5 class="participant-name">{{participant.username}}</h5>
+              <h5 class="participant-name">{{ participant.username }}</h5>
             </div>
           </div>
         </div>

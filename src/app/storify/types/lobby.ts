@@ -1,4 +1,4 @@
-import { Participant } from "./participant";
+import { Participant } from './participant';
 
 export interface Lobby {
   id: string;

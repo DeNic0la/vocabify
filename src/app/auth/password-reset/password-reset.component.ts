@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToasterService } from 'src/app/services/toaster.service';
 import { AuthService } from '../auth.service';
-import { Toaster } from '../types/toaster';
 
 @Component({
   selector: 'app-password-reset',
@@ -22,9 +21,6 @@ export class PasswordResetComponent {
   async sendPasswordReset(email: string) {
     this.isLoading = true;
     try {
-      if (!RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}').test(email)) {
-        throw new Error('The email is badly formatted.');
-      }
       await this.auth.sendPasswordReset(email);
       this.router.navigate(['login']);
     } catch (error: any) {

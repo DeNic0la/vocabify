@@ -15,7 +15,7 @@ import {
   redirectLoggedInTo,
   redirectUnauthorizedTo,
 } from '@angular/fire/compat/auth-guard';
-import {LobbyComponent} from "./storify/lobby/lobby.component";
+import { LobbyComponent } from './storify/lobby/lobby.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 const redirectLoggedInToHome = () => redirectLoggedInTo(['home']);
@@ -49,11 +49,11 @@ const routes: Routes = [
       {
         path: 'lobby',
         pathMatch: 'full',
-        redirectTo: 'home'
+        redirectTo: 'home',
       },
       {
         path: 'lobby/:id',
-        component: LobbyComponent
+        component: LobbyComponent,
       },
       {
         path: 'game',
@@ -61,7 +61,8 @@ const routes: Routes = [
       },
     ],
   },
-  { path: 'register',
+  {
+    path: 'register',
     component: RegisterComponent,
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectLoggedInToHome },
