@@ -12,12 +12,12 @@ export class LobbyItem implements LobbyCardItem{
   callback: Function;
   id:string;
 
-  constructor(title:string, id:string) {
+  constructor(title:string, id:string, players:number) {
     this.color = "primary";
     this.description = "";
     this.imgSrc = "";
     this.maxPlayers = 4;
-    this.players = 0;
+    this.players = players;
     this.title = title;
     this.titleSize = "small"
     this.callback = ()=> alert("callback")
