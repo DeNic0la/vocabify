@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import firebase from "firebase/compat/app";
-import {AuthService} from "../../auth/auth.service";
+import firebase from 'firebase/compat/app';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -8,18 +8,17 @@ import {AuthService} from "../../auth/auth.service";
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  constructor(private authService:AuthService) {
-    authService.currentUser.subscribe(x => {
-    this.isLoggedIn = !(x == undefined || false);
-    })
+  constructor(private authService: AuthService) {
+    authService.currentUser.subscribe((x) => {
+      this.isLoggedIn = !(x == undefined || false);
+    });
   }
 
   public isLoggedIn: boolean = false;
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  public signOut(){
+  public signOut() {
     firebase.auth().signOut();
     this.isLoggedIn = false;
   }
