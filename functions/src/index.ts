@@ -13,11 +13,15 @@ exports.lobby = functions.https.onRequest(async (req, res) => {
     const idToken = await authService.validateFirebaseIdToken(req);
     if (!idToken) res.status(403).send('Unauthorized');
 
-    const lobbyService = new LobbyService();
-    const uid = idToken?.uid || '';
-    const lobby = await lobbyService.createLobby(uid);
-
-    res.status(200).send({ id: lobby.id });
+    try {
+      const lobbyService = new LobbyService();
+      const uid = idToken?.uid || '';
+      const lobby = await lobbyService.createLobby(uid);
+      await lobbyService.join(uid, lobby.id);
+      res.status(200).send({ lobbyId: lobby.id });
+    } catch (error) {
+      res.status(500).send('Internal Server error.');
+    }
   });
 });
 
@@ -31,7 +35,12 @@ exports.join = functions.https.onRequest(async (req, res) => {
 
     const lobbyService = new LobbyService();
     const uid = idToken?.uid || '';
-    await lobbyService.join(uid, req.body.lobbyid);
+
+    try {
+      await lobbyService.join(uid, req.body.lobbyid);
+    } catch (error: any) {
+      res.status(500).send(error.message);
+    }
 
     res.status(200).send();
   });
