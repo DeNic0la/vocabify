@@ -80,7 +80,6 @@ export class LobbyService {
     for (let participant of firebaseParticipants) {
       participants.push(participant.data());
     }
-    console.log(participants);
     return participants;
   }
 

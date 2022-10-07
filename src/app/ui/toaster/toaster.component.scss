@@ -1,8 +1,8 @@
 @import "src/app/styles/colors.scss";
 
 .toaster {
-  width: 512px;
-  height: 96px;
+  max-width: 512px;
+  max-height: 96px;
   font-family: "Silkscreen", cursive;
   font-size: 16px;
   color: $color-white;
@@ -16,9 +16,11 @@
   justify-content: space-around;
 
   .content {
-    height: 100%;
-    width: 448px;
+    max-height: calc(100% - 32px);
+    max-width: 416px;
     overflow-wrap: break-word;
+    padding: 16px;
+    text-align: center;
   }
 }
 
@@ -30,6 +32,7 @@
 .invisible {
   animation: disappear 200ms;
   animation-fill-mode: forwards;
+  pointer-events: none;
 }
 
 .primary {
