@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { LobbyCardItem } from './card-grid.types';
 
 @Component({
   selector: 'app-card-grid',
@@ -8,7 +9,11 @@ import { Component, OnInit } from '@angular/core';
 export class CardGridComponent implements OnInit {
   constructor() {}
 
-  public test = ['a', 'b', 'c', 'd'];
+  @Input() cards: LobbyCardItem[] = [];
+
+  onCallback(index: number) {
+    this.cards[index].callback();
+  }
 
   ngOnInit(): void {}
 }
