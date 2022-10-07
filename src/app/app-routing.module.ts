@@ -7,9 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { UiTestComponent } from './ui/ui-test/ui-test.component';
 import { RegisterComponent } from './register/register.component';
-import { CreateComponent } from './storify/create/create.component';
 import { GameComponent } from './storify/game/game.component';
-import { JoinComponent } from './storify/join/join.component';
 import { ShomeComponent } from './storify/shome/shome.component';
 import { StorifyComponent } from './storify/storify.component';
 import {
@@ -17,6 +15,7 @@ import {
   redirectLoggedInTo,
   redirectUnauthorizedTo,
 } from '@angular/fire/compat/auth-guard';
+import { LobbyComponent } from './storify/lobby/lobby.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 const redirectLoggedInToHome = () => redirectLoggedInTo(['home']);
@@ -48,12 +47,13 @@ const routes: Routes = [
         component: ShomeComponent,
       },
       {
-        path: 'join',
-        component: JoinComponent,
+        path: 'lobby',
+        pathMatch: 'full',
+        redirectTo: 'home',
       },
       {
-        path: 'create',
-        component: CreateComponent,
+        path: 'lobby/:id',
+        component: LobbyComponent,
       },
       {
         path: 'game',
@@ -61,7 +61,12 @@ const routes: Routes = [
       },
     ],
   },
-  { path: 'register', component: RegisterComponent },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectLoggedInToHome },
+  },
 
   { path: '_/auth/action', component: AuthHandlingComponent },
   { path: 'reset-password', component: PasswordResetComponent },
