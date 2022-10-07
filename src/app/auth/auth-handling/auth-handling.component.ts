@@ -40,7 +40,9 @@ export class AuthHandlingComponent implements OnDestroy {
   async resetPassword(password: string, repeatPw: string) {
     this.isLoading = true;
     try {
-      this.auth.validatePassword(password, repeatPw);
+      if (password !== repeatPw) {
+        throw new Error("The passwords doesn't match!");
+      }
       await this.auth.resetPassword(this.oobCode, password);
       this.router.navigate(['login']);
     } catch (error: any) {
