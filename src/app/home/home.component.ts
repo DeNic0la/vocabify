@@ -71,5 +71,17 @@ export class HomeComponent {
         alert('Game not Developed yet');
       },
     },
+    {
+      title: 'Empty',
+      players: 0,
+      maxPlayers: 0,
+      imgSrc: '',
+      color: 'primary',
+      titleSize: 'large',
+      description: 'in Development',
+      callback: () => {
+        alert('Game not Developed yet');
+      },
+    },
   ];
 }
