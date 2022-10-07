@@ -19,17 +19,12 @@ export class RegisterComponent {
 
   public async register(username: string, email: string, password: string, repeatedpassword: string) {
     this.isLoading = true;
-<<<<<<< HEAD
     try {
-      await this.authServie.createAccount(username, email, password);
+      await this.authServie.createAccount(username, email, password, repeatedpassword);
       this.router.navigate(['']);
     } catch (error: any) {
       this.toasterService.showToast('error', error.message);
     }
-=======
-
-    await this.authServie.createAccount(username, email, password, repeatedpassword);
->>>>>>> dcde115 (repeatedpassword)
     this.isLoading = false;
   }
 }
