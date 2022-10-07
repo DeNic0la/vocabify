@@ -6,10 +6,7 @@
   </div>
 </div-->
 <div class="">
-  <div
-    class=""
-    *ngFor="let card of Cards; let i = index"
-  >
+  <div class="" *ngFor="let card of Cards; let i = index">
     <app-game-lobby-card
       [title-size]="card.titleSize"
       [title]="card.title"
@@ -19,7 +16,7 @@
       [imgSrc]="card.imgSrc ? card.imgSrc : ''"
       (click)="onCallback(i)"
     >
-      {{card.description}}
+      {{ card.description }}
     </app-game-lobby-card>
   </div>
 </div>

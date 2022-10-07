@@ -15,7 +15,7 @@ export class GameLobbyCardComponent {
   @Input('color') color: GameLobbyCardColor = 'primary';
   @Input('max-players') maxPlayers: number = 0;
   @Input('players') players: number = 0;
-  @Input() imgSrc: string = "";
+  @Input() imgSrc: string = '';
 
   @Output('click') click: EventEmitter<void> = new EventEmitter<void>();
 
