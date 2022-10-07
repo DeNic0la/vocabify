@@ -13,8 +13,8 @@ export class LobbyService {
   constructor(
     private fireStore: AngularFirestore,
     private httpService: HttpService,
-    private router: Router,
-  ) { }
+    private router: Router
+  ) {}
 
   async getLobby(id: string) {
     const lobby = <Lobby>(
