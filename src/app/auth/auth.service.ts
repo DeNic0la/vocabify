@@ -64,6 +64,7 @@ export class AuthService {
    */
   public async login(email: string, password: string) {
     this.validateEmail(email);
+    this.validatePassword(password);
     await this.fireAuth.signInWithEmailAndPassword(email, password);
   }
 

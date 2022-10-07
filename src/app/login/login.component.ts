@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { ToasterService } from '../services/toaster.service';
 
@@ -8,7 +9,7 @@ import { ToasterService } from '../services/toaster.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  constructor(private authSerivce: AuthService, private toasterService: ToasterService) { }
+  constructor(private authSerivce: AuthService, private toasterService: ToasterService, private router: Router) { }
 
   public isLoading: boolean = false;
 
@@ -16,6 +17,7 @@ export class LoginComponent {
     this.isLoading = true;
     try {
       await this.authSerivce.login(email, password);
+      this.router.navigate(['']);
     } catch (error: any) {
       this.toasterService.showToast('error', error.message);
     }

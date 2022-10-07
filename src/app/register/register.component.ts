@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { ToasterService } from '../services/toaster.service';
 
@@ -8,7 +9,7 @@ import { ToasterService } from '../services/toaster.service';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
-  constructor(private authServie: AuthService, private toasterService: ToasterService) { }
+  constructor(private authServie: AuthService, private toasterService: ToasterService, private router: Router) { }
 
   public isLoading: boolean = false;
 
@@ -16,11 +17,10 @@ export class RegisterComponent {
     this.isLoading = true;
     try {
       await this.authServie.createAccount(username, email, password);
+      this.router.navigate(['']);
     } catch (error: any) {
       this.toasterService.showToast('error', error.message)
     }
     this.isLoading = false;
-
-    // TODO Redirect
   }
 }
