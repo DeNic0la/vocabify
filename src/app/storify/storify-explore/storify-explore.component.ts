@@ -19,9 +19,15 @@ export class StorifyExploreComponent implements OnInit {
   transformer(value: Lobby[]) {
     let items: LobbyItem[] = [];
     value.forEach((i) => {
-      items.push(new LobbyItem(i.name, i.id, i.participants.length));
+      items.push(new LobbyItem(i.name, i.id, i.participants.length,this.getJoinLobbyCallback(i.id,this.lobbyService)));
     });
     this.Lobbies = items;
+  }
+
+  getJoinLobbyCallback(lobbyId:string,lobbyService:LobbyService){
+    return ()=>{
+      lobbyService.joinLobby(lobbyId);
+    };
   }
 
   public Lobbies: LobbyItem[] = [];
