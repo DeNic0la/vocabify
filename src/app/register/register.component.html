@@ -2,32 +2,59 @@
   <h2 class="title">Register</h2>
   <div class="label flex flex-column align-items-start">
     <label class="text" for="username">Username:</label>
-    <app-textfield type="text" id="username" name="username" placeholder="username" #username></app-textfield>
+    <app-textfield
+      type="text"
+      id="username"
+      name="username"
+      placeholder="username"
+      #username
+    ></app-textfield>
   </div>
   <div class="label pt-3 flex flex-column align-items-start">
     <label class="text" for="email">Email:</label>
-    <app-textfield type="email" id="email" name="email" placeholder="email" #email></app-textfield>
+    <app-textfield
+      type="email"
+      id="email"
+      name="email"
+      placeholder="email"
+      #email
+    ></app-textfield>
   </div>
   <div class="label pt-3 flex flex-column align-items-start">
     <label class="text" for="password">Password:</label>
-    <app-textfield type="password" id="password" name="password" placeholder="password" #password>
+    <app-textfield
+      type="password"
+      id="password"
+      name="password"
+      placeholder="password"
+      #password
+    >
     </app-textfield>
   </div>
   <div class="label pt-3 flex flex-column align-items-start">
     <label class="text" for="password">Repeat Password:</label>
-    <app-textfield type="password" id="repeatedpassword" name="repeatedpassword" placeholder="password"
-      #reapeatedpassword>
+    <app-textfield
+      type="password"
+      id="repeatedpassword"
+      name="repeatedpassword"
+      placeholder="password"
+      #reapeatedpassword
+    >
     </app-textfield>
   </div>
 
-  <app-button class="pt-5" (click)="
+  <app-button
+    class="pt-5"
+    (click)="
       register(
         username.value,
         email.value,
         password.value,
         reapeatedpassword.value
       )
-    " size="large">Register
+    "
+    size="large"
+    >Register
   </app-button>
   <div class="links">
     <h2 class="text">

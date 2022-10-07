@@ -46,7 +46,7 @@ export class AuthService {
     }
     this.validateEmail(email);
     this.validatePassword(password);
-    if(password != repeatedpassword) {
+    if (password != repeatedpassword) {
       throw new Error('The passwords did not match each other');
     }
     const userCredential = await this.fireAuth.createUserWithEmailAndPassword(
