@@ -63,7 +63,6 @@ export class LobbyService {
 
   private async getAllParticipants(lobbyId: string): Promise<Participant[]> {
     let participants: Participant[] = [];
-    console.log(lobbyId);
     const firebaseParticipants = (
       await this.fireStore
         .collection('lobbies')
@@ -74,7 +73,6 @@ export class LobbyService {
     for (let participant of firebaseParticipants) {
       participants.push(participant.data());
     }
-    console.log(participants);
     return participants;
   }
 }

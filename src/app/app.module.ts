@@ -7,7 +7,6 @@ import { AppComponent } from './app.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { UiTestComponent } from './ui/ui-test/ui-test.component';
 import { ButtonComponent } from './ui/button/button.component';
 import { TextfieldComponent } from './ui/textfield/textfield.component';
 import { CardComponent } from './ui/card/card.component';
@@ -32,7 +31,6 @@ import { LobbyComponent } from './storify/lobby/lobby.component';
     AppComponent,
     HomeComponent,
     NotFoundComponent,
-    UiTestComponent,
     ButtonComponent,
     TextfieldComponent,
     CardComponent,
@@ -43,7 +41,6 @@ import { LobbyComponent } from './storify/lobby/lobby.component';
     GameComponent,
     ShomeComponent,
     LoginComponent,
-    UiTestComponent,
     RegisterComponent,
     AuthHandlingComponent,
     LoaderComponent,
