@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {LobbyService} from "../services/lobby.service";
+import {AuthService} from "../../auth/auth.service";
 
 @Component({
   selector: 'app-lobby',
@@ -7,9 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LobbyComponent implements OnInit {
 
-  constructor() { }
+  constructor(private lobbyService: LobbyService, private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.authService.currentUser.subscribe((user) => console.log(user))
+    this.lobbyService.getAllLobbies().then((lobbies) => console.log(lobbies))
   }
 
 }

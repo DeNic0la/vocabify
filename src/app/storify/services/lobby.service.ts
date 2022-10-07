@@ -19,7 +19,7 @@ export class LobbyService {
 
   async getLobbiesToJoin() {
     let lobbies: Lobby[] = [];
-    const firebaseLobbies = await (await this.fireStore.collection<Lobby>('lobbies').ref.where('state', '==', LobbyState.JOINING).get()).docs;
+    const firebaseLobbies = (await this.fireStore.collection<Lobby>('lobbies').ref.where('state', '==', LobbyState.JOINING).get()).docs;
     for (let lobby of firebaseLobbies) {
       lobbies.push(lobby.data());
     }
@@ -28,7 +28,7 @@ export class LobbyService {
 
   async getAllLobbies() {
     let lobbies: Lobby[] = [];
-    const firebaseLobbies = await (await this.fireStore.collection<Lobby>('lobbies').ref.get()).docs;
+    const firebaseLobbies = (await this.fireStore.collection<Lobby>('lobbies').ref.get()).docs;
     for (let lobby of firebaseLobbies) {
       lobbies.push(lobby.data());
     }
