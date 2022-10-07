@@ -9,10 +9,10 @@ import { LobbyCardItem } from './card-grid.types';
 export class CardGridComponent implements OnInit {
   constructor() {}
 
-  @Input() Cards: LobbyCardItem[] = [];
+  @Input() cards: LobbyCardItem[] = [];
 
   onCallback(index: number) {
-    this.Cards[index].callback();
+    this.cards[index].callback();
   }
 
   ngOnInit(): void {}
