@@ -15,8 +15,6 @@ import { DialogComponent } from './ui/dialog/dialog.component';
 import { IconComponent } from './ui/icon/icon.component';
 import { HeaderComponent } from './ui/header/header.component';
 import { StorifyComponent } from './storify/storify.component';
-import { JoinComponent } from './storify/join/join.component';
-import { CreateComponent } from './storify/create/create.component';
 import { GameComponent } from './storify/game/game.component';
 import { ShomeComponent } from './storify/shome/shome.component';
 import { LoginComponent } from './login/login.component';
@@ -27,6 +25,7 @@ import { PasswordResetComponent } from './auth/password-reset/password-reset.com
 import { CardGridComponent } from './ui/card-grid/card-grid.component';
 import { ToasterComponent } from './ui/toaster/toaster.component';
 import { GameLobbyCardComponent } from './ui/game-lobby-card/game-lobby-card.component';
+import { LobbyComponent } from './storify/lobby/lobby.component';
 
 @NgModule({
   declarations: [
@@ -41,8 +40,6 @@ import { GameLobbyCardComponent } from './ui/game-lobby-card/game-lobby-card.com
     IconComponent,
     HeaderComponent,
     StorifyComponent,
-    JoinComponent,
-    CreateComponent,
     GameComponent,
     ShomeComponent,
     LoginComponent,
@@ -54,6 +51,7 @@ import { GameLobbyCardComponent } from './ui/game-lobby-card/game-lobby-card.com
     CardGridComponent,
     ToasterComponent,
     GameLobbyCardComponent,
+    LobbyComponent,
   ],
   imports: [
     BrowserModule,
