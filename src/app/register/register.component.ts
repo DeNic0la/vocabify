@@ -9,7 +9,11 @@ import { ToasterService } from '../services/toaster.service';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
-  constructor(private authServie: AuthService, private toasterService: ToasterService, private router: Router) { }
+  constructor(
+    private authServie: AuthService,
+    private toasterService: ToasterService,
+    private router: Router
+  ) {}
 
   public isLoading: boolean = false;
 
@@ -19,7 +23,7 @@ export class RegisterComponent {
       await this.authServie.createAccount(username, email, password);
       this.router.navigate(['']);
     } catch (error: any) {
-      this.toasterService.showToast('error', error.message)
+      this.toasterService.showToast('error', error.message);
     }
     this.isLoading = false;
   }

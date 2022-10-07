@@ -9,7 +9,11 @@ import { ToasterService } from '../services/toaster.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  constructor(private authSerivce: AuthService, private toasterService: ToasterService, private router: Router) { }
+  constructor(
+    private authSerivce: AuthService,
+    private toasterService: ToasterService,
+    private router: Router
+  ) {}
 
   public isLoading: boolean = false;
 
