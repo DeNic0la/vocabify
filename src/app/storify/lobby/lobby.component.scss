@@ -22,8 +22,7 @@
 
   .story-container,
   .participants-container,
-  .participant,
-  {
+  .participant {
     &:hover {
       transform: scale(1.01);
     }
@@ -92,7 +91,6 @@
 
           .participant-remove {
             margin-top: 2px;
-
           }
         }
       }
@@ -117,11 +115,13 @@
 }
 
 @media screen and (max-width: 800px) {
-  .leave-btn, .start-btn {
+  .leave-btn,
+  .start-btn {
     position: initial !important;
   }
 
-  .leave-btn-wrapper, .start-btn-wrapper {
+  .leave-btn-wrapper,
+  .start-btn-wrapper {
     display: flex;
     justify-content: space-around;
     margin-bottom: 36px;

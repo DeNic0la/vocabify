@@ -7,7 +7,6 @@ import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { RegisterComponent } from './register/register.component';
 import { GameComponent } from './storify/game/game.component';
-import { ShomeComponent } from './storify/shome/shome.component';
 import { StorifyComponent } from './storify/storify.component';
 import {
   AngularFireAuthGuard,
@@ -15,6 +14,7 @@ import {
   redirectUnauthorizedTo,
 } from '@angular/fire/compat/auth-guard';
 import { LobbyComponent } from './storify/lobby/lobby.component';
+import { StorifyExploreComponent } from './storify/storify-explore/storify-explore.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 const redirectLoggedInToHome = () => redirectLoggedInTo(['home']);
@@ -37,12 +37,12 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'home',
+        redirectTo: 'explore',
         pathMatch: 'full',
       },
       {
-        path: 'home',
-        component: ShomeComponent,
+        path: 'explore',
+        component: StorifyExploreComponent,
       },
       {
         path: 'lobby',

@@ -1,11 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LobbyService } from '../services/lobby.service';
 import { AuthService } from '../../auth/auth.service';
 import { Lobby } from '../types/lobby';
 import { ActivatedRoute, Router } from '@angular/router';
-import {Participant} from "../types/participant";
-import {User} from "../../auth/types/User";
-import {HeaderService} from "../../services/header.service";
+import { Participant } from '../types/participant';
+import { User } from '../../auth/types/User';
+import { HeaderService } from '../../services/header.service';
 
 @Component({
   selector: 'app-lobby',
@@ -36,7 +36,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
               prompt: 'Start Game',
               size: 'large',
               color: 'success',
-              action: this.start.bind(this)
+              action: this.start.bind(this),
             });
           }
           this.user = user || undefined;
@@ -56,7 +56,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
 
   public leave(): void {
     if (this.isHost) this.giveUpOwnership();
-    this.router.navigate(['storify/explore'])
+    this.router.navigate(['storify/explore']);
   }
 
   public start(): void {

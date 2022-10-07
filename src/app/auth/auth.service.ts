@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable, of, switchMap } from 'rxjs';
-import * as firebase from 'firebase/compat/app';
+import firebase from 'firebase/compat/app';
 import { User } from './types/User';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private user: firebase.User | undefined;
+
   /**
    * Represents the currently logged-in User
    */
@@ -21,6 +23,7 @@ export class AuthService {
     this.currentUser = this.fireAuth.authState.pipe(
       switchMap((user) => {
         if (user) {
+          this.user = user;
           return this.fireStore
             .collection<User>('users')
             .doc(user.uid)
@@ -38,13 +41,17 @@ export class AuthService {
   public async createAccount(
     username: string,
     email: string,
-    password: string
+    password: string,
+    repeatedpassword: string
   ) {
     if (username.trim().length == 0) {
       throw new Error('Please enter an username.');
     }
     this.validateEmail(email);
     this.validatePassword(password);
+    if (password != repeatedpassword) {
+      throw new Error('The passwords did not match each other');
+    }
     const userCredential = await this.fireAuth.createUserWithEmailAndPassword(
       email,
       password
@@ -73,7 +80,7 @@ export class AuthService {
    * @param oobCode
    */
   public async verifyPasswordResetCode(oobCode: string): Promise<string> {
-    return await firebase.default.auth().verifyPasswordResetCode(oobCode);
+    return await firebase.auth().verifyPasswordResetCode(oobCode);
   }
 
   /**
@@ -83,7 +90,7 @@ export class AuthService {
    */
   public async resetPassword(oobCode: string, password: string) {
     this.validatePassword(password);
-    await firebase.default.auth().confirmPasswordReset(oobCode, password);
+    await firebase.auth().confirmPasswordReset(oobCode, password);
   }
 
   private validatePassword(password: string) {
@@ -101,5 +108,12 @@ export class AuthService {
   public async sendPasswordReset(email: string) {
     this.validateEmail(email);
     await this.fireAuth.sendPasswordResetEmail(email);
+  }
+
+  async getToken(): Promise<string> {
+    if (this.user) {
+      return await this.user.getIdToken();
+    }
+    throw new Error('User not logged in.');
   }
 }

@@ -1,8 +1,8 @@
-import {Injectable} from "@angular/core";
-import {HeaderAction} from "./types/header-action.type";
+import { Injectable } from '@angular/core';
+import { HeaderAction } from './types/header-action.type';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HeaderService {
   private action: HeaderAction | undefined;

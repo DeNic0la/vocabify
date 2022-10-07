@@ -17,10 +17,20 @@ export class RegisterComponent {
 
   public isLoading: boolean = false;
 
-  public async register(username: string, email: string, password: string) {
+  public async register(
+    username: string,
+    email: string,
+    password: string,
+    repeatedpassword: string
+  ) {
     this.isLoading = true;
     try {
-      await this.authServie.createAccount(username, email, password);
+      await this.authServie.createAccount(
+        username,
+        email,
+        password,
+        repeatedpassword
+      );
       this.router.navigate(['']);
     } catch (error: any) {
       this.toasterService.showToast('error', error.message);

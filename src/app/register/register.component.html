@@ -28,12 +28,31 @@
       name="password"
       placeholder="password"
       #password
-    ></app-textfield>
+    >
+    </app-textfield>
+  </div>
+  <div class="label pt-3 flex flex-column align-items-start">
+    <label class="text" for="password">Repeat Password:</label>
+    <app-textfield
+      type="password"
+      id="repeatedpassword"
+      name="repeatedpassword"
+      placeholder="password"
+      #reapeatedpassword
+    >
+    </app-textfield>
   </div>
 
   <app-button
     class="pt-5"
-    (click)="register(username.value, email.value, password.value)"
+    (click)="
+      register(
+        username.value,
+        email.value,
+        password.value,
+        reapeatedpassword.value
+      )
+    "
     size="large"
     >Register
   </app-button>
