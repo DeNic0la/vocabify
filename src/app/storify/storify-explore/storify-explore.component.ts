@@ -11,7 +11,7 @@ import { LobbyService } from '../services/lobby.service';
 })
 export class StorifyExploreComponent implements OnInit {
   constructor(private lobbyService: LobbyService) {
-    lobbyService.getLobbiesToJoin().then((value) => {
+    lobbyService.getLobbiesToJoin().then((value:Lobby[]) => {
       this.transformer(value);
     });
   }
