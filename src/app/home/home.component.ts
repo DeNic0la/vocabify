@@ -20,7 +20,7 @@ export class HomeComponent {
       titleSize: 'large',
       description: 'Storify is a Cool game or something like that',
       callback: () => {
-        this.router.navigate(['storify/home']);
+        this.router.navigate(['/game']);
       },
     },
     {
