@@ -9,6 +9,7 @@ import { Participant } from '../types/participant';
 export class LobbyService {
   constructor(private fireStore: AngularFirestore) {}
 
+
   async getLobby(id: string) {
     const lobby = <Lobby>(
       (await this.fireStore.collection('lobbies').doc(id).ref.get()).data()
