@@ -1,7 +1,9 @@
 <app-loader *ngIf="!lobby"></app-loader>
 <div class="content" *ngIf="lobby">
   <div class="leave-btn-wrapper">
-    <app-button class="leave-btn" color="error" size="medium">Leave</app-button>
+    <app-button class="leave-btn" color="error" size="medium" (click)="leave()"
+      >Leave</app-button
+    >
   </div>
   <h3 class="title">{{ lobby.name }}</h3>
   <div class="story-wrapper">
@@ -22,6 +24,13 @@
             <div class="participant">
               <h5 class="participant-name">{{ participant.username }}</h5>
             </div>
+            <app-icon
+              class="participant-remove"
+              name="cross"
+              color="error"
+              (click)="removeParticipant(participant)"
+              *ngIf="isHost && participant?.uid !== user?.uid"
+            ></app-icon>
           </div>
         </div>
       </div>
