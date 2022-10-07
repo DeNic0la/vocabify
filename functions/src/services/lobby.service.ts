@@ -42,12 +42,14 @@ export class LobbyService {
         .doc(user.uid)
         .create(particpant);
     } catch (error) {
-      throw new Error('Internal Server error.')
+      throw new Error('Internal Server error.');
     }
   }
 
   private async getLobby(id: string): Promise<Lobby> {
-    const lobby = <Lobby>(await this.db.collection('lobbies').doc(id).get()).data();
+    const lobby = <Lobby>(
+      (await this.db.collection('lobbies').doc(id).get()).data()
+    );
     if (!lobby) {
       throw new Error('The lobby does not exist.');
     }

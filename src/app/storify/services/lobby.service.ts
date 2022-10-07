@@ -9,7 +9,10 @@ import { HttpService } from './http.service';
   providedIn: 'root',
 })
 export class LobbyService {
-  constructor(private fireStore: AngularFirestore, private httpService: HttpService) { }
+  constructor(
+    private fireStore: AngularFirestore,
+    private httpService: HttpService
+  ) {}
 
   async getLobby(id: string) {
     const lobby = <Lobby>(
