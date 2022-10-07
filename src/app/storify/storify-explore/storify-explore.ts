@@ -15,7 +15,7 @@ export class LobbyItem implements LobbyCardItem {
   callback: Function;
   id: string;
 
-  constructor(title: string, id: string, players: number,callback:Function) {
+  constructor(title: string, id: string, players: number, callback: Function) {
     this.color = 'primary';
     this.description = '';
     this.imgSrc = '';
@@ -23,7 +23,7 @@ export class LobbyItem implements LobbyCardItem {
     this.players = players;
     this.title = title;
     this.titleSize = 'small';
-    this.callback = callback
+    this.callback = callback;
     this.id = id;
   }
 }

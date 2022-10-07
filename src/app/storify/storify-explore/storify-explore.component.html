@@ -1,11 +1,11 @@
-<app-card-grid title="Lobbies" [cards]="Lobbies" *ngIf="!isLoading"> </app-card-grid>
+<app-card-grid title="Lobbies" [cards]="Lobbies" *ngIf="!isLoading">
+</app-card-grid>
 <app-loader *ngIf="isLoading"></app-loader>
 <div class="button-container">
   <app-button
     [color]="isLoading ? 'danger' : 'success'"
     class="relative"
     (click)="createLobby()"
-
   >
     Create
   </app-button>
