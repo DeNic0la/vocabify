@@ -68,7 +68,6 @@ export class LobbyService {
 
   private async getAllParticipants(lobbyId: string): Promise<Participant[]> {
     let participants: Participant[] = [];
-    console.log(lobbyId);
     const firebaseParticipants = (
       await this.fireStore
         .collection('lobbies')
