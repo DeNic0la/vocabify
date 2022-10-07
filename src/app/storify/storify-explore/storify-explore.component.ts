@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Lobby } from '../types/lobby';
-import { LobbyItem } from './storify-explore';
+import {AngularFirestore} from "@angular/fire/compat/firestore";
+import {Lobby} from "../types/lobby";
+import {LobbyItem} from "./storify-explore";
 
 @Component({
   selector: 'app-storify-explore',
@@ -10,25 +10,23 @@ import { LobbyItem } from './storify-explore';
 })
 export class StorifyExploreComponent implements OnInit {
   constructor(private fireStore: AngularFirestore) {
-    fireStore
-      .collection('lobbies')
-      .valueChanges()
-      .subscribe((value) => {
-        console.log(value);
-        // @ts-ignore
-        this.transformer(value);
-      });
+    fireStore.collection('lobbies').valueChanges().subscribe(value => {
+      console.log(value);
+      // @ts-ignore
+      this.transformer(value)
+    })
   }
 
-  transformer(value: Lobby[]) {
-    let items: LobbyItem[] = [];
-    value.forEach((i) => {
-      items.push(new LobbyItem(i.name, i.id));
-    });
+  transformer(value:Lobby[]){
+    let items:LobbyItem[] = [];
+    value.forEach(i => {
+      items.push(new LobbyItem(i.name,i.id))
+    })
     this.Lobbies = items;
   }
 
-  public Lobbies: LobbyItem[] = [];
+  public Lobbies:LobbyItem[] = [];
+
 
   ngOnInit(): void {}
 }
