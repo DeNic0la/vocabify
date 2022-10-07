@@ -1,4 +1,10 @@
-.login {
+.register {
+  margin-top: 54px;
+
+  .title {
+    margin-bottom: 14px;
+  }
+
   .text {
     font-size: 16px;
   }
@@ -9,6 +15,10 @@
   }
 
   .link {
-    margin-bottom: 0px;
+    margin-bottom: 0;
+  }
+
+  .links {
+    margin-top: 14px;
   }
 }

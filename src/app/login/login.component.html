@@ -21,13 +21,15 @@
         #password
       ></app-textfield>
     </div>
-    <div class="pt-3 pl-0 flex flex-column align-items-start">
-      <app-button (click)="login(email.value, password.value)" size="large"
+    <div class="login-btn">
+      <app-button (click)="login(email.value, password.value)" size="medium"
         >Login</app-button
       >
     </div>
   </form>
-  <h2 class="text link"><a routerLink="/home">I FORGOT MY PASSWORD</a></h2>
-  <h2 class="text">NO ACCOUNT YET? <a routerLink="/register">REGISTER</a></h2>
+  <div class="links">
+    <h2 class="text link"><a routerLink="/home">I FORGOT MY PASSWORD</a></h2>
+    <h2 class="text">NO ACCOUNT YET? <a routerLink="/register">REGISTER</a></h2>
+  </div>
 </div>
 <app-loader *ngIf="isLoading"></app-loader>

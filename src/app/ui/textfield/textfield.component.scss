@@ -7,6 +7,10 @@
   padding: 0 6px;
   resize: none;
   outline: none;
+
+  &::placeholder {
+    color: $color-gray;
+  }
 }
 
 .small {

@@ -1,4 +1,4 @@
-<div class="center flex flex-column login" *ngIf="!isLoading">
+<div class="center flex flex-column register" *ngIf="!isLoading">
   <h2 class="title">Register</h2>
   <div class="label flex flex-column align-items-start">
     <label class="text" for="username">Username:</label>
@@ -37,6 +37,10 @@
     size="large"
     >Register
   </app-button>
-  <h2 class="text">ALREADY GOT AN ACCOUNT? <a routerLink="/login">LOGIN</a></h2>
+  <div class="links">
+    <h2 class="text">
+      ALREADY GOT AN ACCOUNT? <a routerLink="/login">LOGIN</a>
+    </h2>
+  </div>
 </div>
 <app-loader *ngIf="isLoading"></app-loader>
