@@ -15,6 +15,7 @@ export class LobbyService {
     if (!lobby) {
       throw new Error('The lobby does not exist.');
     }
+    lobby.participants = await this.getAllParticipants(lobby.id);
     return lobby;
   }
 
@@ -54,10 +55,12 @@ export class LobbyService {
 
   private async getAllParticipants(lobbyId: string): Promise<Participant[]> {
     let participants: Participant[] = [];
+    console.log(lobbyId);
     const firebaseParticipants = (await this.fireStore.collection('lobbies').doc(lobbyId).collection<Participant>('participants').ref.get()).docs;
     for (let participant of firebaseParticipants) {
       participants.push(participant.data());
     }
+    console.log(participants);
     return participants;
   }
 }

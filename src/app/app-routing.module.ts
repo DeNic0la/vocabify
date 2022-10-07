@@ -48,6 +48,11 @@ const routes: Routes = [
       },
       {
         path: 'lobby',
+        pathMatch: 'full',
+        redirectTo: 'home'
+      },
+      {
+        path: 'lobby/:id',
         component: LobbyComponent
       },
       {
