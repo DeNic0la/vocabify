@@ -5,7 +5,7 @@
     inverted: color === 'inverted'
   }"
 >
-  <img src="" alt="" class="image" />
+  <img [src]="imgSrc" alt="" class="image" />
   <div class="content">
     <h5 class="title" *ngIf="titleSize === 'large'">{{ title }}</h5>
     <p class="title" *ngIf="titleSize === 'small'">{{ title }}</p>
