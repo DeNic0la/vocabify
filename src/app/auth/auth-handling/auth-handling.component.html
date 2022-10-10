@@ -3,10 +3,23 @@
 <div *ngIf="isLoading" class="container">
   <div>
     <h2>Reset your password</h2>
-    <app-textfield [(value)]="password" color="primary" type="password" placeholder="New Password" size="small">
+    <app-textfield
+      [(value)]="password"
+      color="primary"
+      type="password"
+      placeholder="New Password"
+      size="small"
+    >
     </app-textfield>
-    <app-textfield [(value)]="repeatedPassword" color="primary" type="password" placeholder="Repeat Password"
-      size="small"></app-textfield>
-    <app-button (click)="resetPassword(password, repeatedPassword)">Reset</app-button>
+    <app-textfield
+      [(value)]="repeatedPassword"
+      color="primary"
+      type="password"
+      placeholder="Repeat Password"
+      size="small"
+    ></app-textfield>
+    <app-button (click)="resetPassword(password, repeatedPassword)"
+      >Reset</app-button
+    >
   </div>
 </div>
