@@ -5,4 +5,5 @@ export enum Functions {
   CREATE_LOBBY = 'lobby',
   SUBMIT = 'submit',
   STATE = 'state',
+  EVALUATE = 'evaluate',
 }

@@ -8,6 +8,8 @@ import { User } from '../../auth/types/User';
 import { HeaderService } from '../../services/header.service';
 import { ToasterService } from '../../services/toaster.service';
 import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { GameService } from '../services/game.service';
 
 @Component({
   selector: 'app-lobby',
@@ -32,7 +34,8 @@ export class LobbyComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private headerService: HeaderService,
-    private toast: ToasterService
+    private toast: ToasterService,
+    private gameService: GameService
   ) {}
 
   ngOnInit(): void {
@@ -104,7 +107,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
   public async start() {
     if (this.isHost && this.lobby) {
       try {
-        await this.lobbyService.changeState(
+        await this.gameService.changeState(
           this.lobby?.id || '',
           LobbyState.IN_PROGRESS
         );
