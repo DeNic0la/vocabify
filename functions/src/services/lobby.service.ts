@@ -7,10 +7,9 @@ import { AiService } from './ai.service';
 export class LobbyService {
   private db = admin.firestore();
   private userService = new UserService();
-
   private aiService = new AiService();
 
-  async createLobby(uid: string): Promise<Lobby> {
+  public async createLobby(uid: string): Promise<Lobby> {
     try {
       const host = await this.userService.getUser(uid);
       const lobby: Lobby = {
@@ -27,7 +26,7 @@ export class LobbyService {
     }
   }
 
-  async join(uid: string, lobbyid: string) {
+  public async join(uid: string, lobbyid: string) {
     const user = await this.userService.getUser(uid);
     const lobby = await this.getLobby(lobbyid);
     if (lobby.state == LobbyState.IN_PROGRESS) {
@@ -43,10 +42,30 @@ export class LobbyService {
         .doc(lobbyid)
         .collection('participants')
         .doc(user.uid)
-        .create(particpant);
+        .set(particpant, { merge: true });
     } catch (error) {
       throw new Error('Internal Server error.');
     }
+  }
+
+  public async start(uid: string, lobbyId: string) {
+    const lobby = await this.getLobby(lobbyId);
+    if (lobby.hostid !== uid) {
+      throw new Error('Not Authorized');
+    }
+    await this.db
+      .collection('lobbies')
+      .doc(lobbyId)
+      .update({ state: LobbyState.IN_PROGRESS });
+  }
+
+  public async leave(uid: string, lobbyId: string) {
+    await this.db
+      .collection('lobbies')
+      .doc(lobbyId)
+      .collection('participants')
+      .doc(uid)
+      .delete();
   }
 
   private async getLobby(id: string): Promise<Lobby> {
