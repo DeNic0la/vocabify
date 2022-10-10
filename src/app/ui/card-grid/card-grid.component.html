@@ -17,7 +17,7 @@
         [max-players]="card.maxPlayers ? card.maxPlayers : 0"
         [players]="card.players ? card.players : 0"
         [img-src]="card.imgSrc ? card.imgSrc : ''"
-        (click)="onCallback(i)"
+        (action)="onCallback(i)"
       >
         {{ card.description }}
       </app-game-lobby-card>
