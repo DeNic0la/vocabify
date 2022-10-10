@@ -5,7 +5,7 @@ import { LobbyItem } from './storify-explore';
 import { LobbyService } from '../services/lobby.service';
 import { Router } from '@angular/router';
 import { ButtonColor } from '../../ui/button/button.types';
-import {ToasterService} from "../../services/toaster.service";
+import { ToasterService } from '../../services/toaster.service';
 
 @Component({
   selector: 'app-storify-explore',
@@ -17,7 +17,11 @@ export class StorifyExploreComponent implements OnInit {
   public buttonColorSuccess: ButtonColor = 'success';
 
   public isLoading: boolean = true;
-  constructor(private lobbyService: LobbyService, private router: Router,private msgService:ToasterService) {
+  constructor(
+    private lobbyService: LobbyService,
+    private router: Router,
+    private msgService: ToasterService
+  ) {
     lobbyService.getLobbiesToJoin().then((value: Lobby[]) => {
       this.transformer(value);
     });
@@ -51,13 +55,17 @@ export class StorifyExploreComponent implements OnInit {
 
   getJoinLobbyCallback(lobbyId: string, lobbyService: LobbyService) {
     return () => {
-      this.isLoading = true
-      lobbyService.joinLobby(lobbyId).then(r => this.isLoading=false).catch(
-        reason => {
+      this.isLoading = true;
+      lobbyService
+        .joinLobby(lobbyId)
+        .then((r) => (this.isLoading = false))
+        .catch((reason) => {
           this.isLoading = false;
-          this.msgService.showToast("error","Unexpected Error: Can't join lobby")
-        }
-      )
+          this.msgService.showToast(
+            'error',
+            "Unexpected Error: Can't join lobby"
+          );
+        });
     };
   }
 
