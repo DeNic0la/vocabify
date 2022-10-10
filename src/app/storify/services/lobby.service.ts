@@ -92,10 +92,54 @@ export class LobbyService {
     return resp.lobbyId;
   }
 
+  /**
+   * Leaves a match
+   * @param lobbyId
+   */
+  async leave(lobbyId: string) {
+    try {
+      await this.httpService.delete(Functions.LEAVE, { lobbyid: lobbyId });
+      this.router.navigate(['/storify/explore']);
+    } catch (error: any) {
+      throw new Error(error.error);
+    }
+  }
+  /**
+   * Kicks a user
+   * @param lobbyId
+   * @param kick_uid
+   */
+  async kick(lobbyId: string, kick_uid: string) {
+    try {
+      await this.httpService.delete(Functions.KICK, {
+        lobbyid: lobbyId,
+        kick_uid,
+      });
+    } catch (error: any) {
+      throw new Error(error.error);
+    }
+  }
+
+  /**
+   * Join to a lobby
+   * @param lobbyId
+   */
   async joinLobby(lobbyId: string) {
     try {
       await this.httpService.put(Functions.JOIN, { lobbyid: lobbyId });
       this.router.navigate(['/storify/lobby/', lobbyId]);
+    } catch (error: any) {
+      throw new Error(error.error);
+    }
+  }
+
+  /**
+   * Starts a game
+   * @param lobbyId
+   */
+  async changeState(lobbyId: string, state: LobbyState) {
+    try {
+      this.httpService.put(Functions.STATE, { lobbyId: lobbyId, state });
     } catch (error: any) {
       throw new Error(error.error);
     }
