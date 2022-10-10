@@ -13,5 +13,8 @@ service cloud.firestore {
     match /lobbies/{lobbyId}/participants/{participantId} {
     	allow read: if request.auth != null;
     }
+    match /lobbies/{lobbyId}/rounds/{roundId} {
+      allow read: if request.auth != null;
+    }
   }
 }
