@@ -60,7 +60,7 @@ export class GameService {
     const bestSentence = await this.aiService.getBestSentence(stories);
 
     for (let i = 0; i < firebaseSentences.length; i++) {
-      if (bestSentence === firebaseSentences[i].sentence) {
+      if (bestSentence.includes(firebaseSentences[i].sentence)) {
         await this.db
           .collection('lobbies')
           .doc(lobby.id)
