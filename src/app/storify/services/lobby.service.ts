@@ -93,6 +93,19 @@ export class LobbyService {
   }
 
   /**
+   * Leaves a match
+   * @param lobbyId
+   */
+  async leave(lobbyId: string) {
+    try {
+      await this.httpService.delete(Functions.LEAVE, { lobbyid: lobbyId });
+      this.router.navigate(['/storify/explore']);
+    } catch (error: any) {
+      throw new Error(error.error);
+    }
+  }
+
+  /**
    * Join to a lobby
    * @param lobbyId
    */

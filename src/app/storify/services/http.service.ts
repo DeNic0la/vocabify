@@ -14,22 +14,20 @@ export class HttpService {
   constructor(
     private httpClient: HttpClient,
     private authService: AuthService
-  ) {}
+  ) { }
 
   private async getAuthorizationHeader() {
-    const options = {
-      headers: {
-        Authorization: 'Bearer ' + (await this.authService.getToken()),
-      },
+    const headers = {
+      Authorization: 'Bearer ' + (await this.authService.getToken()),
     };
-    return options;
+    return headers;
   }
 
   async post(functionName: Functions, body: any): Promise<any> {
     const resp = this.httpClient.post<any>(
       this.FUNCTION_URL + functionName,
       body,
-      await this.getAuthorizationHeader()
+      { headers: await this.getAuthorizationHeader() }
     );
     return await lastValueFrom(resp);
   }
@@ -38,8 +36,13 @@ export class HttpService {
     const resp = this.httpClient.put<any>(
       this.FUNCTION_URL + functionName,
       body,
-      await this.getAuthorizationHeader()
+      { headers: await this.getAuthorizationHeader() }
     );
+    return await lastValueFrom(resp);
+  }
+
+  async delete(functionName: Functions, body: any): Promise<any> {
+    const resp = this.httpClient.delete(this.FUNCTION_URL + functionName, { headers: await this.getAuthorizationHeader(), body });
     return await lastValueFrom(resp);
   }
 }

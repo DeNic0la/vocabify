@@ -54,6 +54,10 @@ export class LobbyService {
     await this.db.collection('lobbies').doc(lobbyId).update({ state: LobbyState.IN_PROGRESS });
   }
 
+  public async leave(uid: string, lobbyId: string) {
+    await this.db.collection('lobbies').doc(lobbyId).collection('participants').doc(uid).delete();
+  }
+
   private async getLobby(id: string): Promise<Lobby> {
     const lobby = <Lobby>(
       (await this.db.collection('lobbies').doc(id).get()).data()
