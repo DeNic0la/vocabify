@@ -40,7 +40,7 @@ export class LobbyService {
         .doc(lobbyid)
         .collection('participants')
         .doc(user.uid)
-        .create(particpant);
+        .set(particpant, { merge: true });
     } catch (error) {
       throw new Error('Internal Server error.');
     }
