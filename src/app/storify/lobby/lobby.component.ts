@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { LobbyService } from '../services/lobby.service';
 import { AuthService } from '../../auth/auth.service';
 import { Lobby, LobbyState } from '../types/lobby';
@@ -7,6 +7,7 @@ import { Participant } from '../types/participant';
 import { User } from '../../auth/types/User';
 import { HeaderService } from '../../services/header.service';
 import { ToasterService } from '../../services/toaster.service';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-lobby',
@@ -18,6 +19,12 @@ export class LobbyComponent implements OnInit, OnDestroy {
   user: User | undefined;
   isHost: boolean = false;
 
+  private subscriptions: Subscription[] = [];
+
+  get isLoading() {
+    return !(this.lobby && this.lobby.id.length > 0);
+  }
+
   constructor(
     private lobbyService: LobbyService,
     private authService: AuthService,
@@ -28,24 +35,54 @@ export class LobbyComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.lobbyService
-      .getLobby(this.route.snapshot.paramMap.get('id') || '')
-      .then((lobby) => {
-        this.authService.currentUser.subscribe((user) => {
-          if (user?.uid === lobby.hostid) {
-            this.isHost = true;
-            this.headerService.setAction({
-              prompt: 'Start Game',
-              size: 'large',
-              color: 'success',
-              action: this.start.bind(this),
+    this.subscriptions.push(
+      this.lobbyService
+        .getLobbyObs(this.route.snapshot.paramMap.get('id') || '')
+        .subscribe({
+          next: (value) => {
+            this.authService.currentUser.subscribe((user) => {
+              if (value && user?.uid === value.hostid) {
+                this.isHost = true;
+                this.headerService.setAction({
+                  prompt: 'Start Game',
+                  size: 'large',
+                  color: 'success',
+                  action: this.start.bind(this),
+                });
+              }
+              this.user = user || undefined;
+              const participants = this.lobby?.participants;
+              this.lobby = value;
+              if (this.lobby && participants)
+                this.lobby.participants = participants;
             });
-          }
-          this.user = user || undefined;
-          this.lobby = lobby;
-        });
-      })
-      .catch(() => this.router.navigate(['not-found']));
+          },
+          error: (err) => {
+            this.router.navigate(['not-found']);
+          },
+        })
+    );
+    this.subscriptions.push(
+      this.lobbyService
+        .getParticipantsObs(this.route.snapshot.paramMap.get('id') || '')
+        .subscribe({
+          next: (val) => {
+            if (this.lobby && val) {
+              this.lobby.participants = val;
+            } else if (val) {
+              /* Set Dummy Lobby if the Lobby Object was not fetched yet.*/
+              this.lobby = {
+                id: '',
+                participants: val,
+                state: 0,
+                name: '',
+                hostid: '',
+                story: [],
+              };
+            }
+          },
+        })
+    );
   }
 
   public removeParticipant(participant: Participant): void {
@@ -70,8 +107,23 @@ export class LobbyComponent implements OnInit, OnDestroy {
     }
   }
 
+  unsubscribeToAllObservables() {
+    this.subscriptions.forEach((value) => {
+      value.unsubscribe();
+    });
+  }
+
   ngOnDestroy() {
+    this.unsubscribeToAllObservables();
     this.lobbyService.leave(this.lobby?.id || '');
     this.headerService.setAction(undefined);
+  }
+
+  @HostListener(
+    'window:beforeunload'
+  ) /* This doesnt really work like i want it to wark*/
+  onWindowClose() {
+    this.ngOnDestroy();
+    this.router.navigate(['/storify/explore']);
   }
 }
