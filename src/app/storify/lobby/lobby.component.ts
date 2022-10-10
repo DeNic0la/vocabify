@@ -109,7 +109,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
       } catch (e) {
         this.toast.showToast('error', "Game couldn't be started");
       }
-      //TODO Redirect to Game
+      this.router.navigate(['/storify/play', this.lobby.id])
     }
   }
 
@@ -121,7 +121,6 @@ export class LobbyComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.unsubscribeToAllObservables();
-    this.lobbyService.leave(this.lobby?.id || '');
     this.headerService.setAction(undefined);
   }
 

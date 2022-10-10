@@ -1,5 +1,6 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
 import { TimerType } from '../../../ui/timer/timer.types';
+import {Lobby} from "../../types/lobby";
 
 @Component({
   selector: 'app-submission',
@@ -7,10 +8,15 @@ import { TimerType } from '../../../ui/timer/timer.types';
   styleUrls: ['./submission.component.scss'],
 })
 export class SubmissionComponent implements OnInit {
+  @Input('lobby') lobby: Lobby | undefined;
+  @Input('story') story: string = '';
+
+  @Output('submit') submit: EventEmitter<string> = new EventEmitter<string>();
+
   timerStarted: boolean = false;
   timerType: TimerType = 'vertical';
+  sentence: string = '';
 
-  constructor() {}
 
   ngOnInit(): void {
     this.handleWindowResize();
@@ -24,5 +30,13 @@ export class SubmissionComponent implements OnInit {
     } else {
       this.timerType = 'vertical';
     }
+  }
+
+  public submitSentence(): void {
+    this.submit.emit(this.sentence)
+  }
+
+  checkTime(time: number) {
+    if (time === 0) this.submitSentence();
   }
 }

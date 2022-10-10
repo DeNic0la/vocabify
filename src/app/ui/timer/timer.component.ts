@@ -34,7 +34,6 @@ export class TimerComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    console.log('a');
     if (this.started && !this.timerRunning) {
       this.startTimer();
     }
