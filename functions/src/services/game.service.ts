@@ -54,6 +54,20 @@ export class GameService {
     await this.db.collection('lobbies').doc(lobby.id).update({ state });
   }
 
+  public async getAllRounds(lobbyId: string) {
+    let rounds: Round[] = [];
+    const roundCol = ((await this.db.collection('lobbies').doc(lobbyId).collection('rounds').get()).docs);
+    for (let round of roundCol) {
+      const roundObj: Round = {
+        createdAt: round.data().createdAt,
+        submittedStories: round.data().submittedStories,
+        winner: round.data().winner,
+      }
+      rounds.push(roundObj);
+    }
+    return rounds;
+  }
+
   private async createRound(lobbyId: string) {
     const round: Round = {
       createdAt: Date.now(),
