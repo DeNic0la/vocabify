@@ -53,7 +53,6 @@ const routes: Routes = [
       {
         path: 'lobby/:id',
         component: LobbyComponent,
-        canDeactivate: [ParticipatingGuard]
       },
       {
         path: 'game',
