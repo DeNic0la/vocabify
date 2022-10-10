@@ -2,7 +2,7 @@ import * as admin from 'firebase-admin';
 import { Lobby, LobbyState } from '../types/lobby';
 import { Participant } from '../types/participant';
 import { UserService } from './user.service';
-import {AiService} from "./ai.service";
+import { AiService } from './ai.service';
 
 export class LobbyService {
   private db = admin.firestore();
