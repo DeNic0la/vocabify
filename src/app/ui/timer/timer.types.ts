@@ -1,1 +1,1 @@
-export type TimerType = 'vertical' | 'horizontal'
+export type TimerType = 'vertical' | 'horizontal';

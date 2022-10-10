@@ -1,7 +1,6 @@
-@import 'src/app/styles/colors.scss';
+@import "src/app/styles/colors.scss";
 
 .content {
-
   .story {
     height: calc(100vh - 352px);
     background-color: $color-white;
@@ -68,7 +67,6 @@
 }
 
 @media screen and (max-width: 620px) {
-
   .submission-container {
     display: initial !important;
 
