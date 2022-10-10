@@ -2,6 +2,7 @@ import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import { AuthService } from './services/auth.service';
 import { LobbyService } from './services/lobby.service';
+import { GameService } from './services/game.service';
 import { LobbyState } from './types/lobby';
 const cors = require('cors')({ origin: true });
 
@@ -104,6 +105,26 @@ exports.state = functions.https.onRequest(async (req, res) => {
       const uid = idToken?.uid || '';
       const changeState: LobbyState = req.body.state;
       await lobbyService.changeState(uid, req.body.lobbyId, changeState);
+
+      res.status(200).send();
+    } catch (error: any) {
+      res.status(500).send(error.message);
+    }
+  });
+});
+
+exports.submit = functions.https.onRequest(async (req, res) => {
+  cors(req, res, async () => {
+    if (req.method !== 'POST' || !req.body.lobbyId || !req.body.sentence)
+      res.status(400).send('Bad request');
+    const authService = new AuthService();
+    const idToken = await authService.validateFirebaseIdToken(req);
+    if (!idToken) res.status(403).send('Unauthorized');
+
+    try {
+      const gameService = new GameService();
+      const uid = idToken?.uid || '';
+      await gameService.submit(uid, req.body.lobbyId, req.body.sentence);
 
       res.status(200).send();
     } catch (error: any) {
