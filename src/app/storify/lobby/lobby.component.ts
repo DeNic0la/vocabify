@@ -7,7 +7,7 @@ import { Participant } from '../types/participant';
 import { User } from '../../auth/types/User';
 import { HeaderService } from '../../services/header.service';
 import { ToasterService } from '../../services/toaster.service';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-lobby',
@@ -18,11 +18,12 @@ export class LobbyComponent implements OnInit, OnDestroy {
   lobby: Lobby | undefined;
   user: User | undefined;
   isHost: boolean = false;
+  isLeaving: boolean = false;
 
   private subscriptions: Subscription[] = [];
 
   get isLoading() {
-    return !(this.lobby && this.lobby.id.length > 0);
+    return (!(this.lobby && this.lobby.id.length > 0 ) || this.isLeaving);
   }
 
   constructor(
@@ -63,7 +64,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
                 this.lobby.participants = participants;
             });
           },
-          error: (err) => {
+          error: () => {
             this.router.navigate(['not-found']);
           },
         })
@@ -96,6 +97,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
   }
 
   public async leave() {
+    this.isLeaving = true;
     await this.lobbyService.leave(this.lobby?.id || '');
   }
 
