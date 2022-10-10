@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {LobbyService} from '../services/lobby.service';
 import {AuthService} from '../../auth/auth.service';
 import {Lobby} from '../types/lobby';
@@ -116,6 +116,7 @@ export class LobbyComponent implements OnInit, OnDestroy, ComponentCanDeactivate
     this.headerService.setAction(undefined);
   }
 
+  @HostListener('window:beforeunload')
   canDeactivate(): boolean | Observable<boolean> {
     // If you are Here you cant close the Page
     return false;
