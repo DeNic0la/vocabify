@@ -81,7 +81,11 @@ export class GameService {
   }
 
   private async addPoints(uid: string, lobbyId: string) {
-    const participantRef = this.db.collection('lobbies').doc(lobbyId).collection('participants').doc(uid);
+    const participantRef = this.db
+      .collection('lobbies')
+      .doc(lobbyId)
+      .collection('participants')
+      .doc(uid);
     const particpant = <Participant>(await participantRef.get()).data();
     await participantRef.update({ points: particpant.points + 50 });
   }

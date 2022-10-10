@@ -33,8 +33,8 @@ export class LobbyComponent implements OnInit, OnDestroy {
     private router: Router,
     private headerService: HeaderService,
     private toast: ToasterService,
-    private gameService: GameService,
-  ) { }
+    private gameService: GameService
+  ) {}
 
   ngOnInit(): void {
     this.subscriptions.push(
@@ -106,7 +106,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
       try {
         await this.gameService.changeState(
           this.lobby?.id || '',
-          LobbyState.IN_PROGRESS,
+          LobbyState.IN_PROGRESS
         );
       } catch (e) {
         this.toast.showToast('error', "Game couldn't be started");
