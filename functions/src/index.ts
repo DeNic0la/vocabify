@@ -69,7 +69,8 @@ exports.leave = functions.https.onRequest(async (req, res) => {
 
 exports.start = functions.https.onRequest(async (req, res) => {
   cors(req, res, async () => {
-    if (req.method !== 'PUT' || !req.body.lobbyId) res.status(400).send('Bad request');
+    if (req.method !== 'PUT' || !req.body.lobbyId)
+      res.status(400).send('Bad request');
     const authService = new AuthService();
     const idToken = await authService.validateFirebaseIdToken(req);
     if (!idToken) res.status(403).send('Unauthorized');

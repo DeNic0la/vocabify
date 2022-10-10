@@ -53,11 +53,19 @@ export class LobbyService {
     if (lobby.hostid === uid) {
       throw new Error('Not Authorized');
     }
-    await this.db.collection('lobbies').doc(lobbyId).update({ state: LobbyState.IN_PROGRESS });
+    await this.db
+      .collection('lobbies')
+      .doc(lobbyId)
+      .update({ state: LobbyState.IN_PROGRESS });
   }
 
   public async leave(uid: string, lobbyId: string) {
-    await this.db.collection('lobbies').doc(lobbyId).collection('participants').doc(uid).delete();
+    await this.db
+      .collection('lobbies')
+      .doc(lobbyId)
+      .collection('participants')
+      .doc(uid)
+      .delete();
   }
 
   private async getLobby(id: string): Promise<Lobby> {
