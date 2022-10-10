@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LobbyService } from '../services/lobby.service';
 import { AuthService } from '../../auth/auth.service';
-import { Lobby } from '../types/lobby';
+import { Lobby, LobbyState } from '../types/lobby';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Participant } from '../types/participant';
 import { User } from '../../auth/types/User';
@@ -59,7 +59,10 @@ export class LobbyComponent implements OnInit, OnDestroy {
   public async start() {
     if (this.isHost && this.lobby) {
       try {
-        await this.lobbyService.start(this.lobby?.id);
+        await this.lobbyService.changeState(
+          this.lobby?.id || '',
+          LobbyState.IN_PROGRESS
+        );
       } catch (e) {
         this.toast.showToast('error', "Game couldn't be started");
       }

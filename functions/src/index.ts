@@ -3,6 +3,7 @@ import * as admin from 'firebase-admin';
 import { AuthService } from './services/auth.service';
 import { LobbyService } from './services/lobby.service';
 import { GameService } from './services/game.service';
+import { LobbyState } from './types/lobby';
 const cors = require('cors')({ origin: true });
 
 admin.initializeApp();
@@ -91,9 +92,9 @@ exports.kick = functions.https.onRequest(async (req, res) => {
   });
 });
 
-exports.start = functions.https.onRequest(async (req, res) => {
+exports.state = functions.https.onRequest(async (req, res) => {
   cors(req, res, async () => {
-    if (req.method !== 'PUT' || !req.body.lobbyId)
+    if (req.method !== 'PUT' || !req.body.lobbyId || !req.body.state)
       res.status(400).send('Bad request');
     const authService = new AuthService();
     const idToken = await authService.validateFirebaseIdToken(req);
@@ -102,7 +103,8 @@ exports.start = functions.https.onRequest(async (req, res) => {
     try {
       const lobbyService = new LobbyService();
       const uid = idToken?.uid || '';
-      await lobbyService.start(uid, req.body.lobbyId);
+      const changeState: LobbyState = req.body.state;
+      await lobbyService.changeState(uid, req.body.lobbyId, changeState);
 
       res.status(200).send();
     } catch (error: any) {
