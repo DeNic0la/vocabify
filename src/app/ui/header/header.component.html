@@ -11,7 +11,7 @@
     <p class="logo-text">vocabify</p>
   </div>
   <app-button
-    *ngIf="!isLoggedIn"
+    *ngIf="!loading && !isLoggedIn && !this.headerService.getAction()"
     class="sign-in"
     size="large"
     color="inverted"
@@ -19,7 +19,7 @@
     >sign in</app-button
   >
   <app-button
-    *ngIf="isLoggedIn"
+    *ngIf="!loading && isLoggedIn && !this.headerService.getAction()"
     (click)="signOut()"
     class="sign-in"
     size="large"
@@ -27,5 +27,13 @@
     routerLink="/login"
   >
     sign out</app-button
+  >
+  <app-button
+    *ngIf="this.headerService.getAction()"
+    (click)="this.headerService.getAction()?.action()"
+    class="sign-in"
+    [size]="this.headerService.getAction()?.size || 'medium'"
+    [color]="this.headerService.getAction()?.color || 'inverted'"
+    >{{ this.headerService.getAction()?.prompt }}</app-button
   >
 </div>
