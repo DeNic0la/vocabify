@@ -3,7 +3,8 @@
 <app-loader *ngIf="isLoading"></app-loader>
 <div class="button-container">
   <app-button
-    [color]="isLoading ? 'danger' : 'success'"
+    *ngIf="!isLoading"
+    color="success"
     class="relative"
     (click)="createLobby()"
   >
