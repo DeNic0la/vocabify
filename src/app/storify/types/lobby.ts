@@ -8,6 +8,7 @@ export interface Lobby {
   story: Story[];
   state: LobbyState;
   participants: Participant[];
+  imgUrl: string;
 }
 
 export enum LobbyState {
