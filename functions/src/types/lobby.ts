@@ -1,8 +1,10 @@
+import { Story } from "./story";
+
 export interface Lobby {
   id: string;
   hostid: string;
   name: string;
-  story: string;
+  story: Story[];
   state: LobbyState;
 }
 
