@@ -8,7 +8,6 @@ import { User } from '../../auth/types/User';
 import { HeaderService } from '../../services/header.service';
 import { ToasterService } from '../../services/toaster.service';
 import { Subscription } from 'rxjs';
-import { Observable, Subscription } from 'rxjs';
 import { GameService } from '../services/game.service';
 
 @Component({
