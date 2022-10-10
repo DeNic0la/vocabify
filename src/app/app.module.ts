@@ -61,9 +61,7 @@ import { StorifyExploreComponent } from './storify/storify-explore/storify-explo
     AngularFireModule.initializeApp(environment.firebaseConfig),
     HttpClientModule,
   ],
-  providers: [
-
-  ],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -5,7 +5,7 @@ import { Functions } from '../types/functions.enum';
 import { Lobby, LobbyState } from '../types/lobby';
 import { Participant } from '../types/participant';
 import { HttpService } from './http.service';
-import {Observable} from "rxjs";
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -14,17 +14,25 @@ export class LobbyService {
   constructor(
     private fireStore: AngularFirestore,
     private httpService: HttpService,
-    private router: Router,
+    private router: Router
   ) {}
 
-  public getLobbyObs(lobbyId: string):Observable<Lobby|undefined>{
-    return this.fireStore.collection('lobbies').doc<Lobby>(lobbyId).valueChanges();
+  public getLobbyObs(lobbyId: string): Observable<Lobby | undefined> {
+    return this.fireStore
+      .collection('lobbies')
+      .doc<Lobby>(lobbyId)
+      .valueChanges();
   }
 
-  public getParticipantsObs(lobbyId: string):Observable<Participant[]|undefined>{
-    return this.fireStore.collection('lobbies').doc<Lobby>(lobbyId).collection<Participant>('participants').valueChanges();
+  public getParticipantsObs(
+    lobbyId: string
+  ): Observable<Participant[] | undefined> {
+    return this.fireStore
+      .collection('lobbies')
+      .doc<Lobby>(lobbyId)
+      .collection<Participant>('participants')
+      .valueChanges();
   }
-
 
   async getLobby(id: string) {
     const lobby = <Lobby>(

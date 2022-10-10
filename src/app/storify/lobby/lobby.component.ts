@@ -1,13 +1,13 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {LobbyService} from '../services/lobby.service';
-import {AuthService} from '../../auth/auth.service';
-import {Lobby} from '../types/lobby';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Participant} from '../types/participant';
-import {User} from '../../auth/types/User';
-import {HeaderService} from '../../services/header.service';
-import {ToasterService} from '../../services/toaster.service';
-import {Observable, Subscription} from "rxjs";
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { LobbyService } from '../services/lobby.service';
+import { AuthService } from '../../auth/auth.service';
+import { Lobby } from '../types/lobby';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Participant } from '../types/participant';
+import { User } from '../../auth/types/User';
+import { HeaderService } from '../../services/header.service';
+import { ToasterService } from '../../services/toaster.service';
+import { Observable, Subscription } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LobbyService } from '../services/lobby.service';
 import { AuthService } from '../../auth/auth.service';
@@ -24,13 +24,13 @@ import { ToasterService } from '../../services/toaster.service';
   styleUrls: ['./lobby.component.scss'],
 })
 export class LobbyComponent implements OnInit, OnDestroy {
-  lobby: Lobby | undefined ;
+  lobby: Lobby | undefined;
   user: User | undefined;
   isHost: boolean = false;
 
-  private subscriptions:Subscription[] = [];
+  private subscriptions: Subscription[] = [];
 
-  get isLoading(){
+  get isLoading() {
     return !(this.lobby && this.lobby.id.length > 0);
   }
 
@@ -39,7 +39,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
-    private headerService: HeaderService,
+    private headerService: HeaderService
   ) {}
 
   ngOnInit(): void {
@@ -61,8 +61,8 @@ export class LobbyComponent implements OnInit, OnDestroy {
               this.user = user || undefined;
               const participants = this.lobby?.participants;
               this.lobby = value;
-              if (this.lobby && participants) this.lobby.participants = participants;
-
+              if (this.lobby && participants)
+                this.lobby.participants = participants;
             });
           },
           error: (err) => {
@@ -74,15 +74,21 @@ export class LobbyComponent implements OnInit, OnDestroy {
       this.lobbyService
         .getParticipantsObs(this.route.snapshot.paramMap.get('id') || '')
         .subscribe({
-          next: (val) =>{
-            if (this.lobby && val){
+          next: (val) => {
+            if (this.lobby && val) {
               this.lobby.participants = val;
-            }
-            else if (val){
+            } else if (val) {
               /* Set Dummy Lobby if the Lobby Object was not fetched yet.*/
-              this.lobby = {id: "", participants: val, state: 0, name: "", hostid: "", story: ""};
+              this.lobby = {
+                id: '',
+                participants: val,
+                state: 0,
+                name: '',
+                hostid: '',
+                story: '',
+              };
             }
-          }
+          },
         })
     );
   }
@@ -98,25 +104,21 @@ export class LobbyComponent implements OnInit, OnDestroy {
   public async start() {
     if (this.isHost && this.lobby) {
       try {
-
         await this.lobbyService.changeState(
           this.lobby?.id || '',
           LobbyState.IN_PROGRESS
         );
-
       } catch (e) {
         this.toast.showToast('error', "Game couldn't be started");
       }
       //TODO Redirect to Game
     }
-
   }
 
-  unsubscribeToAllObservables(){
-    this.subscriptions.forEach(value => {
+  unsubscribeToAllObservables() {
+    this.subscriptions.forEach((value) => {
       value.unsubscribe();
-    })
-
+    });
   }
 
   ngOnDestroy() {
@@ -126,9 +128,8 @@ export class LobbyComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('window:beforeunload')
-  onWindowClose(){
-   this.ngOnDestroy();
-   this.router.navigate(['/storify/explore']);
+  onWindowClose() {
+    this.ngOnDestroy();
+    this.router.navigate(['/storify/explore']);
   }
-
 }
