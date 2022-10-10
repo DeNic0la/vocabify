@@ -7,7 +7,7 @@ export class LobbyService {
   private db = admin.firestore();
   private userService = new UserService();
 
-  async createLobby(uid: string): Promise<Lobby> {
+  public async createLobby(uid: string): Promise<Lobby> {
     try {
       const host = await this.userService.getUser(uid);
       const lobby: Lobby = {
@@ -24,7 +24,7 @@ export class LobbyService {
     }
   }
 
-  async join(uid: string, lobbyid: string) {
+  public async join(uid: string, lobbyid: string) {
     const user = await this.userService.getUser(uid);
     const lobby = await this.getLobby(lobbyid);
     if (lobby.state == LobbyState.IN_PROGRESS) {
