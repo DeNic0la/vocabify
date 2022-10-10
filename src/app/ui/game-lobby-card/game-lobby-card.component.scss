@@ -31,6 +31,7 @@
       margin-bottom: 8px;
       overflow-wrap: break-word;
       font-size: 12px;
+      word-wrap: break-word;
     }
 
     .players {
@@ -70,6 +71,23 @@
 
     .players {
       color: $color-main;
+    }
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .card {
+    width: 100vw;
+    border-radius: 0;
+
+    .image {
+      margin: 0;
+      height: 100%;
+      width: 50vw;
+    }
+
+    .description {
+      margin-left: 8px;
     }
   }
 }
