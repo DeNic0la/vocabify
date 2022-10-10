@@ -14,16 +14,33 @@ export class GameService {
       const story: Story = {
         uid,
         sentence,
-      }
-      const firebaseRound = await (await this.db.collection('lobbies').doc(lobbyId).collection('rounds').orderBy('createdAt').limitToLast(1).get()).docs[0];
+      };
+      const firebaseRound = await (
+        await this.db
+          .collection('lobbies')
+          .doc(lobbyId)
+          .collection('rounds')
+          .orderBy('createdAt')
+          .limitToLast(1)
+          .get()
+      ).docs[0];
       if (!firebaseRound.exists) {
-        throw new Error('You cannot submit your sentence in the current lobby state')
+        throw new Error(
+          'You cannot submit your sentence in the current lobby state'
+        );
       }
       let submittedStories = firebaseRound.data().submittedStories;
       submittedStories.push(story);
-      await this.db.collection('lobbies').doc(lobbyId).collection('rounds').doc(firebaseRound.id).update({ submittedStories });
+      await this.db
+        .collection('lobbies')
+        .doc(lobbyId)
+        .collection('rounds')
+        .doc(firebaseRound.id)
+        .update({ submittedStories });
     } else {
-      throw new Error('You cannot submit your sentence in the current lobby state');
+      throw new Error(
+        'You cannot submit your sentence in the current lobby state'
+      );
     }
   }
 
@@ -32,8 +49,19 @@ export class GameService {
       createdAt: Date.now(),
       submittedStories: [],
       winner: undefined,
-    }
-    const numberOfRounds = (await this.db.collection('lobbies').doc(lobbyId).collection('rounds').listDocuments()).length;
-    await this.db.collection('lobbies').doc(lobbyId).collection('rounds').doc('round_' + numberOfRounds).create(round);
+    };
+    const numberOfRounds = (
+      await this.db
+        .collection('lobbies')
+        .doc(lobbyId)
+        .collection('rounds')
+        .listDocuments()
+    ).length;
+    await this.db
+      .collection('lobbies')
+      .doc(lobbyId)
+      .collection('rounds')
+      .doc('round_' + numberOfRounds)
+      .create(round);
   }
 }

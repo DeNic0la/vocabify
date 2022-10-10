@@ -55,7 +55,10 @@ export class LobbyService {
     if (lobby.hostid !== uid) {
       throw new Error('Not Authorized');
     }
-    if (lobby.state === LobbyState.EVALUATING && state === LobbyState.IN_PROGRESS) {
+    if (
+      lobby.state === LobbyState.EVALUATING &&
+      state === LobbyState.IN_PROGRESS
+    ) {
       await this.gameService.createRound(lobbyId);
     }
     await this.db.collection('lobbies').doc(lobbyId).update({ state });
