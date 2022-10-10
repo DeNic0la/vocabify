@@ -4,6 +4,7 @@ import { AuthService } from './services/auth.service';
 import { LobbyService } from './services/lobby.service';
 import { GameService } from './services/game.service';
 import { LobbyState } from './types/lobby';
+import { UserService } from './services/user.service';
 const cors = require('cors')({ origin: true });
 
 admin.initializeApp();
@@ -19,9 +20,11 @@ exports.lobby = functions
 
       try {
         const lobbyService = new LobbyService();
+        const userService = new UserService();
         const uid = idToken?.uid || '';
-        const lobby = await lobbyService.createLobby(uid);
-        await lobbyService.join(uid, lobby.id);
+        const user = await userService.getUser(uid);
+        const lobby = await lobbyService.createLobby(user);
+        await lobbyService.join(user, lobby);
         res.status(200).send({ lobbyId: lobby.id });
       } catch (error) {
         res.status(500).send('Internal Server error.');
@@ -38,10 +41,13 @@ exports.join = functions.https.onRequest(async (req, res) => {
     if (!idToken) res.status(403).send('Unauthorized');
 
     const lobbyService = new LobbyService();
+    const userService = new UserService();
     const uid = idToken?.uid || '';
+    const user = await userService.getUser(uid);
+    const lobby = await lobbyService.getLobby(req.body.lobbyid);
 
     try {
-      await lobbyService.join(uid, req.body.lobbyid);
+      await lobbyService.join(user, lobby);
     } catch (error: any) {
       res.status(500).send(error.message);
     }
@@ -60,9 +66,10 @@ exports.leave = functions.https.onRequest(async (req, res) => {
 
     const lobbyService = new LobbyService();
     const uid = idToken?.uid || '';
+    const lobby = await lobbyService.getLobby(req.body.lobbyid);
 
     try {
-      await lobbyService.leave(uid, req.body.lobbyid);
+      await lobbyService.leave(uid, lobby);
     } catch (error: any) {
       res.status(500).send(error.message);
     }
@@ -81,9 +88,10 @@ exports.kick = functions.https.onRequest(async (req, res) => {
 
     const lobbyService = new LobbyService();
     const uid = idToken?.uid || '';
+    const lobby = await lobbyService.getLobby(req.body.lobbyid);
 
     try {
-      await lobbyService.kick(uid, req.body.lobbyid, req.body.kick_uid);
+      await lobbyService.kick(uid, lobby, req.body.kick_uid);
     } catch (error: any) {
       res.status(500).send(error.message);
     }
@@ -101,10 +109,12 @@ exports.state = functions.https.onRequest(async (req, res) => {
     if (!idToken) res.status(403).send('Unauthorized');
 
     try {
+      const gameService = new GameService();
       const lobbyService = new LobbyService();
+      const lobby = await lobbyService.getLobby(req.body.lobbyId);
       const uid = idToken?.uid || '';
       const changeState: LobbyState = req.body.state;
-      await lobbyService.changeState(uid, req.body.lobbyId, changeState);
+      await gameService.changeState(uid, lobby, changeState);
 
       res.status(200).send();
     } catch (error: any) {
@@ -123,8 +133,10 @@ exports.submit = functions.https.onRequest(async (req, res) => {
 
     try {
       const gameService = new GameService();
+      const lobbyService = new LobbyService();
       const uid = idToken?.uid || '';
-      await gameService.submit(uid, req.body.lobbyId, req.body.sentence);
+      const lobby = await lobbyService.getLobby(req.body.lobbyId);
+      await gameService.submit(uid, lobby, req.body.sentence);
 
       res.status(200).send();
     } catch (error: any) {

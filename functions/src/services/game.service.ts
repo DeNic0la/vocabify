@@ -1,15 +1,12 @@
 import * as admin from 'firebase-admin';
-import { LobbyState } from '../types/lobby';
+import { Lobby, LobbyState } from '../types/lobby';
 import { Round } from '../types/round';
 import { Story } from '../types/story';
-import { LobbyService } from './lobby.service';
 
 export class GameService {
   private db = admin.firestore();
-  private lobbyService = new LobbyService();
 
-  public async submit(uid: string, lobbyId: string, sentence: string) {
-    const lobby = await this.lobbyService.getLobby(lobbyId);
+  public async submit(uid: string, lobby: Lobby, sentence: string) {
     if (lobby.state === LobbyState.IN_PROGRESS) {
       const story: Story = {
         uid,
@@ -18,7 +15,7 @@ export class GameService {
       const firebaseRound = await (
         await this.db
           .collection('lobbies')
-          .doc(lobbyId)
+          .doc(lobby.id)
           .collection('rounds')
           .orderBy('createdAt')
           .limitToLast(1)
@@ -33,7 +30,7 @@ export class GameService {
       submittedStories.push(story);
       await this.db
         .collection('lobbies')
-        .doc(lobbyId)
+        .doc(lobby.id)
         .collection('rounds')
         .doc(firebaseRound.id)
         .update({ submittedStories });
@@ -44,7 +41,20 @@ export class GameService {
     }
   }
 
-  public async createRound(lobbyId: string) {
+  public async changeState(uid: string, lobby: Lobby, state: LobbyState) {
+    if (lobby.hostid !== uid) {
+      throw new Error('Not Authorized');
+    }
+    if (
+      lobby.state === LobbyState.EVALUATING &&
+      state === LobbyState.IN_PROGRESS
+    ) {
+      await this.createRound(lobby.id);
+    }
+    await this.db.collection('lobbies').doc(lobby.id).update({ state });
+  }
+
+  private async createRound(lobbyId: string) {
     const round: Round = {
       createdAt: Date.now(),
       submittedStories: [],
