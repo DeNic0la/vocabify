@@ -27,12 +27,13 @@ export class AiService {
     return result.choices[0].text;
   }
 
-  private getPromt (sentences: Array<string>): string{
-    let prompt = "Return the best sentence. Do not return the reasoning. " +
-      "Base the comparison off complexity, creativity, " +
-      "vocabulary and reward longer sentences."
+  private getPromt(sentences: Array<string>): string {
+    let prompt =
+      'Return the best sentence. Do not return the reasoning. ' +
+      'Base the comparison off complexity, creativity, ' +
+      'vocabulary and reward longer sentences.';
     for (const sentence of sentences) {
-      prompt = prompt + "\nSentence: " + sentence
+      prompt = prompt + '\nSentence: ' + sentence;
     }
     return prompt;
   }
