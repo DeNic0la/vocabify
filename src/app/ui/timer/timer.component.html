@@ -1,6 +1,6 @@
-<div class="timer" [ngClass]="{horizontal: type === 'horizontal'}">
+<div class="timer" [ngClass]="{ horizontal: type === 'horizontal' }">
   <div class="time-remaining">
-    <h5 class="time-remaining__text">{{timeRemaining}}</h5>
+    <h5 class="time-remaining__text">{{ timeRemaining }}</h5>
   </div>
   <div class="time-slider">
     <div class="time-slider-inside" #timeSlider></div>

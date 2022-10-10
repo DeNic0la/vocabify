@@ -23,9 +23,7 @@ import { CardGridComponent } from './ui/card-grid/card-grid.component';
 import { ToasterComponent } from './ui/toaster/toaster.component';
 import { GameLobbyCardComponent } from './ui/game-lobby-card/game-lobby-card.component';
 import { LobbyComponent } from './storify/lobby/lobby.component';
-import {
-  HttpClientModule,
-} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { StorifyExploreComponent } from './storify/storify-explore/storify-explore.component';
 import { SubmissionComponent } from './storify/game/submission/submission.component';
 import { GameComponent } from './storify/game/game.component';

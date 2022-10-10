@@ -1,4 +1,4 @@
-import {Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CardColor, CardSize } from './card.types';
 
 @Component({
@@ -11,5 +11,4 @@ export class CardComponent {
   @Input('color') color: CardColor = 'primary';
 
   constructor() {}
-
 }
