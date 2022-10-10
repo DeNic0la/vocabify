@@ -84,7 +84,7 @@ export class LobbyService {
     await this.leave(kick_uid, lobbyId);
   }
 
-  private async getLobby(id: string): Promise<Lobby> {
+  public async getLobby(id: string): Promise<Lobby> {
     const lobby = <Lobby>(
       (await this.db.collection('lobbies').doc(id).get()).data()
     );

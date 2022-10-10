@@ -4,4 +4,5 @@ export enum Functions {
   KICK = 'kick',
   CREATE_LOBBY = 'lobby',
   START = 'start',
+  SUBMIT = 'submit',
 }
