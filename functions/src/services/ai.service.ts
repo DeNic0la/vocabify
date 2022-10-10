@@ -15,9 +15,9 @@ export class AiService {
     return result.choices[0].text;
   }
 
-  public async getBestSentence(sentences: Array<string>) {
+  public async getBestSentence(sentences: string[]) {
     const completionRequest: CompletionRequest = {
-      prompt: this.getPromt(sentences),
+      prompt: this.getPrompt(sentences),
       temperature: 0.6,
     };
     const result = await openAI.createCompletion(
@@ -27,7 +27,7 @@ export class AiService {
     return result.choices[0].text;
   }
 
-  private getPromt(sentences: Array<string>): string {
+  private getPrompt(sentences: string[]): string {
     let prompt =
       'Return the best sentence. Do not return the reasoning. ' +
       'Base the comparison off complexity, creativity, ' +
