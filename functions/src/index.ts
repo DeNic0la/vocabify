@@ -49,7 +49,7 @@ exports.join = functions.https.onRequest(async (req, res) => {
 });
 
 exports.leave = functions.https.onRequest(async (req, res) => {
-  cors(req, res, async ()=>{
+  cors(req, res, async () => {
     if (req.method !== 'DELETE' || !req.body.lobbyid)
       res.status(400).send('Bad request');
     const authService = new AuthService();
@@ -66,7 +66,7 @@ exports.leave = functions.https.onRequest(async (req, res) => {
     }
 
     res.status(200).send();
-  })
+  });
 });
 
 exports.start = functions.https.onRequest(async (req, res) => {
