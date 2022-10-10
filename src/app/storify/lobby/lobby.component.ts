@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Participant } from '../types/participant';
 import { User } from '../../auth/types/User';
 import { HeaderService } from '../../services/header.service';
+import { ToasterService } from '../../services/toaster.service';
 
 @Component({
   selector: 'app-lobby',
@@ -22,8 +23,9 @@ export class LobbyComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
-    private headerService: HeaderService
-  ) {}
+    private headerService: HeaderService,
+    private toast: ToasterService
+  ) { }
 
   ngOnInit(): void {
     this.lobbyService
@@ -55,7 +57,14 @@ export class LobbyComponent implements OnInit, OnDestroy {
   }
 
   public async start() {
-    await this.lobbyService.changeState(this.lobby?.id || '', LobbyState.IN_PROGRESS);
+    if (this.isHost && this.lobby) {
+      try {
+        await this.lobbyService.changeState(this.lobby?.id || '', LobbyState.IN_PROGRESS);
+      } catch (e) {
+        this.toast.showToast('error', "Game couldn't be started");
+      }
+      //TODO Redirect to Game
+    }
   }
 
   ngOnDestroy() {

@@ -50,22 +50,24 @@ exports.join = functions.https.onRequest(async (req, res) => {
 });
 
 exports.leave = functions.https.onRequest(async (req, res) => {
-  if (req.method !== 'DELETE' || !req.body.lobbyid)
-    res.status(400).send('Bad request');
-  const authService = new AuthService();
-  const idToken = await authService.validateFirebaseIdToken(req);
-  if (!idToken) res.status(403).send('Unauthorized');
+  cors(req, res, async () => {
+    if (req.method !== 'DELETE' || !req.body.lobbyid)
+      res.status(400).send('Bad request');
+    const authService = new AuthService();
+    const idToken = await authService.validateFirebaseIdToken(req);
+    if (!idToken) res.status(403).send('Unauthorized');
 
-  const lobbyService = new LobbyService();
-  const uid = idToken?.uid || '';
+    const lobbyService = new LobbyService();
+    const uid = idToken?.uid || '';
 
-  try {
-    await lobbyService.leave(uid, req.body.lobbyid);
-  } catch (error: any) {
-    res.status(500).send(error.message);
-  }
+    try {
+      await lobbyService.leave(uid, req.body.lobbyid);
+    } catch (error: any) {
+      res.status(500).send(error.message);
+    }
 
-  res.status(200).send();
+    res.status(200).send();
+  });
 });
 
 exports.kick = functions.https.onRequest(async (req, res) => {
