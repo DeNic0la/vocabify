@@ -147,25 +147,27 @@ exports.submit = functions.https.onRequest(async (req, res) => {
   });
 });
 
-exports.evaluate = functions.https.onRequest(async (req, res) => {
-  cors(req, res, async () => {
-    if (req.method !== 'PUT' || !req.body.lobbyId)
-      res.status(400).send('Bad request');
-    const authService = new AuthService();
-    const idToken = await authService.validateFirebaseIdToken(req);
-    if (!idToken) res.status(403).send('Unauthorized');
+exports.evaluate = functions
+  .runWith({ secrets: ['OPENAI_API_KEY'] })
+  .https.onRequest(async (req, res) => {
+    cors(req, res, async () => {
+      if (req.method !== 'PUT' || !req.body.lobbyId)
+        res.status(400).send('Bad request');
+      const authService = new AuthService();
+      const idToken = await authService.validateFirebaseIdToken(req);
+      if (!idToken) res.status(403).send('Unauthorized');
 
-    try {
-      const gameService = new GameService();
-      const lobbyService = new LobbyService();
-      const uid = idToken?.uid || '';
+      try {
+        const gameService = new GameService();
+        const lobbyService = new LobbyService();
+        const uid = idToken?.uid || '';
 
-      const lobby = await lobbyService.getLobby(req.body.lobbyId);
-      await gameService.evaluate(uid, lobby);
+        const lobby = await lobbyService.getLobby(req.body.lobbyId);
+        await gameService.evaluate(uid, lobby);
 
-      res.status(200).send();
-    } catch (error: any) {
-      res.status(500).send(error.message);
-    }
+        res.status(200).send();
+      } catch (error: any) {
+        res.status(500).send(error.message);
+      }
+    });
   });
-});
