@@ -13,7 +13,6 @@ import { ToasterService } from '../../services/toaster.service';
   styleUrls: ['./storify-explore.component.scss'],
 })
 export class StorifyExploreComponent implements OnInit {
-
   public isLoading: boolean = true;
   constructor(
     private lobbyService: LobbyService,
