@@ -60,6 +60,7 @@ export class LobbyService {
         hostid: firebaseLobby.data().hostid,
         state: firebaseLobby.data().state,
         story: firebaseLobby.data().story,
+        imgUrl: firebaseLobby.data().imgUrl,
         participants: await this.getAllParticipants(firebaseLobby.data().id),
       };
       lobbies.push(lobby);
@@ -79,6 +80,7 @@ export class LobbyService {
         hostid: firebaseLobby.data().hostid,
         state: firebaseLobby.data().state,
         story: firebaseLobby.data().story,
+        imgUrl: firebaseLobby.data().imgUrl,
         participants: await this.getAllParticipants(firebaseLobby.data().id),
       };
       lobbies.push(lobby);
