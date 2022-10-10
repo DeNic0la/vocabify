@@ -76,6 +76,14 @@ export class LobbyService {
     }
   }
 
+  public async kick(uid: string, lobbyId: string, kick_uid: string) {
+    const lobby = await this.getLobby(lobbyId);
+    if (lobby.hostid !== uid) {
+      throw new Error('Unauthorized');
+    }
+    await this.leave(kick_uid, lobbyId);
+  }
+
   private async getLobby(id: string): Promise<Lobby> {
     const lobby = <Lobby>(
       (await this.db.collection('lobbies').doc(id).get()).data()

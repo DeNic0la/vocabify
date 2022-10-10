@@ -67,6 +67,25 @@ exports.leave = functions.https.onRequest(async (req, res) => {
   res.status(200).send();
 });
 
+exports.kick = functions.https.onRequest(async (req, res) => {
+  if (req.method !== 'DELETE' || !req.body.lobbyid || !req.body.kick_uid)
+    res.status(400).send('Bad request');
+  const authService = new AuthService();
+  const idToken = await authService.validateFirebaseIdToken(req);
+  if (!idToken) res.status(403).send('Unauthorized');
+
+  const lobbyService = new LobbyService();
+  const uid = idToken?.uid || '';
+
+  try {
+    await lobbyService.kick(uid, req.body.lobbyid, req.body.kick_uid);
+  } catch (error: any) {
+    res.status(500).send(error.message);
+  }
+
+  res.status(200).send();
+});
+
 exports.start = functions.https.onRequest(async (req, res) => {
   cors(req, res, async () => {
     if (req.method !== 'PUT' || !req.body.lobbyId)

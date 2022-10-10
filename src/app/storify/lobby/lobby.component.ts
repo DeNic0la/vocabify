@@ -23,7 +23,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private headerService: HeaderService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.lobbyService
@@ -50,12 +50,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
     // TODO: implement
   }
 
-  private giveUpOwnership(): void {
-    // TODO: implement
-  }
-
   public async leave() {
-    if (this.isHost) this.giveUpOwnership();
     await this.lobbyService.leave(this.lobby?.id || '');
   }
 
