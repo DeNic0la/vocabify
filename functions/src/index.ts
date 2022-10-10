@@ -6,7 +6,7 @@ const cors = require('cors')({ origin: true });
 
 admin.initializeApp();
 
-exports.lobby = functions.https.onRequest(async (req, res) => {
+exports.lobby = functions.runWith({secrets: ["OPENAI_API_KEY"]}).https.onRequest(async (req, res) => {
   cors(req, res, async () => {
     if (req.method !== 'POST') res.status(400).send('Bad request');
     const authService = new AuthService();
