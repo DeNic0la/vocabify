@@ -3,6 +3,7 @@ import { Lobby, LobbyState } from '../types/lobby';
 import { AiService } from './ai.service';
 import { Round } from '../types/round';
 import { Story } from '../types/story';
+import { Participant } from '../types/participant';
 
 export class GameService {
   private db = admin.firestore();
@@ -73,9 +74,16 @@ export class GameService {
           .collection('lobbies')
           .doc(lobby.id)
           .update({ story: lobby.story });
+        this.addPoints(firebaseSentences[i].uid, lobby.id);
         break;
       }
     }
+  }
+
+  private async addPoints(uid: string, lobbyId: string) {
+    const participantRef = this.db.collection('lobbies').doc(lobbyId).collection('participants').doc(uid);
+    const particpant = <Participant>(await participantRef.get()).data();
+    await participantRef.update({ points: particpant.points + 50 });
   }
 
   private async createRound(lobbyId: string) {
