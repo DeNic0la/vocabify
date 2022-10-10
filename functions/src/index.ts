@@ -22,9 +22,11 @@ exports.lobby = functions
         const lobbyService = new LobbyService();
         const userService = new UserService();
         const uid = idToken?.uid || '';
+
         const user = await userService.getUser(uid);
-        const lobby = await lobbyService.createLobby(user);
+        const lobby = await lobbyService.createLobby(user, req.body.topic);
         await lobbyService.join(user, lobby);
+
         res.status(200).send({ lobbyId: lobby.id });
       } catch (error) {
         res.status(500).send('Internal Server error.');

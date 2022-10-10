@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Lobby } from '../types/lobby';
 import { LobbyItem } from './storify-explore';
 import { LobbyService } from '../services/lobby.service';
 import { Router } from '@angular/router';
-import { ButtonColor } from '../../ui/button/button.types';
 import { ToasterService } from '../../services/toaster.service';
 
 @Component({
@@ -14,6 +12,7 @@ import { ToasterService } from '../../services/toaster.service';
 })
 export class StorifyExploreComponent implements OnInit {
   public isLoading: boolean = true;
+  public isOpen: boolean = false;
   constructor(
     private lobbyService: LobbyService,
     private router: Router,
@@ -24,14 +23,19 @@ export class StorifyExploreComponent implements OnInit {
     });
   }
 
-  async createLobby() {
+  createPage() {
+    this.isOpen = true;
+  }
+
+  async createLobby(topic: string) {
     if (!this.isLoading) {
       this.isLoading = true;
-      this.lobbyService.createLobby().then((value) => {
+      this.lobbyService.createLobby(topic).then((value) => {
         this.isLoading = false;
         this.router.navigate(['/storify/lobby/', value]);
       });
     }
+    this.isOpen = false;
   }
 
   transformer(value: Lobby[]) {
@@ -55,7 +59,7 @@ export class StorifyExploreComponent implements OnInit {
       this.isLoading = true;
       lobbyService
         .joinLobby(lobbyId)
-        .then((r) => (this.isLoading = false))
+        .then(() => (this.isLoading = false))
         .catch((reason) => {
           this.isLoading = false;
           this.msgService.showToast(

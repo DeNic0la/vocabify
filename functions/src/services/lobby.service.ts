@@ -8,13 +8,13 @@ export class LobbyService {
   private db = admin.firestore();
   private aiService = new AiService();
 
-  public async createLobby(user: User): Promise<Lobby> {
+  public async createLobby(user: User, topic: string): Promise<Lobby> {
     try {
       const lobby: Lobby = {
         id: Date.now().toString(),
         hostid: user.uid,
         name: user.username + "'s Lobby",
-        story: [await this.aiService.getStory()],
+        story: [await this.aiService.getStory(topic)],
         state: LobbyState.JOINING,
       };
       await this.db.collection('lobbies').doc(lobby.id).create(lobby);
