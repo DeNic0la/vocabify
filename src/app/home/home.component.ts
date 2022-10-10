@@ -27,7 +27,8 @@ export class HomeComponent {
       title: 'Empty',
       players: 0,
       maxPlayers: 0,
-      imgSrc: 'https://images.pexels.com/photos/117602/pexels-photo-117602.jpeg',
+      imgSrc:
+        'https://images.pexels.com/photos/117602/pexels-photo-117602.jpeg',
       color: 'primary',
       titleSize: 'large',
       description: 'in Development',
@@ -39,7 +40,8 @@ export class HomeComponent {
       title: 'Empty',
       players: 0,
       maxPlayers: 0,
-      imgSrc: 'https://images.pexels.com/photos/117602/pexels-photo-117602.jpeg',
+      imgSrc:
+        'https://images.pexels.com/photos/117602/pexels-photo-117602.jpeg',
       color: 'primary',
       titleSize: 'large',
       description: 'in Development',
@@ -51,7 +53,8 @@ export class HomeComponent {
       title: 'Empty',
       players: 0,
       maxPlayers: 0,
-      imgSrc: 'https://images.pexels.com/photos/117602/pexels-photo-117602.jpeg',
+      imgSrc:
+        'https://images.pexels.com/photos/117602/pexels-photo-117602.jpeg',
       color: 'primary',
       titleSize: 'large',
       description: 'in Development',
@@ -63,7 +66,8 @@ export class HomeComponent {
       title: 'Empty',
       players: 0,
       maxPlayers: 0,
-      imgSrc: 'https://images.pexels.com/photos/117602/pexels-photo-117602.jpeg',
+      imgSrc:
+        'https://images.pexels.com/photos/117602/pexels-photo-117602.jpeg',
       color: 'primary',
       titleSize: 'large',
       description: 'in Development',
@@ -75,7 +79,8 @@ export class HomeComponent {
       title: 'Empty',
       players: 0,
       maxPlayers: 0,
-      imgSrc: 'https://images.pexels.com/photos/117602/pexels-photo-117602.jpeg',
+      imgSrc:
+        'https://images.pexels.com/photos/117602/pexels-photo-117602.jpeg',
       color: 'primary',
       titleSize: 'large',
       description: 'in Development',
