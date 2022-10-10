@@ -4,11 +4,6 @@
     <app-button class="leave-btn" color="error" size="medium" (click)="leave()"
       >Leave</app-button
     >
-    <app-button
-      *ngIf="isHost"
-      class="start-btn" color="success" size="medium" (click)="leave()"
-    >Start</app-button
-    >
   </div>
   <h3 class="title">{{ lobby.name }}</h3>
   <div class="story-wrapper">
