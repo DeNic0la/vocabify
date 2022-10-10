@@ -42,7 +42,11 @@ export class LobbyComponent implements OnInit, OnDestroy {
           next: (value) => {
             this.authService.currentUser.subscribe((user) => {
               if (value && user?.uid === value.hostid) {
-                this.isHost = true;
+                if (!this.isHost){
+                  this.isHost = true;
+                  this.toast.showToast("success", "The Host left, you are now the Host")
+
+                }
                 this.headerService.setAction({
                   prompt: 'Start Game',
                   size: 'large',
