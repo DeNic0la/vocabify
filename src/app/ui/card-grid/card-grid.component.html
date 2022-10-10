@@ -7,7 +7,7 @@
 </div>
 <div class="cont grid">
   <div
-    class="md:col-10 md:col-offset-1 sm:col-12 justify-content-around flex flex-row flex-wrap p-3 gap-4 column-gap-4"
+    class="md:col-10 md:col-offset-1 sm:col-12 justify-content-around flex flex-row flex-wrap gap-4 column-gap-4"
   >
     <div class="" *ngFor="let card of cards; let i = index">
       <app-game-lobby-card
@@ -17,7 +17,7 @@
         [max-players]="card.maxPlayers ? card.maxPlayers : 0"
         [players]="card.players ? card.players : 0"
         [img-src]="card.imgSrc ? card.imgSrc : ''"
-        (click)="onCallback(i)"
+        (action)="onCallback(i)"
       >
         {{ card.description }}
       </app-game-lobby-card>
