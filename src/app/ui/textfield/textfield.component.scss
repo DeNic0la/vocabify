@@ -7,6 +7,7 @@
   padding: 0 6px;
   resize: none;
   outline: none;
+  box-shadow: inset 2px 2px 6px 0 $color-shadow, 4px 4px 4px $color-shadow;
 
   &::placeholder {
     color: $color-gray;
@@ -31,10 +32,39 @@
   }
 }
 
+.inverted {
+  border: 4px solid $color-white;
+
+  &:focus {
+    border: 4px solid $color-gray;
+  }
+}
+
 .error {
   border: 4px solid $color-error;
 
   &:focus {
     border: 4px solid $color-error-active;
+  }
+}
+
+.success {
+  border: 4px solid $color-success;
+
+  &:focus {
+    border: 4px solid $color-success-active;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .textarea {
+    width: 100vw;
+    border: none;
+    padding: 8px;
+    transform: translateX(16px);
+
+    &:focus {
+      border: none;
+    }
   }
 }
