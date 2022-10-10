@@ -7,7 +7,7 @@ import { HttpService } from './http.service';
   providedIn: 'root',
 })
 export class GameService {
-  constructor(private httpService: HttpService) { }
+  constructor(private httpService: HttpService) {}
 
   /**
    * Submits the answer

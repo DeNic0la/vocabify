@@ -59,13 +59,23 @@ export class GameService {
 
     for (let i = 0; i < firebaseSentences.length; i++) {
       if (bestSentence === firebaseSentences[i].sentence) {
-        await this.db.collection('lobbies').doc(lobby.id).collection('rounds').doc(round.id).update({ winner: i });
-        lobby.story.push({ uid: firebaseSentences[i].uid, sentence: firebaseSentences[i].sentence })
-        await this.db.collection('lobbies').doc(lobby.id).update({ story: lobby.story });
+        await this.db
+          .collection('lobbies')
+          .doc(lobby.id)
+          .collection('rounds')
+          .doc(round.id)
+          .update({ winner: i });
+        lobby.story.push({
+          uid: firebaseSentences[i].uid,
+          sentence: firebaseSentences[i].sentence,
+        });
+        await this.db
+          .collection('lobbies')
+          .doc(lobby.id)
+          .update({ story: lobby.story });
         break;
       }
     }
-
   }
 
   private async createRound(lobbyId: string) {
