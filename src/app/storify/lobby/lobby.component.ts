@@ -60,16 +60,17 @@ export class LobbyComponent implements OnInit, OnDestroy {
     // TODO: implement
   }
 
-  public leave(): void {
+  public async leave() {
     if (this.isHost) this.giveUpOwnership();
-    this.router.navigate(['storify/explore']);
+    await this.lobbyService.leave(this.lobby?.id || '');
   }
 
-  public start(): void {
-    // TODO: implement
+  public async start() {
+    await this.lobbyService.start(this.lobby?.id || '');
   }
 
   ngOnDestroy() {
+    this.lobbyService.leave(this.lobby?.id || '');
     this.headerService.setAction(undefined);
   }
 }
