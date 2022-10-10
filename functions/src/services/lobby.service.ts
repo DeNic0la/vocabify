@@ -2,10 +2,12 @@ import * as admin from 'firebase-admin';
 import { Lobby, LobbyState } from '../types/lobby';
 import { Participant } from '../types/participant';
 import { UserService } from './user.service';
+import { AiService } from './ai.service';
 
 export class LobbyService {
   private db = admin.firestore();
   private userService = new UserService();
+  private aiService = new AiService();
 
   public async createLobby(uid: string): Promise<Lobby> {
     try {
@@ -14,7 +16,7 @@ export class LobbyService {
         id: Date.now().toString(),
         hostid: host.uid,
         name: host.username + "'s Lobby",
-        story: 'Lorem Ipsum Story',
+        story: await this.aiService.getStory(),
         state: LobbyState.JOINING,
       };
       await this.db.collection('lobbies').doc(lobby.id).create(lobby);
@@ -51,11 +53,19 @@ export class LobbyService {
     if (lobby.hostid !== uid) {
       throw new Error('Not Authorized');
     }
-    await this.db.collection('lobbies').doc(lobbyId).update({ state: LobbyState.IN_PROGRESS });
+    await this.db
+      .collection('lobbies')
+      .doc(lobbyId)
+      .update({ state: LobbyState.IN_PROGRESS });
   }
 
   public async leave(uid: string, lobbyId: string) {
-    await this.db.collection('lobbies').doc(lobbyId).collection('participants').doc(uid).delete();
+    await this.db
+      .collection('lobbies')
+      .doc(lobbyId)
+      .collection('participants')
+      .doc(uid)
+      .delete();
   }
 
   private async getLobby(id: string): Promise<Lobby> {

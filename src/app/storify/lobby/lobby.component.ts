@@ -23,7 +23,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private headerService: HeaderService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.lobbyService

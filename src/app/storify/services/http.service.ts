@@ -14,7 +14,7 @@ export class HttpService {
   constructor(
     private httpClient: HttpClient,
     private authService: AuthService
-  ) { }
+  ) {}
 
   private async getAuthorizationHeader() {
     const headers = {
@@ -42,7 +42,10 @@ export class HttpService {
   }
 
   async delete(functionName: Functions, body: any): Promise<any> {
-    const resp = this.httpClient.delete(this.FUNCTION_URL + functionName, { headers: await this.getAuthorizationHeader(), body });
+    const resp = this.httpClient.delete(this.FUNCTION_URL + functionName, {
+      headers: await this.getAuthorizationHeader(),
+      body,
+    });
     return await lastValueFrom(resp);
   }
 }

@@ -1,5 +1,3 @@
-<app-header></app-header>
-
 <app-loader *ngIf="!isLoading"></app-loader>
 
 <div *ngIf="isLoading" class="container">
@@ -11,7 +9,8 @@
       type="password"
       placeholder="New Password"
       size="small"
-    ></app-textfield>
+    >
+    </app-textfield>
     <app-textfield
       [(value)]="repeatedPassword"
       color="primary"

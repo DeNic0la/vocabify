@@ -6,24 +6,26 @@ const cors = require('cors')({ origin: true });
 
 admin.initializeApp();
 
-exports.lobby = functions.https.onRequest(async (req, res) => {
-  cors(req, res, async () => {
-    if (req.method !== 'POST') res.status(400).send('Bad request');
-    const authService = new AuthService();
-    const idToken = await authService.validateFirebaseIdToken(req);
-    if (!idToken) res.status(403).send('Unauthorized');
+exports.lobby = functions
+  .runWith({ secrets: ['OPENAI_API_KEY'] })
+  .https.onRequest(async (req, res) => {
+    cors(req, res, async () => {
+      if (req.method !== 'POST') res.status(400).send('Bad request');
+      const authService = new AuthService();
+      const idToken = await authService.validateFirebaseIdToken(req);
+      if (!idToken) res.status(403).send('Unauthorized');
 
-    try {
-      const lobbyService = new LobbyService();
-      const uid = idToken?.uid || '';
-      const lobby = await lobbyService.createLobby(uid);
-      await lobbyService.join(uid, lobby.id);
-      res.status(200).send({ lobbyId: lobby.id });
-    } catch (error) {
-      res.status(500).send('Internal Server error.');
-    }
+      try {
+        const lobbyService = new LobbyService();
+        const uid = idToken?.uid || '';
+        const lobby = await lobbyService.createLobby(uid);
+        await lobbyService.join(uid, lobby.id);
+        res.status(200).send({ lobbyId: lobby.id });
+      } catch (error) {
+        res.status(500).send('Internal Server error.');
+      }
+    });
   });
-});
 
 exports.join = functions.https.onRequest(async (req, res) => {
   cors(req, res, async () => {
@@ -67,7 +69,8 @@ exports.leave = functions.https.onRequest(async (req, res) => {
 
 exports.start = functions.https.onRequest(async (req, res) => {
   cors(req, res, async () => {
-    if (req.method !== 'PUT' || !req.body.lobbyId) res.status(400).send('Bad request');
+    if (req.method !== 'PUT' || !req.body.lobbyId)
+      res.status(400).send('Bad request');
     const authService = new AuthService();
     const idToken = await authService.validateFirebaseIdToken(req);
     if (!idToken) res.status(403).send('Unauthorized');
