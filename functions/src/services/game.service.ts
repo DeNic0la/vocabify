@@ -41,7 +41,20 @@ export class GameService {
     }
   }
 
-  public async createRound(lobbyId: string) {
+  public async changeState(uid: string, lobby: Lobby, state: LobbyState) {
+    if (lobby.hostid !== uid) {
+      throw new Error('Not Authorized');
+    }
+    if (
+      lobby.state === LobbyState.EVALUATING &&
+      state === LobbyState.IN_PROGRESS
+    ) {
+      await this.createRound(lobby.id);
+    }
+    await this.db.collection('lobbies').doc(lobby.id).update({ state });
+  }
+
+  private async createRound(lobbyId: string) {
     const round: Round = {
       createdAt: Date.now(),
       submittedStories: [],
