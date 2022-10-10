@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { LobbyCardItem } from '../ui/card-grid/card-grid.types';
 import { Router } from '@angular/router';
 
@@ -27,7 +27,7 @@ export class HomeComponent {
       title: 'Empty',
       players: 0,
       maxPlayers: 0,
-      imgSrc: '',
+      imgSrc: 'https://images.pexels.com/photos/117602/pexels-photo-117602.jpeg',
       color: 'primary',
       titleSize: 'large',
       description: 'in Development',
@@ -39,7 +39,7 @@ export class HomeComponent {
       title: 'Empty',
       players: 0,
       maxPlayers: 0,
-      imgSrc: '',
+      imgSrc: 'https://images.pexels.com/photos/117602/pexels-photo-117602.jpeg',
       color: 'primary',
       titleSize: 'large',
       description: 'in Development',
@@ -51,7 +51,7 @@ export class HomeComponent {
       title: 'Empty',
       players: 0,
       maxPlayers: 0,
-      imgSrc: '',
+      imgSrc: 'https://images.pexels.com/photos/117602/pexels-photo-117602.jpeg',
       color: 'primary',
       titleSize: 'large',
       description: 'in Development',
@@ -63,7 +63,7 @@ export class HomeComponent {
       title: 'Empty',
       players: 0,
       maxPlayers: 0,
-      imgSrc: '',
+      imgSrc: 'https://images.pexels.com/photos/117602/pexels-photo-117602.jpeg',
       color: 'primary',
       titleSize: 'large',
       description: 'in Development',
@@ -75,7 +75,7 @@ export class HomeComponent {
       title: 'Empty',
       players: 0,
       maxPlayers: 0,
-      imgSrc: '',
+      imgSrc: 'https://images.pexels.com/photos/117602/pexels-photo-117602.jpeg',
       color: 'primary',
       titleSize: 'large',
       description: 'in Development',
