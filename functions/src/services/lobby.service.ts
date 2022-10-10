@@ -1,21 +1,21 @@
 import * as admin from 'firebase-admin';
 import { Lobby, LobbyState } from '../types/lobby';
 import { Participant } from '../types/participant';
-import { UserService } from './user.service';
 import { AiService } from './ai.service';
+import { User } from '../types/user';
 
 export class LobbyService {
   private db = admin.firestore();
-  private userService = new UserService();
   private aiService = new AiService();
 
-  public async createLobby(uid: string, topic:string): Promise<Lobby> {
+
+  public async createLobby(user: User, topic:string): Promise<Lobby> {
+
     try {
-      const host = await this.userService.getUser(uid);
       const lobby: Lobby = {
         id: Date.now().toString(),
-        hostid: host.uid,
-        name: host.username + "'s Lobby",
+        hostid: user.uid,
+        name: user.username + "'s Lobby",
         story: [await this.aiService.getStory(topic)],
         state: LobbyState.JOINING,
       };
@@ -26,9 +26,7 @@ export class LobbyService {
     }
   }
 
-  public async join(uid: string, lobbyid: string) {
-    const user = await this.userService.getUser(uid);
-    const lobby = await this.getLobby(lobbyid);
+  public async join(user: User, lobby: Lobby) {
     if (lobby.state == LobbyState.IN_PROGRESS) {
       throw new Error('The lobby is already in progress.');
     }
@@ -39,7 +37,7 @@ export class LobbyService {
     try {
       await this.db
         .collection('lobbies')
-        .doc(lobbyid)
+        .doc(lobby.id)
         .collection('participants')
         .doc(user.uid)
         .set(particpant, { merge: true });
@@ -48,40 +46,30 @@ export class LobbyService {
     }
   }
 
-  public async changeState(uid: string, lobbyId: string, state: LobbyState) {
-    const lobby = await this.getLobby(lobbyId);
-    if (lobby.hostid !== uid) {
-      throw new Error('Not Authorized');
-    }
-    await this.db.collection('lobbies').doc(lobbyId).update({ state });
-  }
-
-  public async leave(uid: string, lobbyId: string) {
+  public async leave(uid: string, lobby: Lobby) {
     await this.db
       .collection('lobbies')
-      .doc(lobbyId)
+      .doc(lobby.id)
       .collection('participants')
       .doc(uid)
       .delete();
 
-    const lobby = await this.getLobby(lobbyId);
-    const participants = await this.getParticipants(lobbyId);
+    const participants = await this.getParticipants(lobby.id);
     if (participants.length == 0) {
-      await this.deleteLobby(lobbyId);
+      await this.deleteLobby(lobby.id);
     } else if (uid === lobby.hostid) {
-      await this.setNewHost(participants[0].uid, lobbyId);
+      await this.setNewHost(participants[0].uid, lobby.id);
     }
   }
 
-  public async kick(uid: string, lobbyId: string, kick_uid: string) {
-    const lobby = await this.getLobby(lobbyId);
+  public async kick(uid: string, lobby: Lobby, kick_uid: string) {
     if (lobby.hostid !== uid) {
       throw new Error('Unauthorized');
     }
-    await this.leave(kick_uid, lobbyId);
+    await this.leave(kick_uid, lobby);
   }
 
-  private async getLobby(id: string): Promise<Lobby> {
+  public async getLobby(id: string): Promise<Lobby> {
     const lobby = <Lobby>(
       (await this.db.collection('lobbies').doc(id).get()).data()
     );

@@ -3,5 +3,6 @@ export enum Functions {
   LEAVE = 'leave',
   KICK = 'kick',
   CREATE_LOBBY = 'lobby',
+  SUBMIT = 'submit',
   STATE = 'state',
 }

@@ -1,7 +1,6 @@
 <div *ngIf="!isOpen&&!isLoading">
 <app-card-grid title="Lobbies" [cards]="Lobbies">
-</app-card-grid>
-<div class="button-container">
+  <div class="button-container">
   <app-button
     color="success"
     class="relative"
@@ -9,6 +8,7 @@
   >CREATE
   </app-button>
 </div>
+</app-card-grid>
 </div>
 <div *ngIf="isOpen && !isLoading" class="center">
   <h1 class="text">Lobby Settings</h1>
@@ -22,4 +22,5 @@
     </app-button>
   </div>
 </div>
+
 <app-loader *ngIf="isLoading"></app-loader>
