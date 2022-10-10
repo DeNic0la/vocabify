@@ -123,8 +123,10 @@ exports.submit = functions.https.onRequest(async (req, res) => {
 
     try {
       const gameService = new GameService();
+      const lobbyService = new LobbyService();
       const uid = idToken?.uid || '';
-      await gameService.submit(uid, req.body.lobbyId, req.body.sentence);
+      const lobby = await lobbyService.getLobby(req.body.lobbyId);
+      await gameService.submit(uid, lobby, req.body.sentence);
 
       res.status(200).send();
     } catch (error: any) {
