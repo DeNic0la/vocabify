@@ -52,12 +52,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
     // TODO: implement
   }
 
-  private giveUpOwnership(): void {
-    // TODO: implement
-  }
-
   public async leave() {
-    if (this.isHost) this.giveUpOwnership();
     await this.lobbyService.leave(this.lobby?.id || '');
   }
 
