@@ -36,8 +36,9 @@ export class GameService {
       throw new Error('Not Authorized');
     }
     if (
-      lobby.state === LobbyState.EVALUATING &&
-      state === LobbyState.IN_PROGRESS || lobby.state === LobbyState.JOINING && state === LobbyState.IN_PROGRESS
+      (lobby.state === LobbyState.EVALUATING &&
+        state === LobbyState.IN_PROGRESS) ||
+      (lobby.state === LobbyState.JOINING && state === LobbyState.IN_PROGRESS)
     ) {
       await this.createRound(lobby.id);
     }
