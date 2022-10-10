@@ -150,16 +150,4 @@ export class LobbyService {
       throw new Error(error.error);
     }
   }
-
-  /**
-   * Starts a game
-   * @param lobbyId
-   */
-  async changeState(lobbyId: string, state: LobbyState) {
-    try {
-      this.httpService.put(Functions.STATE, { lobbyId: lobbyId, state });
-    } catch (error: any) {
-      throw new Error(error.error);
-    }
-  }
 }
