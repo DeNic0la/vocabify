@@ -119,7 +119,9 @@ export class LobbyComponent implements OnInit, OnDestroy {
     this.headerService.setAction(undefined);
   }
 
-  @HostListener('window:beforeunload') /* This doesnt really work like i want it to wark*/
+  @HostListener(
+    'window:beforeunload'
+  ) /* This doesnt really work like i want it to wark*/
   onWindowClose() {
     this.ngOnDestroy();
     this.router.navigate(['/storify/explore']);
