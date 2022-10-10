@@ -23,7 +23,6 @@ exports.lobby = functions
         const userService = new UserService();
         const uid = idToken?.uid || '';
 
-
         const user = await userService.getUser(uid);
         const lobby = await lobbyService.createLobby(user, req.body.topic);
         await lobbyService.join(user, lobby);

@@ -8,9 +8,7 @@ export class LobbyService {
   private db = admin.firestore();
   private aiService = new AiService();
 
-
-  public async createLobby(user: User, topic:string): Promise<Lobby> {
-
+  public async createLobby(user: User, topic: string): Promise<Lobby> {
     try {
       const lobby: Lobby = {
         id: Date.now().toString(),

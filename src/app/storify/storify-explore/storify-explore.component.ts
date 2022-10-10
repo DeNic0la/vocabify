@@ -16,14 +16,14 @@ export class StorifyExploreComponent implements OnInit {
   constructor(
     private lobbyService: LobbyService,
     private router: Router,
-    private msgService: ToasterService,
+    private msgService: ToasterService
   ) {
     lobbyService.getLobbiesToJoin().then((value: Lobby[]) => {
       this.transformer(value);
     });
   }
 
-  createPage(){
+  createPage() {
     this.isOpen = true;
   }
 

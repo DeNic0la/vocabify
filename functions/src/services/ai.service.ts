@@ -4,7 +4,7 @@ import { Story } from '../types/story';
 const openAI = new OpenAI(process.env.OPENAI_API_KEY || '');
 
 export class AiService {
-  public async getStory(topic:string): Promise<Story> {
+  public async getStory(topic: string): Promise<Story> {
     const completionRequest: CompletionRequest = {
       prompt: `Write a beginning of a short story about a protagonist with the topic ${topic} that ends in a cliff hanger.`,
       temperature: 0.6,

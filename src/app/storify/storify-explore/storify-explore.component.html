@@ -1,24 +1,21 @@
-<div *ngIf="!isOpen&&!isLoading">
-<app-card-grid title="Lobbies" [cards]="Lobbies">
-  <div class="button-container">
-  <app-button
-    color="success"
-    class="relative"
-    (click)="createPage()"
-  >CREATE
-  </app-button>
-</div>
-</app-card-grid>
+<div *ngIf="!isOpen && !isLoading">
+  <app-card-grid title="Lobbies" [cards]="Lobbies">
+    <div class="button-container">
+      <app-button color="success" class="relative" (click)="createPage()"
+        >CREATE
+      </app-button>
+    </div>
+  </app-card-grid>
 </div>
 <div *ngIf="isOpen && !isLoading" class="center">
   <h1 class="text">Lobby Settings</h1>
-  <app-textfield placeholder="TOPIC"  #topic></app-textfield>
+  <app-textfield placeholder="TOPIC" #topic></app-textfield>
   <div class="button-container">
     <app-button
       color="success"
       class="relative"
       (click)="createLobby(topic.value)"
-    >CREATE
+      >CREATE
     </app-button>
   </div>
 </div>
