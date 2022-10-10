@@ -13,8 +13,6 @@ import { ToasterService } from '../../services/toaster.service';
   styleUrls: ['./storify-explore.component.scss'],
 })
 export class StorifyExploreComponent implements OnInit {
-  public buttonColorDanger: ButtonColor = 'danger';
-  public buttonColorSuccess: ButtonColor = 'success';
 
   public isLoading: boolean = true;
   constructor(
