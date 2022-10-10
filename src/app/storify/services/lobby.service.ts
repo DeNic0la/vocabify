@@ -14,7 +14,7 @@ export class LobbyService {
     private fireStore: AngularFirestore,
     private httpService: HttpService,
     private router: Router
-  ) { }
+  ) {}
 
   async getLobby(id: string) {
     const lobby = <Lobby>(
@@ -111,7 +111,10 @@ export class LobbyService {
    */
   async kick(lobbyId: string, kick_uid: string) {
     try {
-      await this.httpService.delete(Functions.KICK, { lobbyid: lobbyId, kick_uid });
+      await this.httpService.delete(Functions.KICK, {
+        lobbyid: lobbyId,
+        kick_uid,
+      });
     } catch (error: any) {
       throw new Error(error.error);
     }

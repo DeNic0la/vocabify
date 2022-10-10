@@ -96,11 +96,15 @@ export class LobbyService {
 
   private async getParticipants(lobbyId: string) {
     let participants: Participant[] = [];
-    const firebaseParticpants = await this.db.collection('lobbies').doc(lobbyId).collection('participants').get();
+    const firebaseParticpants = await this.db
+      .collection('lobbies')
+      .doc(lobbyId)
+      .collection('participants')
+      .get();
     for (let firebaseParticpant of firebaseParticpants.docs) {
       const participant: Participant = {
         uid: firebaseParticpant.data().uid,
-        username: firebaseParticpant.data().username
+        username: firebaseParticpant.data().username,
       };
       participants.push(participant);
     }
