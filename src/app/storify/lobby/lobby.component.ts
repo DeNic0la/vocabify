@@ -7,7 +7,7 @@ import { Participant } from '../types/participant';
 import { User } from '../../auth/types/User';
 import { HeaderService } from '../../services/header.service';
 import { ToasterService } from '../../services/toaster.service';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-lobby',
@@ -58,6 +58,9 @@ export class LobbyComponent implements OnInit, OnDestroy {
               }
               this.user = user || undefined;
               const participants = this.lobby?.participants;
+              if(!participants?.some(e => e.uid === this.user?.uid)){
+                this.router.navigate(['storify/explore']);
+              }
               this.lobby = value;
               if (this.lobby && participants)
                 this.lobby.participants = participants;
@@ -91,8 +94,8 @@ export class LobbyComponent implements OnInit, OnDestroy {
     );
   }
 
-  public removeParticipant(participant: Participant): void {
-    // TODO: implement
+  public async removeParticipant(participant: Participant) {
+    await this.lobbyService.kick(this.lobby?.id || '', participant.uid);
   }
 
   public async leave() {
