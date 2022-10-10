@@ -84,7 +84,7 @@ export class StorifyExploreComponent implements OnInit {
   }
 
   createSeLobby(topic:string,imgUrl:string|undefined){
-    this.lobbyService.createLobby(topic).then((value) => {
+    this.lobbyService.createLobby(topic, imgUrl +"").then((value) => {
       this.isLoading = false;
       this.isOpen = false;
       this.router.navigate(['/storify/lobby/', value]);
