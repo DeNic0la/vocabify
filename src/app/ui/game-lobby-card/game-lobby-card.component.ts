@@ -17,7 +17,7 @@ export class GameLobbyCardComponent {
   @Input('players') players: number = 0;
   @Input('img-src') imgSrc: string = '';
 
-  @Output('click') click: EventEmitter<void> = new EventEmitter<void>();
+  @Output('action') click: EventEmitter<void> = new EventEmitter<void>();
 
   emitClick(): void {
     this.click.emit();
