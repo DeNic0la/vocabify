@@ -46,6 +46,12 @@ export class LobbyComponent implements OnInit, OnDestroy {
       .catch(() => this.router.navigate(['not-found']));
   }
 
+  public startGame(){
+    if (this.isHost){
+      //TODO: implement
+    }
+  }
+
   public removeParticipant(participant: Participant): void {
     // TODO: implement
   }
