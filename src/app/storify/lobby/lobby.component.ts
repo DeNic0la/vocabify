@@ -60,7 +60,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
               }
               this.user = user || undefined;
               const participants = this.lobby?.participants;
-              if(!participants?.some(e => e.uid === this.user?.uid)){
+              if (!participants?.some((e) => e.uid === this.user?.uid)) {
                 this.router.navigate(['storify/explore']);
               }
               this.lobby = value;
