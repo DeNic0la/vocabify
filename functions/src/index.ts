@@ -2,6 +2,7 @@ import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import { AuthService } from './services/auth.service';
 import { LobbyService } from './services/lobby.service';
+import { LobbyState } from './types/lobby';
 const cors = require('cors')({ origin: true });
 
 admin.initializeApp();
@@ -69,9 +70,30 @@ exports.leave = functions.https.onRequest(async (req, res) => {
   });
 });
 
-exports.start = functions.https.onRequest(async (req, res) => {
+exports.kick = functions.https.onRequest(async (req, res) => {
   cors(req, res, async () => {
-    if (req.method !== 'PUT' || !req.body.lobbyId)
+    if (req.method !== 'DELETE' || !req.body.lobbyid || !req.body.kick_uid)
+      res.status(400).send('Bad request');
+    const authService = new AuthService();
+    const idToken = await authService.validateFirebaseIdToken(req);
+    if (!idToken) res.status(403).send('Unauthorized');
+
+    const lobbyService = new LobbyService();
+    const uid = idToken?.uid || '';
+
+    try {
+      await lobbyService.kick(uid, req.body.lobbyid, req.body.kick_uid);
+    } catch (error: any) {
+      res.status(500).send(error.message);
+    }
+
+    res.status(200).send();
+  });
+});
+
+exports.state = functions.https.onRequest(async (req, res) => {
+  cors(req, res, async () => {
+    if (req.method !== 'PUT' || !req.body.lobbyId || !req.body.state)
       res.status(400).send('Bad request');
     const authService = new AuthService();
     const idToken = await authService.validateFirebaseIdToken(req);
@@ -80,7 +102,8 @@ exports.start = functions.https.onRequest(async (req, res) => {
     try {
       const lobbyService = new LobbyService();
       const uid = idToken?.uid || '';
-      await lobbyService.start(uid, req.body.lobbyId);
+      const changeState: LobbyState = req.body.state;
+      await lobbyService.changeState(uid, req.body.lobbyId, changeState);
 
       res.status(200).send();
     } catch (error: any) {

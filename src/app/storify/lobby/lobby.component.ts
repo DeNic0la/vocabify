@@ -8,6 +8,15 @@ import {User} from '../../auth/types/User';
 import {HeaderService} from '../../services/header.service';
 import {ToasterService} from '../../services/toaster.service';
 import {Observable, Subscription} from "rxjs";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { LobbyService } from '../services/lobby.service';
+import { AuthService } from '../../auth/auth.service';
+import { Lobby, LobbyState } from '../types/lobby';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Participant } from '../types/participant';
+import { User } from '../../auth/types/User';
+import { HeaderService } from '../../services/header.service';
+import { ToasterService } from '../../services/toaster.service';
 
 @Component({
   selector: 'app-lobby',
@@ -31,7 +40,6 @@ export class LobbyComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private headerService: HeaderService,
-    private toast: ToasterService,
   ) {}
 
   ngOnInit(): void {
@@ -83,30 +91,32 @@ export class LobbyComponent implements OnInit, OnDestroy {
     // TODO: implement
   }
 
-  private giveUpOwnership(): void {
-    // TODO: implement
-  }
-
   public async leave() {
-    if (this.isHost) this.giveUpOwnership();
     await this.lobbyService.leave(this.lobby?.id || '');
   }
 
   public async start() {
     if (this.isHost && this.lobby) {
       try {
-        await this.lobbyService.start(this.lobby?.id);
+
+        await this.lobbyService.changeState(
+          this.lobby?.id || '',
+          LobbyState.IN_PROGRESS
+        );
+
       } catch (e) {
         this.toast.showToast('error', "Game couldn't be started");
       }
       //TODO Redirect to Game
     }
+
   }
 
   unsubscribeToAllObservables(){
     this.subscriptions.forEach(value => {
       value.unsubscribe();
     })
+
   }
 
   ngOnDestroy() {

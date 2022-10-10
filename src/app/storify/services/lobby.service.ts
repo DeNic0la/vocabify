@@ -114,6 +114,21 @@ export class LobbyService {
       throw new Error(error.error);
     }
   }
+  /**
+   * Kicks a user
+   * @param lobbyId
+   * @param kick_uid
+   */
+  async kick(lobbyId: string, kick_uid: string) {
+    try {
+      await this.httpService.delete(Functions.KICK, {
+        lobbyid: lobbyId,
+        kick_uid,
+      });
+    } catch (error: any) {
+      throw new Error(error.error);
+    }
+  }
 
   /**
    * Join to a lobby
@@ -132,9 +147,9 @@ export class LobbyService {
    * Starts a game
    * @param lobbyId
    */
-  async start(lobbyId: string) {
+  async changeState(lobbyId: string, state: LobbyState) {
     try {
-      this.httpService.put(Functions.START, { lobbyId: lobbyId });
+      this.httpService.put(Functions.STATE, { lobbyId: lobbyId, state });
     } catch (error: any) {
       throw new Error(error.error);
     }

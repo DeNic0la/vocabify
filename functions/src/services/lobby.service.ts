@@ -16,7 +16,7 @@ export class LobbyService {
         id: Date.now().toString(),
         hostid: host.uid,
         name: host.username + "'s Lobby",
-        story: await this.aiService.getStory(),
+        story: [await this.aiService.getStory()],
         state: LobbyState.JOINING,
       };
       await this.db.collection('lobbies').doc(lobby.id).create(lobby);
@@ -48,15 +48,12 @@ export class LobbyService {
     }
   }
 
-  public async start(uid: string, lobbyId: string) {
+  public async changeState(uid: string, lobbyId: string, state: LobbyState) {
     const lobby = await this.getLobby(lobbyId);
     if (lobby.hostid !== uid) {
       throw new Error('Not Authorized');
     }
-    await this.db
-      .collection('lobbies')
-      .doc(lobbyId)
-      .update({ state: LobbyState.IN_PROGRESS });
+    await this.db.collection('lobbies').doc(lobbyId).update({ state });
   }
 
   public async leave(uid: string, lobbyId: string) {
@@ -66,6 +63,22 @@ export class LobbyService {
       .collection('participants')
       .doc(uid)
       .delete();
+
+    const lobby = await this.getLobby(lobbyId);
+    const participants = await this.getParticipants(lobbyId);
+    if (participants.length == 0) {
+      await this.deleteLobby(lobbyId);
+    } else if (uid === lobby.hostid) {
+      await this.setNewHost(participants[0].uid, lobbyId);
+    }
+  }
+
+  public async kick(uid: string, lobbyId: string, kick_uid: string) {
+    const lobby = await this.getLobby(lobbyId);
+    if (lobby.hostid !== uid) {
+      throw new Error('Unauthorized');
+    }
+    await this.leave(kick_uid, lobbyId);
   }
 
   private async getLobby(id: string): Promise<Lobby> {
@@ -76,5 +89,30 @@ export class LobbyService {
       throw new Error('The lobby does not exist.');
     }
     return lobby;
+  }
+
+  private async getParticipants(lobbyId: string) {
+    let participants: Participant[] = [];
+    const firebaseParticpants = await this.db
+      .collection('lobbies')
+      .doc(lobbyId)
+      .collection('participants')
+      .get();
+    for (let firebaseParticpant of firebaseParticpants.docs) {
+      const participant: Participant = {
+        uid: firebaseParticpant.data().uid,
+        username: firebaseParticpant.data().username,
+      };
+      participants.push(participant);
+    }
+    return participants;
+  }
+
+  private async deleteLobby(lobbyId: string) {
+    await this.db.collection('lobbies').doc(lobbyId).delete();
+  }
+
+  private async setNewHost(uid: string, lobbyId: string) {
+    await this.db.collection('lobbies').doc(lobbyId).update({ hostid: uid });
   }
 }
