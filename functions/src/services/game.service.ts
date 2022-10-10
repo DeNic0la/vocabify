@@ -94,7 +94,7 @@ export class GameService {
     const round: Round = {
       createdAt: Date.now(),
       submittedStories: [],
-      winner: undefined,
+      winner: -1,
     };
     const numberOfRounds = (
       await this.db
@@ -108,7 +108,7 @@ export class GameService {
       .doc(lobbyId)
       .collection('rounds')
       .doc('round_' + numberOfRounds)
-      .create(round);
+      .set(round, { merge: true });
   }
 
   private async getLastRound(lobbyId: string) {
