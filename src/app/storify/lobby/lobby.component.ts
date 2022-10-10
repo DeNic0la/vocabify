@@ -1,12 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { LobbyService } from '../services/lobby.service';
-import { AuthService } from '../../auth/auth.service';
-import { Lobby } from '../types/lobby';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Participant } from '../types/participant';
-import { User } from '../../auth/types/User';
-import { HeaderService } from '../../services/header.service';
-import { ToasterService } from '../../services/toaster.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {LobbyService} from '../services/lobby.service';
+import {AuthService} from '../../auth/auth.service';
+import {Lobby} from '../types/lobby';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Participant} from '../types/participant';
+import {User} from '../../auth/types/User';
+import {HeaderService} from '../../services/header.service';
+import {ToasterService} from '../../services/toaster.service';
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-lobby',
@@ -14,9 +15,15 @@ import { ToasterService } from '../../services/toaster.service';
   styleUrls: ['./lobby.component.scss'],
 })
 export class LobbyComponent implements OnInit, OnDestroy {
-  lobby: Lobby | undefined;
+  lobby: Lobby | undefined ;
   user: User | undefined;
   isHost: boolean = false;
+
+  private subscriptions:Subscription[] = [];
+
+  get isLoading(){
+    return !(this.lobby && this.lobby.id.length > 0);
+  }
 
   constructor(
     private lobbyService: LobbyService,
@@ -24,28 +31,52 @@ export class LobbyComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private headerService: HeaderService,
-    private toast: ToasterService
+    private toast: ToasterService,
   ) {}
 
   ngOnInit(): void {
-    this.lobbyService
-      .getLobby(this.route.snapshot.paramMap.get('id') || '')
-      .then((lobby) => {
-        this.authService.currentUser.subscribe((user) => {
-          if (user?.uid === lobby.hostid) {
-            this.isHost = true;
-            this.headerService.setAction({
-              prompt: 'Start Game',
-              size: 'large',
-              color: 'success',
-              action: this.start.bind(this),
+    this.subscriptions.push(
+      this.lobbyService
+        .getLobbyObs(this.route.snapshot.paramMap.get('id') || '')
+        .subscribe({
+          next: (value) => {
+            this.authService.currentUser.subscribe((user) => {
+              if (value && user?.uid === value.hostid) {
+                this.isHost = true;
+                this.headerService.setAction({
+                  prompt: 'Start Game',
+                  size: 'large',
+                  color: 'success',
+                  action: this.start.bind(this),
+                });
+              }
+              this.user = user || undefined;
+              const participants = this.lobby?.participants;
+              this.lobby = value;
+              if (this.lobby && participants) this.lobby.participants = participants;
+
             });
+          },
+          error: (err) => {
+            this.router.navigate(['not-found']);
+          },
+        })
+    );
+    this.subscriptions.push(
+      this.lobbyService
+        .getParticipantsObs(this.route.snapshot.paramMap.get('id') || '')
+        .subscribe({
+          next: (val) =>{
+            if (this.lobby && val){
+              this.lobby.participants = val;
+            }
+            else if (val){
+              /* Set Dummy Lobby if the Lobby Object was not fetched yet.*/
+              this.lobby = {id: "", participants: val, state: 0, name: "", hostid: "", story: ""};
+            }
           }
-          this.user = user || undefined;
-          this.lobby = lobby;
-        });
-      })
-      .catch(() => this.router.navigate(['not-found']));
+        })
+    );
   }
 
   public removeParticipant(participant: Participant): void {
@@ -72,7 +103,14 @@ export class LobbyComponent implements OnInit, OnDestroy {
     }
   }
 
+  unsubscribeToAllObservables(){
+    this.subscriptions.forEach(value => {
+      value.unsubscribe();
+    })
+  }
+
   ngOnDestroy() {
+    this.unsubscribeToAllObservables();
     this.lobbyService.leave(this.lobby?.id || '');
     this.headerService.setAction(undefined);
   }
