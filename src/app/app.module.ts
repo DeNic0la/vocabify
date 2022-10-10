@@ -30,6 +30,7 @@ import {
   HttpHandler,
 } from '@angular/common/http';
 import { StorifyExploreComponent } from './storify/storify-explore/storify-explore.component';
+import {ParticipatingGuard} from "./guards/participating.guard";
 
 @NgModule({
   declarations: [
@@ -61,7 +62,9 @@ import { StorifyExploreComponent } from './storify/storify-explore/storify-explo
     AngularFireModule.initializeApp(environment.firebaseConfig),
     HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    ParticipatingGuard
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

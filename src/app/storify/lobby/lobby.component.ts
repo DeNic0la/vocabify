@@ -7,14 +7,15 @@ import {Participant} from '../types/participant';
 import {User} from '../../auth/types/User';
 import {HeaderService} from '../../services/header.service';
 import {ToasterService} from '../../services/toaster.service';
-import {Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
+import {ComponentCanDeactivate} from "../../guards/participating.guard";
 
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
   styleUrls: ['./lobby.component.scss'],
 })
-export class LobbyComponent implements OnInit, OnDestroy {
+export class LobbyComponent implements OnInit, OnDestroy, ComponentCanDeactivate {
   lobby: Lobby | undefined ;
   user: User | undefined;
   isHost: boolean = false;
@@ -113,5 +114,10 @@ export class LobbyComponent implements OnInit, OnDestroy {
     this.unsubscribeToAllObservables();
     this.lobbyService.leave(this.lobby?.id || '');
     this.headerService.setAction(undefined);
+  }
+
+  canDeactivate(): boolean | Observable<boolean> {
+    // If you are Here you cant close the Page
+    return false;
   }
 }

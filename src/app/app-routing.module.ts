@@ -15,6 +15,7 @@ import {
 } from '@angular/fire/compat/auth-guard';
 import { LobbyComponent } from './storify/lobby/lobby.component';
 import { StorifyExploreComponent } from './storify/storify-explore/storify-explore.component';
+import {ParticipatingGuard} from "./guards/participating.guard";
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 const redirectLoggedInToHome = () => redirectLoggedInTo(['home']);
@@ -52,6 +53,7 @@ const routes: Routes = [
       {
         path: 'lobby/:id',
         component: LobbyComponent,
+        canDeactivate: [ParticipatingGuard]
       },
       {
         path: 'game',
