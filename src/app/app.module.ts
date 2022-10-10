@@ -30,7 +30,6 @@ import {
   HttpHandler,
 } from '@angular/common/http';
 import { StorifyExploreComponent } from './storify/storify-explore/storify-explore.component';
-import {ParticipatingGuard} from "./guards/participating.guard";
 
 @NgModule({
   declarations: [
@@ -63,7 +62,7 @@ import {ParticipatingGuard} from "./guards/participating.guard";
     HttpClientModule,
   ],
   providers: [
-    ParticipatingGuard
+
   ],
   bootstrap: [AppComponent],
 })

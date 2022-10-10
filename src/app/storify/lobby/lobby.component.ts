@@ -8,14 +8,13 @@ import {User} from '../../auth/types/User';
 import {HeaderService} from '../../services/header.service';
 import {ToasterService} from '../../services/toaster.service';
 import {Observable, Subscription} from "rxjs";
-import {ComponentCanDeactivate} from "../../guards/participating.guard";
 
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
   styleUrls: ['./lobby.component.scss'],
 })
-export class LobbyComponent implements OnInit, OnDestroy, ComponentCanDeactivate {
+export class LobbyComponent implements OnInit, OnDestroy {
   lobby: Lobby | undefined ;
   user: User | undefined;
   isHost: boolean = false;
@@ -117,8 +116,9 @@ export class LobbyComponent implements OnInit, OnDestroy, ComponentCanDeactivate
   }
 
   @HostListener('window:beforeunload')
-  canDeactivate(): boolean | Observable<boolean> {
-    // If you are Here you cant close the Page
-    return false;
+  onWindowClose(){
+   this.ngOnDestroy();
+   this.router.navigate(['/storify/explore']);
   }
+
 }
