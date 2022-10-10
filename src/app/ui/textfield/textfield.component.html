@@ -8,13 +8,15 @@
   [placeholder]="placeholder"
   [ngClass]="{
     primary: color === 'primary',
+    inverted: color === 'inverted',
+    success: color === 'success',
     error: color === 'error'
   }"
 />
 <textarea
   *ngIf="size === 'large'"
   #textfield
-  class="textfield large"
+  class="textfield large textarea"
   (input)="emitValueChange()"
   rows="6"
   cols="20"
@@ -22,6 +24,8 @@
   [value]="value ? value : ''"
   [ngClass]="{
     primary: color === 'primary',
+        inverted: color === 'inverted',
+    success: color === 'success',
     error: color === 'error'
   }"
 ></textarea>

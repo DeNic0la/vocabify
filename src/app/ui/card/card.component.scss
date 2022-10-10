@@ -3,11 +3,15 @@
 .card {
   font-family: "Silkscreen", cursive;
   font-size: 24px;
+  box-shadow: 6px 6px 6px $color-shadow;
+  border-radius: 4px;
 
   .text {
     right: 12px;
     left: 12px;
     text-align: center;
+    word-wrap: break-word;
+    padding: 32px;
   }
 }
 
@@ -16,8 +20,8 @@
   height: 192px;
 
   .text {
-    width: 360px;
-    height: 168px;
+    width: 328px;
+    max-height: 128px;
     line-height: 192px;
   }
 }
@@ -27,9 +31,8 @@
   height: 256px;
 
   .text {
-    width: 488px;
-    height: 232px;
-    line-height: 208px;
+    width: 448px;
+    max-height: 192px;
   }
 }
 
@@ -41,5 +44,30 @@
 .inverted {
   background-color: $color-white;
   border: 4px solid $color-main;
-  color: $color-main;
+
+  .text {
+    color: $color-main;
+  }
+}
+
+@media screen and (max-width: 500px) {
+
+  .card {
+    width: 100vw;
+    max-height: 100vh;
+    height: auto;
+    min-height: 256px;
+
+    .text {
+      width: auto;
+      height: auto;
+      max-height: 380px;
+    }
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .text {
+    font-size: 16px;
+  }
 }
