@@ -3,11 +3,13 @@ import { Lobby, LobbyState } from '../types/lobby';
 import { Participant } from '../types/participant';
 import { UserService } from './user.service';
 import { AiService } from './ai.service';
+import { GameService } from './game.service';
 
 export class LobbyService {
   private db = admin.firestore();
   private userService = new UserService();
   private aiService = new AiService();
+  private gameService = new GameService();
 
   public async createLobby(uid: string): Promise<Lobby> {
     try {
@@ -52,6 +54,9 @@ export class LobbyService {
     const lobby = await this.getLobby(lobbyId);
     if (lobby.hostid !== uid) {
       throw new Error('Not Authorized');
+    }
+    if (lobby.state === LobbyState.EVALUATING && state === LobbyState.IN_PROGRESS) {
+      await this.gameService.createRound(lobbyId);
     }
     await this.db.collection('lobbies').doc(lobbyId).update({ state });
   }

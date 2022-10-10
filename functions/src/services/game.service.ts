@@ -26,4 +26,14 @@ export class GameService {
       throw new Error('You cannot submit your sentence in the current lobby state');
     }
   }
+
+  public async createRound(lobbyId: string) {
+    const round: Round = {
+      createdAt: Date.now(),
+      submittedStories: [],
+      winner: undefined,
+    }
+    const numberOfRounds = (await this.db.collection('lobbies').doc(lobbyId).collection('rounds').listDocuments()).length;
+    await this.db.collection('lobbies').doc(lobbyId).collection('rounds').doc('round_' + numberOfRounds).create(round);
+  }
 }
