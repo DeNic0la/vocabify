@@ -16,7 +16,7 @@ export class LobbyService {
         id: Date.now().toString(),
         hostid: host.uid,
         name: host.username + "'s Lobby",
-        story: await this.aiService.getStory(),
+        story: [await this.aiService.getStory()],
         state: LobbyState.JOINING,
       };
       await this.db.collection('lobbies').doc(lobby.id).create(lobby);
