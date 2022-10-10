@@ -3,13 +3,10 @@ import { Functions } from '../types/functions.enum';
 import { HttpService } from './http.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GameService {
-
-  constructor(
-    private httpService: HttpService,
-  ) { }
+  constructor(private httpService: HttpService) {}
 
   public async submitAnswer(lobbyId: string, sentence: string) {
     await this.httpService.post(Functions.SUBMIT, { lobbyId, sentence });
