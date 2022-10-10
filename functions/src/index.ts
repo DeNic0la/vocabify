@@ -19,7 +19,7 @@ exports.lobby = functions
       try {
         const lobbyService = new LobbyService();
         const uid = idToken?.uid || '';
-        const lobby = await lobbyService.createLobby(uid);
+        const lobby = await lobbyService.createLobby(uid, req.body.topic);
         await lobbyService.join(uid, lobby.id);
         res.status(200).send({ lobbyId: lobby.id });
       } catch (error) {

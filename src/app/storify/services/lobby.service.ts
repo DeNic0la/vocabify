@@ -87,8 +87,8 @@ export class LobbyService {
    * Creates a lobby
    * @returns created lobbyId
    */
-  async createLobby(): Promise<string> {
-    const resp = await this.httpService.post(Functions.CREATE_LOBBY, {});
+  async createLobby(topic:string): Promise<string> {
+    const resp = await this.httpService.post(Functions.CREATE_LOBBY, { topic: topic});
     return resp.lobbyId;
   }
 
@@ -136,6 +136,7 @@ export class LobbyService {
   /**
    * Starts a game
    * @param lobbyId
+   * @param state
    */
   async changeState(lobbyId: string, state: LobbyState) {
     try {

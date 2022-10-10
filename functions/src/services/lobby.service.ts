@@ -9,14 +9,14 @@ export class LobbyService {
   private userService = new UserService();
   private aiService = new AiService();
 
-  public async createLobby(uid: string): Promise<Lobby> {
+  public async createLobby(uid: string, topic:string): Promise<Lobby> {
     try {
       const host = await this.userService.getUser(uid);
       const lobby: Lobby = {
         id: Date.now().toString(),
         hostid: host.uid,
         name: host.username + "'s Lobby",
-        story: [await this.aiService.getStory()],
+        story: [await this.aiService.getStory(topic)],
         state: LobbyState.JOINING,
       };
       await this.db.collection('lobbies').doc(lobby.id).create(lobby);
