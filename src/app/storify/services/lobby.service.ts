@@ -105,9 +105,10 @@ export class LobbyService {
    * Creates a lobby
    * @returns created lobbyId
    */
-  async createLobby(topic: string): Promise<string> {
+  async createLobby(topic: string,imageUrl:string): Promise<string> {
     const resp = await this.httpService.post(Functions.CREATE_LOBBY, {
       topic: topic,
+      imgUrl: imageUrl
     });
     return resp.lobbyId;
   }
