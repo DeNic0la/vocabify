@@ -1,0 +1,77 @@
+@import "src/app/styles/colors.scss";
+
+.content {
+  .story {
+    height: calc(100vh - 352px);
+    background-color: $color-white;
+
+    .timer-wrapper {
+      height: calc(100% - 384px);
+      width: 128px;
+      position: absolute;
+      right: 0;
+      margin-top: 50vh;
+      transform: translateY(-384px);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .card-wrapper {
+      width: 100vw;
+      display: flex;
+      justify-content: space-around;
+      height: 256px;
+      transform: translateY(128px);
+    }
+  }
+
+  .submission {
+    background-color: $color-main;
+    width: 100vw;
+    height: 256px;
+
+    .submission-wrapper {
+      display: flex;
+      justify-content: space-around;
+
+      .submission-container {
+        margin-top: 32px;
+        display: flex;
+
+        .textfield {
+          margin-right: 16px;
+        }
+
+        .button-wrapper {
+          height: 48px;
+          transform: translateY(76px);
+          width: 48px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .timer-wrapper {
+    margin-top: 32px !important;
+    right: auto !important;
+    left: 50vw;
+    top: 480px;
+    transform: translate(-32px, -384px) !important;
+  }
+
+  .card-wrapper {
+    transform: translateY(192px) !important;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .submission-container {
+    display: initial !important;
+
+    .button-wrapper {
+      transform: translate(calc(50vw - 8px), -312px) !important;
+    }
+  }
+}
