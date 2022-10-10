@@ -25,7 +25,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
     private router: Router,
     private headerService: HeaderService,
     private toast: ToasterService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.lobbyService
@@ -59,7 +59,10 @@ export class LobbyComponent implements OnInit, OnDestroy {
   public async start() {
     if (this.isHost && this.lobby) {
       try {
-        await this.lobbyService.changeState(this.lobby?.id || '', LobbyState.IN_PROGRESS);
+        await this.lobbyService.changeState(
+          this.lobby?.id || '',
+          LobbyState.IN_PROGRESS
+        );
       } catch (e) {
         this.toast.showToast('error', "Game couldn't be started");
       }

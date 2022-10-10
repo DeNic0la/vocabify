@@ -53,10 +53,7 @@ export class LobbyService {
     if (lobby.hostid !== uid) {
       throw new Error('Not Authorized');
     }
-    await this.db
-      .collection('lobbies')
-      .doc(lobbyId)
-      .update({ state });
+    await this.db.collection('lobbies').doc(lobbyId).update({ state });
   }
 
   public async leave(uid: string, lobbyId: string) {
