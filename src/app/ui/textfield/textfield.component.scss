@@ -42,6 +42,7 @@
 
 .error {
   border: 4px solid $color-error;
+  animation: shake 200ms;
 
   &:focus {
     border: 4px solid $color-error-active;
@@ -66,5 +67,35 @@
     &:focus {
       border: none;
     }
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  12.5% {
+    transform: translateX(-3px);
+  }
+  25% {
+    transform: translateX(0);
+  }
+  37.5% {
+    transform: translateX(3px);
+  }
+  50% {
+    transform: translateX(0);
+  }
+  62.5% {
+    transform: translateX(-3px);
+  }
+  75% {
+    transform: translateX(0);
+  }
+  87.5% {
+    transform: translateX(3px);
+  }
+  100% {
+    transform: translateX(0);
   }
 }

@@ -5,6 +5,7 @@
   .winner-text {
     margin-top: 36px;
     text-align: center;
+    animation: appear-title 1000ms;
   }
 
   .username-wrapper {
@@ -14,9 +15,91 @@
 
     .username-box {
       height: 48px;
-      min-width: 128px;
+      min-width: 256px;
       border: 4px solid $color-main;
       border-radius: 4px;
+      background-color: $color-white;
+      margin-top: 48px;
+      transform: scale(0);
+      animation: appear-winner 1000ms;
+      animation-delay: 1400ms;
+      animation-fill-mode: forwards;
+
+      h5 {
+        color: $color-main;
+        text-align: center;
+        height: 48px;
+        line-height: 48px;
+      }
     }
+  }
+
+  .winning-sentence-wrapper {
+    width: 100vw;
+    display: flex;
+    justify-content: space-around;
+
+    .winning-sentence-box {
+      margin-top: 44px;
+      transform: scale(0);
+      animation: appear-winner 1000ms;
+      animation-delay: 1400ms;
+      animation-fill-mode: forwards;
+    }
+  }
+}
+
+@keyframes appear-title {
+  0% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(1);
+
+  }
+  56.25% {
+    transform: rotate(12deg);
+  }
+  62.5% {
+    transform: rotate(0deg);
+  }
+  68.75% {
+    transform: rotate(-12deg);
+  }
+  75% {
+    transform: rotate(0deg);
+  }
+  81.25% {
+    transform: rotate(12deg);
+  }
+  87.5% {
+    transform: rotate(0deg);
+  }
+  93.75% {
+    transform: rotate(-12deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes appear-winner {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  62.5% {
+    transform: scale(1);
+  }
+  75% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
   }
 }

@@ -17,7 +17,7 @@ import DocumentData = firebase.firestore.DocumentData;
 })
 export class GameComponent implements OnDestroy {
   public loading: boolean = false;
-  public gameState: GameState = 'submitting';
+  public gameState: GameState = 'evaluated';
   public lobby: Lobby | undefined;
   public story: string = ''
   private roundsSubscribtion: Subscription | undefined;
@@ -34,13 +34,15 @@ export class GameComponent implements OnDestroy {
   }
 
   public loadStory() {
-    this.lobby?.story.forEach(story => {
-      let sentence = story.sentence.trim();
-      if (!sentence.endsWith('.') && !sentence.endsWith('!') && !sentence.endsWith('?')) {
-        sentence += '. ';
-      } else sentence += ' ';
-      this.story += sentence;
-    })
+    let sentence: string = this.lobby?.story[this.lobby?.story.length - 1].sentence || '';
+    if (!sentence.endsWith('.') && !sentence.endsWith('!') && !sentence.endsWith('?')) {
+      sentence += '. ';
+    }
+    console.log((this.lobby?.story.length || 0) - 1);
+    if ((this.lobby?.story.length || 0) - 1 >= 1) {
+      sentence = `...${sentence}`;
+    }
+    this.story = sentence;
   }
 
   ngOnDestroy() {
@@ -53,8 +55,6 @@ export class GameComponent implements OnDestroy {
     if (sentence) {
       this.gameService.submitAnswer(this.lobby?.id || '', sentence)
         .then(() => {
-          this.gameState = 'evaluated';
-          this.loading = false;
           this.gameService.evaluate(this.lobby?.id || '').then(() => {
             this.gameService.getAllRounds(this.lobby?.id || '').then(rounds => {
               this.roundsSubscribtion = rounds.subscribe((roundsData) => this.handleRoundsChange(roundsData))
@@ -67,5 +67,11 @@ export class GameComponent implements OnDestroy {
 
   private handleRoundsChange(data: DocumentData[]) {
     this.currentRound = (data as Round[])[data.length -1];
+    console.log(data[data.length - 1]);
+    console.log((data[data.length -1] as Round).winner as number);
+    if (((data[data.length -1] as Round).winner as number) >= 0) {
+      this.gameState = 'evaluated';
+      this.loading = false;
+    }
   }
 }
