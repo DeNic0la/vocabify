@@ -56,7 +56,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
     });
 
     const lobbySub = this.lobbyService.getLobbyObs(this.route.snapshot.paramMap.get('id') || '').subscribe((lobby) => {
-      this.lobbyService.getParticipantsObs(lobby?.id || '').subscribe((participants) => {
+      const participantSub = this.lobbyService.getParticipantsObs(lobby?.id || '').subscribe((participants) => {
         this.lobby.id = lobby?.id || '';
         this.lobby.hostid = lobby?.hostid || '';
         this.lobby.name = lobby?.name || '';
@@ -81,6 +81,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
           });
         }
       });
+      this.subscriptions.add(participantSub);
     });
 
     this.subscriptions.add(userSub);
