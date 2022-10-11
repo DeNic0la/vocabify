@@ -34,7 +34,7 @@ export class HomeComponent {
       titleSize: 'large',
       description: 'in Development',
       callback: () => {
-        this.toasterService.showToast('error','Game not Developed yet');
+        this.toasterService.showToast('error', 'Game not Developed yet');
       },
     },
     {
@@ -47,7 +47,7 @@ export class HomeComponent {
       titleSize: 'large',
       description: 'in Development',
       callback: () => {
-        this.toasterService.showToast('error','Game not Developed yet');
+        this.toasterService.showToast('error', 'Game not Developed yet');
       },
     },
     {
@@ -60,7 +60,7 @@ export class HomeComponent {
       titleSize: 'large',
       description: 'in Development',
       callback: () => {
-        this.toasterService.showToast('error','Game not Developed yet');
+        this.toasterService.showToast('error', 'Game not Developed yet');
       },
     },
     {
@@ -73,7 +73,7 @@ export class HomeComponent {
       titleSize: 'large',
       description: 'in Development',
       callback: () => {
-        this.toasterService.showToast('error','Game not Developed yet');
+        this.toasterService.showToast('error', 'Game not Developed yet');
       },
     },
     {
@@ -86,7 +86,7 @@ export class HomeComponent {
       titleSize: 'large',
       description: 'in Development',
       callback: () => {
-        this.toasterService.showToast('error','Game not Developed yet');
+        this.toasterService.showToast('error', 'Game not Developed yet');
       },
     },
   ];
