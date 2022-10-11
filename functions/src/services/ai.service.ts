@@ -23,6 +23,7 @@ export class AiService {
     const completionRequest: CompletionRequest = {
       prompt: this.getPrompt(sentences),
       temperature: 0.6,
+      max_tokens: 200,
     };
     const result = await openAI.createCompletion(
       EngineName.TextDavinci,
