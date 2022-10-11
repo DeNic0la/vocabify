@@ -133,7 +133,6 @@ export class LobbyComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.unsubscribeToAllObservables();
-    this.lobbyService.leave(this.lobby?.id || '');
     this.headerService.setAction(undefined);
   }
 

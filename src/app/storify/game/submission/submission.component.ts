@@ -1,5 +1,15 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { TimerType } from '../../../ui/timer/timer.types';
+import { Lobby } from '../../types/lobby';
+import { TextfieldColor } from '../../../ui/textfield/textfield.types';
+import { ToasterService } from '../../../services/toaster.service';
 
 @Component({
   selector: 'app-submission',
@@ -7,10 +17,18 @@ import { TimerType } from '../../../ui/timer/timer.types';
   styleUrls: ['./submission.component.scss'],
 })
 export class SubmissionComponent implements OnInit {
-  timerStarted: boolean = false;
-  timerType: TimerType = 'vertical';
+  @Input('lobby') lobby: Lobby | undefined;
+  @Input('story') story: string = '';
 
-  constructor() {}
+  @Output('submit') submit: EventEmitter<string> = new EventEmitter<string>();
+
+  public timerStarted: boolean = false;
+  public timerType: TimerType = 'vertical';
+  public sentence: string = '';
+  public textareaColor: TextfieldColor = 'inverted';
+  private timeLeft: number = -1;
+
+  constructor(private toastService: ToasterService) {}
 
   ngOnInit(): void {
     this.handleWindowResize();
@@ -24,5 +42,23 @@ export class SubmissionComponent implements OnInit {
     } else {
       this.timerType = 'vertical';
     }
+  }
+
+  public submitSentence(): void {
+    this.textareaColor = 'inverted';
+    if (this.sentence.split(' ').length >= 3 || this.timeLeft === 0) {
+      this.submit.emit(this.sentence);
+    } else {
+      this.textareaColor = 'error';
+      this.toastService.showToast(
+        'error',
+        'You need to write a whole sentence.'
+      );
+    }
+  }
+
+  checkTime(time: number) {
+    this.timeLeft = time;
+    if (this.timeLeft === 0) this.submitSentence();
   }
 }

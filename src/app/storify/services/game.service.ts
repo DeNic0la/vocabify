@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Functions } from '../types/functions.enum';
 import { LobbyState } from '../types/lobby';
 import { HttpService } from './http.service';
@@ -7,7 +8,10 @@ import { HttpService } from './http.service';
   providedIn: 'root',
 })
 export class GameService {
-  constructor(private httpService: HttpService) {}
+  constructor(
+    private httpService: HttpService,
+    private fireStore: AngularFirestore
+  ) {}
 
   /**
    * Submits the answer
@@ -44,5 +48,13 @@ export class GameService {
     } catch (error: any) {
       throw new Error(error.error);
     }
+  }
+
+  public async getAllRounds(lobbyId: string) {
+    return this.fireStore
+      .collection('lobbies')
+      .doc(lobbyId)
+      .collection('rounds')
+      .valueChanges();
   }
 }

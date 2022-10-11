@@ -17,7 +17,7 @@ import { TimerType } from './timer.types';
 })
 export class TimerComponent implements OnInit, OnChanges {
   @Input('started') started: boolean = false;
-  @Input('time') totalTime = 20;
+  @Input('time') totalTime = 60;
   @Input('type') type: TimerType = 'vertical';
 
   @Output('tick') tickEvent: EventEmitter<number> = new EventEmitter<number>();
@@ -34,7 +34,6 @@ export class TimerComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    console.log('a');
     if (this.started && !this.timerRunning) {
       this.startTimer();
     }
@@ -57,7 +56,7 @@ export class TimerComponent implements OnInit, OnChanges {
   private stopTimer(): void {
     this.timerRunning = false;
     this.started = false;
-    if (this.timeInterval) clearInterval(this.timeInterval as NodeJS.Timer);
+    if (this.timeInterval) clearInterval(this.timeInterval);
   }
 
   private adjustTimeSlider(): void {
