@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LobbyCardItem } from '../ui/card-grid/card-grid.types';
 import { Router } from '@angular/router';
+import { ToasterService } from '../services/toaster.service';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router, public toasterService: ToasterService) {}
   public cards: LobbyCardItem[] = [
     {
       title: 'Storify',
@@ -32,7 +33,7 @@ export class HomeComponent {
       titleSize: 'large',
       description: 'in Development',
       callback: () => {
-        alert('Game not Developed yet');
+        this.toasterService.showToast('error','Game not Developed yet');
       },
     },
     {
@@ -44,7 +45,7 @@ export class HomeComponent {
       titleSize: 'large',
       description: 'in Development',
       callback: () => {
-        alert('Game not Developed yet');
+        this.toasterService.showToast('error','Game not Developed yet');
       },
     },
     {
@@ -56,7 +57,7 @@ export class HomeComponent {
       titleSize: 'large',
       description: 'in Development',
       callback: () => {
-        alert('Game not Developed yet');
+        this.toasterService.showToast('error','Game not Developed yet');
       },
     },
     {
@@ -68,7 +69,7 @@ export class HomeComponent {
       titleSize: 'large',
       description: 'in Development',
       callback: () => {
-        alert('Game not Developed yet');
+        this.toasterService.showToast('error','Game not Developed yet');
       },
     },
     {
@@ -80,7 +81,7 @@ export class HomeComponent {
       titleSize: 'large',
       description: 'in Development',
       callback: () => {
-        alert('Game not Developed yet');
+        this.toasterService.showToast('error','Game not Developed yet');
       },
     },
   ];
