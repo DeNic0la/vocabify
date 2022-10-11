@@ -9,6 +9,7 @@ import {Subscription} from "rxjs";
 import {Round} from "../types/round";
 import firebase from "firebase/compat";
 import DocumentData = firebase.firestore.DocumentData;
+import {AuthService} from "../../auth/auth.service";
 
 @Component({
   selector: 'app-game',
@@ -22,14 +23,20 @@ export class GameComponent implements OnDestroy {
   public story: string = ''
   private roundsSubscribtion: Subscription | undefined;
   public currentRound: Round | undefined;
+  private timeLeft: number = -1;
+  private evaluated: boolean = false;
+  private isHost: boolean = false;
 
-  constructor(private lobbyService: LobbyService, private route: ActivatedRoute, private gameService: GameService, private toastService: ToasterService) {
+  constructor(private lobbyService: LobbyService, private route: ActivatedRoute, private gameService: GameService, private toastService: ToasterService, private authService: AuthService) {
     this.loading = true;
     this.lobbyService.getLobby(route.snapshot.paramMap.get('id') || '')
       .then(lobby => {
         this.lobby = lobby;
         this.loadStory();
         this.loading = false;
+        this.authService.currentUser.subscribe((user) => {
+          this.isHost = user?.uid === this.lobby?.hostid;
+        })
       })
   }
 
@@ -55,11 +62,9 @@ export class GameComponent implements OnDestroy {
     if (sentence) {
       this.gameService.submitAnswer(this.lobby?.id || '', sentence)
         .then(() => {
-          this.gameService.evaluate(this.lobby?.id || '').then(() => {
             this.gameService.getAllRounds(this.lobby?.id || '').then(rounds => {
               this.roundsSubscribtion = rounds.subscribe((roundsData) => this.handleRoundsChange(roundsData))
             })
-          })
         })
         .catch(e => this.toastService.showToast('error', e.error))
     }
@@ -67,11 +72,21 @@ export class GameComponent implements OnDestroy {
 
   private handleRoundsChange(data: DocumentData[]) {
     this.currentRound = (data as Round[])[data.length -1];
-    console.log(data[data.length - 1]);
-    console.log((data[data.length -1] as Round).winner as number);
     if (((data[data.length -1] as Round).winner as number) >= 0) {
       this.gameState = 'evaluated';
       this.loading = false;
+    }
+    this.checkForEvaluation()
+  }
+
+  private checkForEvaluation(): void {
+    const playersAmount = this.lobby?.participants.length;
+    const sentencesAmount = this.currentRound?.submittedStories.length;
+    if ((playersAmount === sentencesAmount || this.gameState != 'submitting') && !this.evaluated) {
+      if (this.isHost) {
+        this.evaluated = true;
+        this.gameService.evaluate(this.lobby?.id || '');
+      }
     }
   }
 }
