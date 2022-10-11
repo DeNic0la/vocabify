@@ -6,7 +6,7 @@ export interface Lobby {
   name: string;
   story: Story[];
   state: LobbyState;
-  imgUrl:string|undefined;
+  imgUrl: string | undefined;
 }
 
 export enum LobbyState {
