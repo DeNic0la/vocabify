@@ -48,41 +48,42 @@ export class LobbyComponent implements OnInit, OnDestroy {
     private headerService: HeaderService,
     private toast: ToasterService,
     private gameService: GameService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     const userSub = this.authService.currentUser.subscribe((user) => {
       this.user = user || { uid: '', email: '', username: '' };
     });
 
-    const lobbySub = this.lobbyService.getLobbyObs(this.route.snapshot.paramMap.get('id') || '').subscribe((lobby) => {
-      const participantSub = this.lobbyService.getParticipantsObs(lobby?.id || '').subscribe((participants) => {
-        this.lobby.id = lobby?.id || '';
-        this.lobby.hostid = lobby?.hostid || '';
-        this.lobby.name = lobby?.name || '';
-        this.lobby.state = lobby?.state || 0;
-        this.lobby.story = lobby?.story || [];
-        this.lobby.participants = participants || [];
+    const lobbySub = this.lobbyService
+      .getLobbyObs(this.route.snapshot.paramMap.get('id') || '')
+      .subscribe((lobby) => {
+        const participantSub = this.lobbyService
+          .getParticipantsObs(lobby?.id || '')
+          .subscribe((participants) => {
+            this.lobby.id = lobby?.id || '';
+            this.lobby.hostid = lobby?.hostid || '';
+            this.lobby.name = lobby?.name || '';
+            this.lobby.state = lobby?.state || 0;
+            this.lobby.story = lobby?.story || [];
+            this.lobby.participants = participants || [];
 
-        if (this.lobby?.state !== LobbyState.JOINING) {
-          this.router.navigate(['/storify/play/' + this.lobby?.id]);
-        }
+            if (this.lobby?.state !== LobbyState.JOINING) {
+              this.router.navigate(['/storify/play/' + this.lobby?.id]);
+            }
 
-        if (this.isHost) {
-          this.toast.showToast(
-            'success',
-            'You are now the Host'
-          );
-          this.headerService.setAction({
-            prompt: 'Start Game',
-            size: 'large',
-            color: 'success',
-            action: this.start.bind(this),
+            if (this.isHost) {
+              this.toast.showToast('success', 'You are now the Host');
+              this.headerService.setAction({
+                prompt: 'Start Game',
+                size: 'large',
+                color: 'success',
+                action: this.start.bind(this),
+              });
+            }
           });
-        }
+        this.subscriptions.add(participantSub);
       });
-      this.subscriptions.add(participantSub);
-    });
 
     this.subscriptions.add(userSub);
     this.subscriptions.add(lobbySub);
