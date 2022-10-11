@@ -32,6 +32,7 @@ export class LobbyService {
     const particpant: Participant = {
       uid: user.uid,
       username: user.username,
+      points: 0,
     };
     try {
       await this.db
@@ -89,6 +90,7 @@ export class LobbyService {
       const participant: Participant = {
         uid: firebaseParticpant.data().uid,
         username: firebaseParticpant.data().username,
+        points: firebaseParticpant.data().points,
       };
       participants.push(participant);
     }
