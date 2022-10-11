@@ -74,7 +74,7 @@ export class StorifyExploreComponent {
             let t = this.ref?.put(file);
 
             t?.snapshotChanges().subscribe({
-              next: (value) => { },
+              next: (value) => {},
               complete: () => {
                 this.ref?.getDownloadURL().subscribe((value) => {
                   this.createSeLobby(topic, value);
