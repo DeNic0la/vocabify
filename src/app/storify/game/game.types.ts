@@ -1,1 +1,1 @@
-export type GameState = 'submitting' | 'evaluating' | 'ended';
+export type GameState = 'submitting' | 'evaluating' | 'evaluated' | 'ended';

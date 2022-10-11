@@ -1,2 +1,3 @@
 <app-loader *ngIf="loading"></app-loader>
 <app-submission *ngIf="gameState === 'submitting' && !loading" [lobby]="lobby" [story]="story" (submit)="submitSentence($event)"></app-submission>
+<app-winner-view *ngIf="gameState === 'evaluated' && !loading" [round]="currentRound" [lobby]="lobby" ></app-winner-view>
