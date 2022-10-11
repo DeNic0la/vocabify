@@ -166,6 +166,7 @@ exports.evaluate = functions.https.onRequest(async (req, res) => {
       const uid = idToken?.uid || '';
 
       const lobby = await lobbyService.getLobby(req.body.lobbyId);
+      await gameService.changeState(uid, lobby, LobbyState.EVALUATING);
       await gameService.evaluate(uid, lobby);
 
       res.status(200).send();

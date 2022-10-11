@@ -102,6 +102,26 @@ export class LobbyService {
   }
 
   private async deleteLobby(lobbyId: string) {
+    this.db
+      .collection('lobbies')
+      .doc(lobbyId)
+      .collection('participants')
+      .listDocuments()
+      .then((val) => {
+        val.map((val) => {
+          val.delete();
+        });
+      });
+    this.db
+      .collection('lobbies')
+      .doc(lobbyId)
+      .collection('rounds')
+      .listDocuments()
+      .then((val) => {
+        val.map((val) => {
+          val.delete();
+        });
+      });
     await this.db.collection('lobbies').doc(lobbyId).delete();
   }
 
