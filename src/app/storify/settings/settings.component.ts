@@ -18,6 +18,8 @@ export class SettingsComponent implements OnInit {
   private filename: string = '';
   ref: AngularFireStorageReference | undefined;
   @ViewChild('fileUpload') input: ElementRef<HTMLInputElement> | undefined;
+  private static defaultImgUrl: string =
+    'https://images.pexels.com/photos/1670977/pexels-photo-1670977.jpeg?auto=compress&cs=tinysrgb&w=640&h=443&dpr=1';
 
   constructor(
     private lobbyService: LobbyService,
@@ -25,8 +27,6 @@ export class SettingsComponent implements OnInit {
     private msgService: ToasterService,
     private afStorage: AngularFireStorage
   ) {}
-
-  ngOnInit(): void {}
 
   async createLobby(topic: string) {
     this.filename = this.getFileName();
@@ -60,7 +60,7 @@ export class SettingsComponent implements OnInit {
           }
         }
       } else {
-        this.createSeLobby(topic, undefined);
+        this.createSeLobby(topic, SettingsComponent.defaultImgUrl);
       }
     }
   }
