@@ -1,45 +1,28 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Lobby } from '../types/lobby';
+import { Component, OnInit } from '@angular/core';
 import { LobbyItem } from './storify-explore';
+import { Lobby } from '../types/lobby';
 import { LobbyService } from '../services/lobby.service';
 import { Router } from '@angular/router';
 import { ToasterService } from '../../services/toaster.service';
-import {
-  AngularFireStorage,
-  AngularFireStorageReference,
-  AngularFireUploadTask,
-} from '@angular/fire/compat/storage';
 
 @Component({
   selector: 'app-storify-explore',
   templateUrl: './storify-explore.component.html',
   styleUrls: ['./storify-explore.component.scss'],
 })
-export class StorifyExploreComponent {
-  private static maxFileSize: number = 5000000;
+export class StorifyExploreComponent implements OnInit {
   public isLoading: boolean = true;
   public isOpen: boolean = false;
-  private filename: string = '';
-  private static defaultImgUrl: string =
-    'https://images.pexels.com/photos/1670977/pexels-photo-1670977.jpeg?auto=compress&cs=tinysrgb&w=640&h=443&dpr=1';
-  @ViewChild('fileUpload') input: ElementRef<HTMLInputElement> | undefined;
 
   constructor(
     private lobbyService: LobbyService,
     private router: Router,
-    private msgService: ToasterService,
-    private afStorage: AngularFireStorage
+    private msgService: ToasterService
   ) {
     this.loadLobbies();
   }
 
-  ref: AngularFireStorageReference | undefined;
-
-  createPage() {
-    this.isOpen = true;
-    this.filename = this.getFileName();
-    this.ref = this.afStorage.ref('lobby-images/' + this.filename);
-  }
+  ngOnInit(): void {}
 
   loadLobbies() {
     this.lobbyService.getLobbiesToJoin().then((value: Lobby[]) => {
@@ -47,55 +30,8 @@ export class StorifyExploreComponent {
     });
   }
 
-  private getFileName(): string {
-    return (
-      (Math.random() + 1).toString(36).substring(7) +
-      '_' +
-      Date.now().toString()
-    );
-  }
-
-  async createLobby(topic: string) {
-    let files = this.input?.nativeElement.files;
-    let file = files?.item(0);
-    if (!this.isLoading) {
-      /*UPLOAD FILE*/
-      this.isLoading = true;
-      if (
-        this.input &&
-        this.input.nativeElement.files &&
-        this.input.nativeElement.files &&
-        this.input.nativeElement.files.length > 0
-      ) {
-        let file = this.input.nativeElement.files.item(0);
-        if (file) {
-          if (
-            true /* file.size < StorifyExploreComponent.maxFileSize && file.type.startsWith("image")*/
-          ) {
-            let t = this.ref?.put(file);
-
-            t?.snapshotChanges().subscribe({
-              next: (value) => {},
-              complete: () => {
-                this.ref?.getDownloadURL().subscribe((value) => {
-                  this.createSeLobby(topic, value);
-                });
-              },
-            });
-          }
-        }
-      } else {
-        this.createSeLobby(topic, StorifyExploreComponent.defaultImgUrl);
-      }
-    }
-  }
-
-  createSeLobby(topic: string, imgUrl: string | undefined) {
-    this.lobbyService.createLobby(topic, imgUrl + '').then((value) => {
-      this.isLoading = false;
-      this.isOpen = false;
-      this.router.navigate(['/storify/lobby/', value]);
-    });
+  createPage() {
+    this.isOpen = true;
   }
 
   transformer(value: Lobby[]) {
@@ -123,7 +59,6 @@ export class StorifyExploreComponent {
         .then(() => (this.isLoading = false))
         .catch((reason) => {
           this.isLoading = false;
-          this.loadLobbies();
           this.msgService.showToast(
             'error',
             "Unexpected Error: Can't join lobby"

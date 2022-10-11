@@ -7,18 +7,5 @@
     </div>
   </app-card-grid>
 </div>
-<div *ngIf="isOpen && !isLoading" class="center flex-column flex gap-4">
-  <h1 class="text">Lobby Settings</h1>
-  <app-textfield placeholder="TOPIC" #topic></app-textfield>
-  <input type="file" #fileUpload name="f" />
-  <div class="button-container">
-    <app-button
-      color="success"
-      class="relative"
-      (click)="createLobby(topic.value)"
-      >CREATE
-    </app-button>
-  </div>
-</div>
-
+<app-settings *ngIf="isOpen && !isLoading"></app-settings>
 <app-loader *ngIf="isLoading"></app-loader>
