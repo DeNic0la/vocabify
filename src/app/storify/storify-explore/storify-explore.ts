@@ -15,10 +15,16 @@ export class LobbyItem implements LobbyCardItem {
   callback: Function;
   id: string;
 
-  constructor(title: string, id: string, players: number, callback: Function) {
+  constructor(
+    title: string,
+    id: string,
+    players: number,
+    callback: Function,
+    imgUrl: string | undefined
+  ) {
     this.color = 'primary';
     this.description = '';
-    this.imgSrc = '';
+    this.imgSrc = imgUrl ? imgUrl : (this.imgSrc = '');
     this.maxPlayers = 4;
     this.players = players;
     this.title = title;

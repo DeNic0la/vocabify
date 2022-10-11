@@ -20,6 +20,8 @@ export class StorifyExploreComponent {
   public isLoading: boolean = true;
   public isOpen: boolean = false;
   private filename: string = '';
+  private static defaultImgUrl: string =
+    'https://images.pexels.com/photos/1670977/pexels-photo-1670977.jpeg?auto=compress&cs=tinysrgb&w=640&h=443&dpr=1';
   @ViewChild('fileUpload') input: ElementRef<HTMLInputElement> | undefined;
 
   constructor(
@@ -36,7 +38,7 @@ export class StorifyExploreComponent {
   createPage() {
     this.isOpen = true;
     this.filename = this.getFileName();
-    this.ref = this.afStorage.ref(this.filename);
+    this.ref = this.afStorage.ref('lobby-images/' + this.filename);
   }
 
   loadLobbies() {
@@ -47,7 +49,6 @@ export class StorifyExploreComponent {
 
   private getFileName(): string {
     return (
-      'lobby-images/' +
       (Math.random() + 1).toString(36).substring(7) +
       '_' +
       Date.now().toString()
@@ -84,7 +85,7 @@ export class StorifyExploreComponent {
           }
         }
       } else {
-        this.createSeLobby(topic, undefined);
+        this.createSeLobby(topic, StorifyExploreComponent.defaultImgUrl);
       }
     }
   }
@@ -105,7 +106,8 @@ export class StorifyExploreComponent {
           i.name,
           i.id,
           i.participants.length,
-          this.getJoinLobbyCallback(i.id, this.lobbyService)
+          this.getJoinLobbyCallback(i.id, this.lobbyService),
+          i.imgUrl
         )
       );
     });
