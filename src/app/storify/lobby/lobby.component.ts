@@ -88,8 +88,8 @@ export class LobbyComponent implements OnInit, OnDestroy {
     this.subscriptions.add(lobbySub);
   }
 
-  public removeParticipant(participant: Participant): void {
-    // TODO: implement
+  public async removeParticipant(participant: Participant) {
+    await this.lobbyService.kick(this.lobby?.id || '', participant.uid);
   }
 
   public async leave() {
