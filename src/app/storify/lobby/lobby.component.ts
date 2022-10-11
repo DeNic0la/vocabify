@@ -86,6 +86,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
                 state: 0,
                 name: '',
                 hostid: '',
+                imgUrl: '',
                 story: [],
               };
             }
