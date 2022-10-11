@@ -15,11 +15,13 @@ import {
   templateUrl: './storify-explore.component.html',
   styleUrls: ['./storify-explore.component.scss'],
 })
-export class StorifyExploreComponent implements OnInit {
+export class StorifyExploreComponent {
   private static maxFileSize: number = 5000000;
   public isLoading: boolean = true;
   public isOpen: boolean = false;
   private filename: string = '';
+  private static defaultImgUrl: string =
+    'https://images.pexels.com/photos/1670977/pexels-photo-1670977.jpeg?auto=compress&cs=tinysrgb&w=640&h=443&dpr=1';
   @ViewChild('fileUpload') input: ElementRef<HTMLInputElement> | undefined;
 
   constructor(
@@ -28,21 +30,25 @@ export class StorifyExploreComponent implements OnInit {
     private msgService: ToasterService,
     private afStorage: AngularFireStorage
   ) {
-    lobbyService.getLobbiesToJoin().then((value: Lobby[]) => {
-      this.transformer(value);
-    });
+    this.loadLobbies();
   }
+
   ref: AngularFireStorageReference | undefined;
-  ngOnInit(): void {}
+
   createPage() {
     this.isOpen = true;
     this.filename = this.getFileName();
-    this.ref = this.afStorage.ref(this.filename);
+    this.ref = this.afStorage.ref('lobby-images/' + this.filename);
+  }
+
+  loadLobbies() {
+    this.lobbyService.getLobbiesToJoin().then((value: Lobby[]) => {
+      this.transformer(value);
+    });
   }
 
   private getFileName(): string {
     return (
-      'lobby-images/' +
       (Math.random() + 1).toString(36).substring(7) +
       '_' +
       Date.now().toString()
@@ -79,7 +85,7 @@ export class StorifyExploreComponent implements OnInit {
           }
         }
       } else {
-        this.createSeLobby(topic, undefined);
+        this.createSeLobby(topic, StorifyExploreComponent.defaultImgUrl);
       }
     }
   }
@@ -100,7 +106,8 @@ export class StorifyExploreComponent implements OnInit {
           i.name,
           i.id,
           i.participants.length,
-          this.getJoinLobbyCallback(i.id, this.lobbyService)
+          this.getJoinLobbyCallback(i.id, this.lobbyService),
+          i.imgUrl
         )
       );
     });
@@ -116,6 +123,7 @@ export class StorifyExploreComponent implements OnInit {
         .then(() => (this.isLoading = false))
         .catch((reason) => {
           this.isLoading = false;
+          this.loadLobbies();
           this.msgService.showToast(
             'error',
             "Unexpected Error: Can't join lobby"
