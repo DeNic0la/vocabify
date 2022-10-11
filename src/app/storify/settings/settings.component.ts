@@ -12,7 +12,7 @@ import {
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent {
   private static maxFileSize: number = 5000000;
   public isLoading: boolean = false;
   private filename: string = '';
