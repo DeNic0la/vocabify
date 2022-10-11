@@ -38,7 +38,6 @@ export class StorifyExploreComponent implements OnInit {
     this.isOpen = true;
     this.filename = this.getFileName();
     this.ref = this.afStorage.ref(this.filename);
-    console.log(this.filename);
   }
 
   private getFileName(): string {
@@ -63,27 +62,19 @@ export class StorifyExploreComponent implements OnInit {
         this.input.nativeElement.files.length > 0
       ) {
         let file = this.input.nativeElement.files.item(0);
-        console.log('Has file');
         if (file) {
-          console.log('Pow');
           if (
             true /* file.size < StorifyExploreComponent.maxFileSize && file.type.startsWith("image")*/
           ) {
-            console.log('Starting Fileupload');
             let t = this.ref?.put(file);
 
-            console.group('Upload');
             t?.snapshotChanges().subscribe({
               next: (value) => {
-                console.log(value);
               },
               complete: () => {
-                console.groupEnd();
                 this.ref?.getDownloadURL().subscribe((value) => {
                   this.createSeLobby(topic, value);
-                  console.log(value);
                 });
-                console.log('POW');
               },
             });
           }
