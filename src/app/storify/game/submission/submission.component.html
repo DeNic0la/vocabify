@@ -1,7 +1,11 @@
 <div class="content">
   <div class="story">
     <div class="timer-wrapper">
-      <app-timer [started]="timerStarted" [type]="timerType" (tick)="checkTime($event)"></app-timer>
+      <app-timer
+        [started]="timerStarted"
+        [type]="timerType"
+        (tick)="checkTime($event)"
+      ></app-timer>
     </div>
     <div class="card-wrapper">
       <app-card size="large" color="inverted">

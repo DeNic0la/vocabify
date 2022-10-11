@@ -113,7 +113,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
       } catch (e) {
         this.toast.showToast('error', "Game couldn't be started");
       }
-      this.router.navigate(['/storify/play', this.lobby.id])
+      this.router.navigate(['/storify/play', this.lobby.id]);
     }
   }
 

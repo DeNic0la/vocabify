@@ -8,7 +8,10 @@ import { HttpService } from './http.service';
   providedIn: 'root',
 })
 export class GameService {
-  constructor(private httpService: HttpService, private fireStore: AngularFirestore,) { }
+  constructor(
+    private httpService: HttpService,
+    private fireStore: AngularFirestore
+  ) {}
 
   /**
    * Submits the answer
@@ -48,6 +51,10 @@ export class GameService {
   }
 
   public async getAllRounds(lobbyId: string) {
-    return this.fireStore.collection('lobbies').doc(lobbyId).collection('rounds').valueChanges();
+    return this.fireStore
+      .collection('lobbies')
+      .doc(lobbyId)
+      .collection('rounds')
+      .valueChanges();
   }
 }

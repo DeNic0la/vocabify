@@ -1,15 +1,15 @@
-import {Component, OnDestroy } from '@angular/core';
-import {LobbyService} from "../services/lobby.service";
-import {GameState} from "./game.types";
-import {Lobby} from "../types/lobby";
-import {ActivatedRoute} from "@angular/router";
-import {GameService} from "../services/game.service";
-import {ToasterService} from "../../services/toaster.service";
-import {Subscription} from "rxjs";
-import {Round} from "../types/round";
-import firebase from "firebase/compat";
+import { Component, OnDestroy } from '@angular/core';
+import { LobbyService } from '../services/lobby.service';
+import { GameState } from './game.types';
+import { Lobby } from '../types/lobby';
+import { ActivatedRoute } from '@angular/router';
+import { GameService } from '../services/game.service';
+import { ToasterService } from '../../services/toaster.service';
+import { Subscription } from 'rxjs';
+import { Round } from '../types/round';
+import firebase from 'firebase/compat';
 import DocumentData = firebase.firestore.DocumentData;
-import {AuthService} from "../../auth/auth.service";
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-game',
@@ -20,29 +20,41 @@ export class GameComponent implements OnDestroy {
   public loading: boolean = false;
   public gameState: GameState = 'submitting';
   public lobby: Lobby | undefined;
-  public story: string = ''
+  public story: string = '';
   private roundsSubscribtion: Subscription | undefined;
   public currentRound: Round | undefined;
   private timeLeft: number = -1;
   private evaluated: boolean = false;
   private isHost: boolean = false;
 
-  constructor(private lobbyService: LobbyService, private route: ActivatedRoute, private gameService: GameService, private toastService: ToasterService, private authService: AuthService) {
+  constructor(
+    private lobbyService: LobbyService,
+    private route: ActivatedRoute,
+    private gameService: GameService,
+    private toastService: ToasterService,
+    private authService: AuthService
+  ) {
     this.loading = true;
-    this.lobbyService.getLobby(route.snapshot.paramMap.get('id') || '')
-      .then(lobby => {
+    this.lobbyService
+      .getLobby(route.snapshot.paramMap.get('id') || '')
+      .then((lobby) => {
         this.lobby = lobby;
         this.loadStory();
         this.loading = false;
         this.authService.currentUser.subscribe((user) => {
           this.isHost = user?.uid === this.lobby?.hostid;
-        })
-      })
+        });
+      });
   }
 
   public loadStory() {
-    let sentence: string = this.lobby?.story[this.lobby?.story.length - 1].sentence || '';
-    if (!sentence.endsWith('.') && !sentence.endsWith('!') && !sentence.endsWith('?')) {
+    let sentence: string =
+      this.lobby?.story[this.lobby?.story.length - 1].sentence || '';
+    if (
+      !sentence.endsWith('.') &&
+      !sentence.endsWith('!') &&
+      !sentence.endsWith('?')
+    ) {
       sentence += '. ';
     }
     console.log((this.lobby?.story.length || 0) - 1);
@@ -58,31 +70,37 @@ export class GameComponent implements OnDestroy {
 
   submitSentence(sentence: string) {
     this.loading = true;
-    this.gameState = "evaluating";
+    this.gameState = 'evaluating';
     if (sentence) {
-      this.gameService.submitAnswer(this.lobby?.id || '', sentence)
+      this.gameService
+        .submitAnswer(this.lobby?.id || '', sentence)
         .then(() => {
-            this.gameService.getAllRounds(this.lobby?.id || '').then(rounds => {
-              this.roundsSubscribtion = rounds.subscribe((roundsData) => this.handleRoundsChange(roundsData))
-            })
+          this.gameService.getAllRounds(this.lobby?.id || '').then((rounds) => {
+            this.roundsSubscribtion = rounds.subscribe((roundsData) =>
+              this.handleRoundsChange(roundsData)
+            );
+          });
         })
-        .catch(e => this.toastService.showToast('error', e.error))
+        .catch((e) => this.toastService.showToast('error', e.error));
     }
   }
 
   private handleRoundsChange(data: DocumentData[]) {
-    this.currentRound = (data as Round[])[data.length -1];
-    if (((data[data.length -1] as Round).winner as number) >= 0) {
+    this.currentRound = (data as Round[])[data.length - 1];
+    if (((data[data.length - 1] as Round).winner as number) >= 0) {
       this.gameState = 'evaluated';
       this.loading = false;
     }
-    this.checkForEvaluation()
+    this.checkForEvaluation();
   }
 
   private checkForEvaluation(): void {
     const playersAmount = this.lobby?.participants.length;
     const sentencesAmount = this.currentRound?.submittedStories.length;
-    if ((playersAmount === sentencesAmount || this.gameState != 'submitting') && !this.evaluated) {
+    if (
+      (playersAmount === sentencesAmount || this.gameState != 'submitting') &&
+      !this.evaluated
+    ) {
       if (this.isHost) {
         this.evaluated = true;
         this.gameService.evaluate(this.lobby?.id || '');
