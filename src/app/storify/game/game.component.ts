@@ -17,7 +17,7 @@ import DocumentData = firebase.firestore.DocumentData;
 })
 export class GameComponent implements OnDestroy {
   public loading: boolean = false;
-  public gameState: GameState = 'evaluated';
+  public gameState: GameState = 'submitting';
   public lobby: Lobby | undefined;
   public story: string = ''
   private roundsSubscribtion: Subscription | undefined;
