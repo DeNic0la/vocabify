@@ -39,7 +39,6 @@ export class SettingsComponent {
       if (
         this.input &&
         this.input.nativeElement.files &&
-        this.input.nativeElement.files &&
         this.input.nativeElement.files.length > 0
       ) {
         let file = this.input.nativeElement.files.item(0);
