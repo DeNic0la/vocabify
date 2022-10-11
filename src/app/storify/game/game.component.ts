@@ -67,7 +67,7 @@ export class GameComponent implements OnDestroy {
   ngOnDestroy() {
     this.lobbyService.leave(this.lobby?.id || '').then(() => {
       this.roundsSubscribtion?.unsubscribe();
-    })
+    });
   }
 
   async submitSentence(sentence: string) {
