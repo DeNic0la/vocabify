@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
 import { Functions } from '../types/functions.enum';
-import { Participant } from '../types/participant';
-import { Round } from '../types/round';
 import { LobbyState } from '../types/lobby';
 import { HttpService } from './http.service';
 
