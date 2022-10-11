@@ -23,6 +23,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
     name: '',
     hostid: '',
     story: [],
+    imgUrl: '',
   };
   user: User | undefined;
   isLeaving: boolean = false;
@@ -66,6 +67,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
             this.lobby.name = lobby?.name || '';
             this.lobby.state = lobby?.state || 0;
             this.lobby.story = lobby?.story || [];
+            this.lobby.imgUrl = lobby?.imgUrl || '';
             this.lobby.participants = participants || [];
 
             if (this.lobby?.state !== LobbyState.JOINING) {
