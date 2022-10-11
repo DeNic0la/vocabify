@@ -1,0 +1,45 @@
+@import "src/app/styles/colors.scss";
+
+.timer {
+  display: flex;
+
+  .time-remaining {
+    margin: 104px 16px 0 0;
+    height: 48px;
+    width: 48px;
+    border: 4px solid $color-main;
+    border-radius: 4px;
+
+    &__text {
+      color: $color-main;
+      text-align: center;
+      margin-top: 6px;
+    }
+  }
+
+  .time-slider {
+    width: 32px;
+    height: 248px;
+    border: 4px solid $color-main;
+    background-color: $color-white;
+    border-radius: 4px;
+
+    .time-slider-inside {
+      background-color: $color-success;
+      height: 248px;
+    }
+  }
+}
+
+.horizontal {
+  display: initial;
+
+  .time-remaining {
+    margin: 0 0 16px 0;
+  }
+
+  .time-slider {
+    margin-top: -104px;
+    transform: rotate(90deg);
+  }
+}

@@ -2,6 +2,9 @@ import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import { AuthService } from './services/auth.service';
 import { LobbyService } from './services/lobby.service';
+import { GameService } from './services/game.service';
+import { LobbyState } from './types/lobby';
+import { UserService } from './services/user.service';
 const cors = require('cors')({ origin: true });
 
 admin.initializeApp();
@@ -10,16 +13,25 @@ exports.lobby = functions
   .runWith({ secrets: ['OPENAI_API_KEY'] })
   .https.onRequest(async (req, res) => {
     cors(req, res, async () => {
-      if (req.method !== 'POST') res.status(400).send('Bad request');
+      if (req.method !== 'POST' || !req.body.topic || !req.body.imgUrl)
+        res.status(400).send('Bad request');
       const authService = new AuthService();
       const idToken = await authService.validateFirebaseIdToken(req);
       if (!idToken) res.status(403).send('Unauthorized');
 
       try {
         const lobbyService = new LobbyService();
+        const userService = new UserService();
         const uid = idToken?.uid || '';
-        const lobby = await lobbyService.createLobby(uid);
-        await lobbyService.join(uid, lobby.id);
+
+        const user = await userService.getUser(uid);
+        const lobby = await lobbyService.createLobby(
+          user,
+          req.body.topic,
+          req.body.imgUrl
+        );
+        await lobbyService.join(user, lobby);
+
         res.status(200).send({ lobbyId: lobby.id });
       } catch (error) {
         res.status(500).send('Internal Server error.');
@@ -36,10 +48,13 @@ exports.join = functions.https.onRequest(async (req, res) => {
     if (!idToken) res.status(403).send('Unauthorized');
 
     const lobbyService = new LobbyService();
+    const userService = new UserService();
     const uid = idToken?.uid || '';
+    const user = await userService.getUser(uid);
+    const lobby = await lobbyService.getLobby(req.body.lobbyid);
 
     try {
-      await lobbyService.join(uid, req.body.lobbyid);
+      await lobbyService.join(user, lobby);
     } catch (error: any) {
       res.status(500).send(error.message);
     }
@@ -58,9 +73,10 @@ exports.leave = functions.https.onRequest(async (req, res) => {
 
     const lobbyService = new LobbyService();
     const uid = idToken?.uid || '';
+    const lobby = await lobbyService.getLobby(req.body.lobbyid);
 
     try {
-      await lobbyService.leave(uid, req.body.lobbyid);
+      await lobbyService.leave(uid, lobby);
     } catch (error: any) {
       res.status(500).send(error.message);
     }
@@ -79,9 +95,10 @@ exports.kick = functions.https.onRequest(async (req, res) => {
 
     const lobbyService = new LobbyService();
     const uid = idToken?.uid || '';
+    const lobby = await lobbyService.getLobby(req.body.lobbyid);
 
     try {
-      await lobbyService.kick(uid, req.body.lobbyid, req.body.kick_uid);
+      await lobbyService.kick(uid, lobby, req.body.kick_uid);
     } catch (error: any) {
       res.status(500).send(error.message);
     }
@@ -90,7 +107,52 @@ exports.kick = functions.https.onRequest(async (req, res) => {
   });
 });
 
-exports.start = functions.https.onRequest(async (req, res) => {
+exports.state = functions.https.onRequest(async (req, res) => {
+  cors(req, res, async () => {
+    if (req.method !== 'PUT' || !req.body.lobbyId || !req.body.state)
+      res.status(400).send('Bad request');
+    const authService = new AuthService();
+    const idToken = await authService.validateFirebaseIdToken(req);
+    if (!idToken) res.status(403).send('Unauthorized');
+
+    try {
+      const gameService = new GameService();
+      const lobbyService = new LobbyService();
+      const lobby = await lobbyService.getLobby(req.body.lobbyId);
+      const uid = idToken?.uid || '';
+      const changeState: LobbyState = req.body.state;
+      await gameService.changeState(uid, lobby, changeState);
+
+      res.status(200).send();
+    } catch (error: any) {
+      res.status(500).send(error.message);
+    }
+  });
+});
+
+exports.submit = functions.https.onRequest(async (req, res) => {
+  cors(req, res, async () => {
+    if (req.method !== 'POST' || !req.body.lobbyId || !req.body.sentence)
+      res.status(400).send('Bad request');
+    const authService = new AuthService();
+    const idToken = await authService.validateFirebaseIdToken(req);
+    if (!idToken) res.status(403).send('Unauthorized');
+
+    try {
+      const gameService = new GameService();
+      const lobbyService = new LobbyService();
+      const uid = idToken?.uid || '';
+      const lobby = await lobbyService.getLobby(req.body.lobbyId);
+      await gameService.submit(uid, lobby, req.body.sentence);
+
+      res.status(200).send();
+    } catch (error: any) {
+      res.status(500).send(error.message);
+    }
+  });
+});
+
+exports.evaluate = functions.https.onRequest(async (req, res) => {
   cors(req, res, async () => {
     if (req.method !== 'PUT' || !req.body.lobbyId)
       res.status(400).send('Bad request');
@@ -99,9 +161,12 @@ exports.start = functions.https.onRequest(async (req, res) => {
     if (!idToken) res.status(403).send('Unauthorized');
 
     try {
+      const gameService = new GameService();
       const lobbyService = new LobbyService();
       const uid = idToken?.uid || '';
-      await lobbyService.start(uid, req.body.lobbyId);
+
+      const lobby = await lobbyService.getLobby(req.body.lobbyId);
+      await gameService.evaluate(uid, lobby);
 
       res.status(200).send();
     } catch (error: any) {

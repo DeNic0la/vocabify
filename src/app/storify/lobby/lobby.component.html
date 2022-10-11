@@ -1,5 +1,5 @@
-<app-loader *ngIf="!lobby"></app-loader>
-<div class="content" *ngIf="lobby">
+<app-loader *ngIf="isLoading"></app-loader>
+<div class="content" *ngIf="!isLoading && lobby">
   <div class="leave-btn-wrapper">
     <app-button class="leave-btn" color="error" size="medium" (click)="leave()"
       >Leave</app-button
@@ -8,7 +8,7 @@
   <h3 class="title">{{ lobby.name }}</h3>
   <div class="story-wrapper">
     <div class="story-container">
-      <p class="story">{{ lobby.story[0] }}</p>
+      <p class="story">{{ lobby.story[0].sentence }}</p>
     </div>
   </div>
   <div class="participants-wrapper">

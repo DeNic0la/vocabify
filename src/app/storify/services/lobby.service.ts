@@ -5,6 +5,7 @@ import { Functions } from '../types/functions.enum';
 import { Lobby, LobbyState } from '../types/lobby';
 import { Participant } from '../types/participant';
 import { HttpService } from './http.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,23 @@ export class LobbyService {
     private httpService: HttpService,
     private router: Router
   ) {}
+
+  public getLobbyObs(lobbyId: string): Observable<Lobby | undefined> {
+    return this.fireStore
+      .collection('lobbies')
+      .doc<Lobby>(lobbyId)
+      .valueChanges();
+  }
+
+  public getParticipantsObs(
+    lobbyId: string
+  ): Observable<Participant[] | undefined> {
+    return this.fireStore
+      .collection('lobbies')
+      .doc<Lobby>(lobbyId)
+      .collection<Participant>('participants')
+      .valueChanges();
+  }
 
   async getLobby(id: string) {
     const lobby = <Lobby>(
@@ -42,6 +60,7 @@ export class LobbyService {
         hostid: firebaseLobby.data().hostid,
         state: firebaseLobby.data().state,
         story: firebaseLobby.data().story,
+        imgUrl: firebaseLobby.data().imgUrl,
         participants: await this.getAllParticipants(firebaseLobby.data().id),
       };
       lobbies.push(lobby);
@@ -61,6 +80,7 @@ export class LobbyService {
         hostid: firebaseLobby.data().hostid,
         state: firebaseLobby.data().state,
         story: firebaseLobby.data().story,
+        imgUrl: firebaseLobby.data().imgUrl,
         participants: await this.getAllParticipants(firebaseLobby.data().id),
       };
       lobbies.push(lobby);
@@ -87,8 +107,11 @@ export class LobbyService {
    * Creates a lobby
    * @returns created lobbyId
    */
-  async createLobby(): Promise<string> {
-    const resp = await this.httpService.post(Functions.CREATE_LOBBY, {});
+  async createLobby(topic: string, imageUrl: string): Promise<string> {
+    const resp = await this.httpService.post(Functions.CREATE_LOBBY, {
+      topic: topic,
+      imgUrl: imageUrl,
+    });
     return resp.lobbyId;
   }
 
@@ -136,10 +159,11 @@ export class LobbyService {
   /**
    * Starts a game
    * @param lobbyId
+   * @param state
    */
-  async start(lobbyId: string) {
+  async changeState(lobbyId: string, state: LobbyState) {
     try {
-      this.httpService.put(Functions.START, { lobbyId: lobbyId });
+      this.httpService.put(Functions.STATE, { lobbyId: lobbyId, state });
     } catch (error: any) {
       throw new Error(error.error);
     }
