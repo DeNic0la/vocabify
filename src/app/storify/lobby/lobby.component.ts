@@ -34,7 +34,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
     private headerService: HeaderService,
     private toast: ToasterService,
     private gameService: GameService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.subscriptions.push(
