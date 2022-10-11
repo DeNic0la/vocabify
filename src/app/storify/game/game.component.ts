@@ -23,7 +23,6 @@ export class GameComponent implements OnDestroy {
   public story: string = '';
   private roundsSubscribtion: Subscription | undefined;
   public currentRound: Round | undefined;
-  private timeLeft: number = -1;
   private evaluated: boolean = false;
   private isHost: boolean = false;
 
@@ -70,21 +69,19 @@ export class GameComponent implements OnDestroy {
     })
   }
 
-  submitSentence(sentence: string) {
+  async submitSentence(sentence: string) {
     this.loading = true;
     this.gameState = 'evaluating';
     if (sentence) {
-      this.gameService
+      await this.gameService
         .submitAnswer(this.lobby?.id || '', sentence)
-        .then(() => {
-          this.gameService.getAllRounds(this.lobby?.id || '').then((rounds) => {
-            this.roundsSubscribtion = rounds.subscribe((roundsData) =>
-              this.handleRoundsChange(roundsData)
-            );
-          });
-        })
         .catch((e) => this.toastService.showToast('error', e.error));
     }
+    this.gameService.getAllRounds(this.lobby?.id || '').then((rounds) => {
+      this.roundsSubscribtion = rounds.subscribe((roundsData) =>
+        this.handleRoundsChange(roundsData)
+      );
+    });
   }
 
   private handleRoundsChange(data: DocumentData[]) {
