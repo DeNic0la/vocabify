@@ -15,7 +15,7 @@ import {
   templateUrl: './storify-explore.component.html',
   styleUrls: ['./storify-explore.component.scss'],
 })
-export class StorifyExploreComponent implements OnInit {
+export class StorifyExploreComponent {
   private static maxFileSize: number = 5000000;
   public isLoading: boolean = true;
   public isOpen: boolean = false;
@@ -28,16 +28,21 @@ export class StorifyExploreComponent implements OnInit {
     private msgService: ToasterService,
     private afStorage: AngularFireStorage
   ) {
-    lobbyService.getLobbiesToJoin().then((value: Lobby[]) => {
-      this.transformer(value);
-    });
+    this.loadLobbies();
   }
+
   ref: AngularFireStorageReference | undefined;
-  ngOnInit(): void {}
+
   createPage() {
     this.isOpen = true;
     this.filename = this.getFileName();
     this.ref = this.afStorage.ref(this.filename);
+  }
+
+  loadLobbies() {
+    this.lobbyService.getLobbiesToJoin().then((value: Lobby[]) => {
+      this.transformer(value);
+    });
   }
 
   private getFileName(): string {
@@ -69,7 +74,7 @@ export class StorifyExploreComponent implements OnInit {
             let t = this.ref?.put(file);
 
             t?.snapshotChanges().subscribe({
-              next: (value) => {},
+              next: (value) => { },
               complete: () => {
                 this.ref?.getDownloadURL().subscribe((value) => {
                   this.createSeLobby(topic, value);
@@ -116,6 +121,7 @@ export class StorifyExploreComponent implements OnInit {
         .then(() => (this.isLoading = false))
         .catch((reason) => {
           this.isLoading = false;
+          this.loadLobbies();
           this.msgService.showToast(
             'error',
             "Unexpected Error: Can't join lobby"
