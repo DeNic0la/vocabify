@@ -20,7 +20,8 @@ export class StorifyExploreComponent implements OnInit {
   public isLoading: boolean = true;
   public isOpen: boolean = false;
   private filename: string = '';
-  private static defaultImgUrl:string = 'https://images.pexels.com/photos/1670977/pexels-photo-1670977.jpeg?auto=compress&cs=tinysrgb&w=640&h=443&dpr=1';
+  private static defaultImgUrl: string =
+    'https://images.pexels.com/photos/1670977/pexels-photo-1670977.jpeg?auto=compress&cs=tinysrgb&w=640&h=443&dpr=1';
   @ViewChild('fileUpload') input: ElementRef<HTMLInputElement> | undefined;
 
   constructor(
@@ -39,7 +40,7 @@ export class StorifyExploreComponent implements OnInit {
   createPage() {
     this.isOpen = true;
     this.filename = this.getFileName();
-    this.ref = this.afStorage.ref('lobby-images/' +this.filename);
+    this.ref = this.afStorage.ref('lobby-images/' + this.filename);
   }
 
   private getFileName(): string {
