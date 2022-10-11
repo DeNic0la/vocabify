@@ -27,6 +27,8 @@ export class LobbyComponent implements OnInit, OnDestroy {
   };
   user: User | undefined;
   isLeaving: boolean = false;
+  isKicking: boolean = false;
+  hostId: string = '';
 
   private subscriptions: Subscription = new Subscription();
 
@@ -81,8 +83,11 @@ export class LobbyComponent implements OnInit, OnDestroy {
               this.router.navigate(['/storify/play/' + this.lobby?.id]);
             }
 
-            if (this.isHost) {
+            if (this.hostId !== this.lobby.hostid && this.isHost) {
               this.toast.showToast('success', 'You are now the Host');
+            }
+            this.hostId = this.lobby.hostid;
+            if (this.isHost) {
               this.headerService.setAction({
                 prompt: 'Start Game',
                 size: 'large',
@@ -99,7 +104,9 @@ export class LobbyComponent implements OnInit, OnDestroy {
   }
 
   public async removeParticipant(participant: Participant) {
+    this.isKicking = true;
     await this.lobbyService.kick(this.lobby?.id || '', participant.uid);
+    this.isKicking = false;
   }
 
   public async leave() {

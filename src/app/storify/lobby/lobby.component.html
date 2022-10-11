@@ -29,7 +29,7 @@
               name="cross"
               color="error"
               (click)="removeParticipant(participant)"
-              *ngIf="isHost && participant?.uid !== user?.uid"
+              *ngIf="isHost && participant?.uid !== user?.uid && !isKicking"
             ></app-icon>
           </div>
         </div>
