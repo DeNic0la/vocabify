@@ -16,15 +16,29 @@ import { GameService } from '../services/game.service';
   styleUrls: ['./lobby.component.scss'],
 })
 export class LobbyComponent implements OnInit, OnDestroy {
-  lobby: Lobby | undefined;
+  lobby: Lobby = {
+    id: '',
+    participants: [],
+    state: 0,
+    name: '',
+    hostid: '',
+    story: [],
+    imgUrl: '',
+  };
   user: User | undefined;
-  isHost: boolean = false;
   isLeaving: boolean = false;
 
-  private subscriptions: Subscription[] = [];
+  private subscriptions: Subscription = new Subscription();
 
   get isLoading() {
     return !(this.lobby && this.lobby.id.length > 0) || this.isLeaving;
+  }
+
+  get isHost() {
+    if (this.lobby && this.user) {
+      return this.user.uid === this.lobby.hostid;
+    }
+    return false;
   }
 
   constructor(
@@ -38,64 +52,46 @@ export class LobbyComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subscriptions.push(
-      this.lobbyService
-        .getLobbyObs(this.route.snapshot.paramMap.get('id') || '')
-        .subscribe({
-          next: (value) => {
-            this.authService.currentUser.subscribe((user) => {
-              if (value && user?.uid === value.hostid) {
-                if (!this.isHost) {
-                  this.isHost = true;
-                  this.toast.showToast(
-                    'success',
-                    'The Host left, you are now the Host'
-                  );
-                }
-                this.headerService.setAction({
-                  prompt: 'Start Game',
-                  size: 'large',
-                  color: 'success',
-                  action: this.start.bind(this),
-                });
-              }
-              this.user = user || undefined;
-              const participants = this.lobby?.participants;
-              this.lobby = value;
-              if (this.lobby && participants)
-                this.lobby.participants = participants;
-            });
-          },
-          error: () => {
-            this.router.navigate(['not-found']);
-          },
-        })
-    );
-    this.subscriptions.push(
-      this.lobbyService
-        .getParticipantsObs(this.route.snapshot.paramMap.get('id') || '')
-        .subscribe({
-          next: (val) => {
-            if (this.lobby && val) {
-              this.lobby.participants = val;
-              if (!val?.some((e) => e.uid === this.user?.uid)) {
-                this.router.navigate(['storify/explore']);
-              }
-            } else if (val) {
-              /* Set Dummy Lobby if the Lobby Object was not fetched yet.*/
-              this.lobby = {
-                id: '',
-                participants: val,
-                state: 0,
-                name: '',
-                hostid: '',
-                imgUrl: '',
-                story: [],
-              };
+    const userSub = this.authService.currentUser.subscribe((user) => {
+      this.user = user || { uid: '', email: '', username: '' };
+    });
+
+    const lobbySub = this.lobbyService
+      .getLobbyObs(this.route.snapshot.paramMap.get('id') || '')
+      .subscribe((lobby) => {
+        if (!lobby) {
+          this.router.navigate(['/storify/404']);
+        }
+        const participantSub = this.lobbyService
+          .getParticipantsObs(lobby?.id || '')
+          .subscribe((participants) => {
+            this.lobby.id = lobby?.id || '';
+            this.lobby.hostid = lobby?.hostid || '';
+            this.lobby.name = lobby?.name || '';
+            this.lobby.state = lobby?.state || 0;
+            this.lobby.story = lobby?.story || [];
+            this.lobby.imgUrl = lobby?.imgUrl || '';
+            this.lobby.participants = participants || [];
+
+            if (this.lobby?.state !== LobbyState.JOINING) {
+              this.router.navigate(['/storify/play/' + this.lobby?.id]);
             }
-          },
-        })
-    );
+
+            if (this.isHost) {
+              this.toast.showToast('success', 'You are now the Host');
+              this.headerService.setAction({
+                prompt: 'Start Game',
+                size: 'large',
+                color: 'success',
+                action: this.start.bind(this),
+              });
+            }
+          });
+        this.subscriptions.add(participantSub);
+      });
+
+    this.subscriptions.add(userSub);
+    this.subscriptions.add(lobbySub);
   }
 
   public async removeParticipant(participant: Participant) {
@@ -122,9 +118,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
   }
 
   unsubscribeToAllObservables() {
-    this.subscriptions.forEach((value) => {
-      value.unsubscribe();
-    });
+    this.subscriptions.unsubscribe();
   }
 
   ngOnDestroy() {
