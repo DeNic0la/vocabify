@@ -21,6 +21,7 @@ export class SubmissionComponent implements OnInit {
   @Input('story') story: string = '';
 
   @Output('submit') submit: EventEmitter<string> = new EventEmitter<string>();
+  @Output('tick') tick: EventEmitter<number> = new EventEmitter<number>();
 
   public timerStarted: boolean = false;
   public timerType: TimerType = 'vertical';
@@ -59,6 +60,7 @@ export class SubmissionComponent implements OnInit {
 
   checkTime(time: number) {
     this.timeLeft = time;
+    this.tick.emit(this.timeLeft)
     if (this.timeLeft === 0) this.submitSentence();
   }
 }

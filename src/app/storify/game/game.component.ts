@@ -25,6 +25,7 @@ export class GameComponent implements OnDestroy {
   public currentRound: Round | undefined;
   private evaluated: boolean = false;
   private isHost: boolean = false;
+  private timeLeft: number = -1;
 
   constructor(
     private lobbyService: LobbyService,
@@ -97,7 +98,7 @@ export class GameComponent implements OnDestroy {
     const playersAmount = this.lobby?.participants.length;
     const sentencesAmount = this.currentRound?.submittedStories.length;
     if (
-      (playersAmount === sentencesAmount || this.gameState != 'submitting') &&
+      (playersAmount === sentencesAmount || this.timeLeft === 0) &&
       !this.evaluated
     ) {
       if (this.isHost) {
@@ -105,5 +106,9 @@ export class GameComponent implements OnDestroy {
         this.gameService.evaluate(this.lobby?.id || '');
       }
     }
+  }
+
+  public tick(time: number): void {
+    this.timeLeft = time;
   }
 }
