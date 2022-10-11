@@ -49,7 +49,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
     private headerService: HeaderService,
     private toast: ToasterService,
     private gameService: GameService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const userSub = this.authService.currentUser.subscribe((user) => {
@@ -72,6 +72,10 @@ export class LobbyComponent implements OnInit, OnDestroy {
             this.lobby.story = lobby?.story || [];
             this.lobby.imgUrl = lobby?.imgUrl || '';
             this.lobby.participants = participants || [];
+
+            if (!participants?.some(e => e.uid === this.user?.uid)) {
+              this.router.navigate(['storify/explore']);
+            }
 
             if (this.lobby?.state !== LobbyState.JOINING) {
               this.router.navigate(['/storify/play/' + this.lobby?.id]);
@@ -113,7 +117,6 @@ export class LobbyComponent implements OnInit, OnDestroy {
       } catch (e) {
         this.toast.showToast('error', "Game couldn't be started");
       }
-      //TODO Redirect to Game
     }
   }
 
