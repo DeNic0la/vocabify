@@ -34,7 +34,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
     private headerService: HeaderService,
     private toast: ToasterService,
     private gameService: GameService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.subscriptions.push(
@@ -60,9 +60,6 @@ export class LobbyComponent implements OnInit, OnDestroy {
               }
               this.user = user || undefined;
               const participants = this.lobby?.participants;
-              if (!participants?.some((e) => e.uid === this.user?.uid)) {
-                this.router.navigate(['storify/explore']);
-              }
               this.lobby = value;
               if (this.lobby && participants)
                 this.lobby.participants = participants;
@@ -80,6 +77,9 @@ export class LobbyComponent implements OnInit, OnDestroy {
           next: (val) => {
             if (this.lobby && val) {
               this.lobby.participants = val;
+              if (!val?.some((e) => e.uid === this.user?.uid)) {
+                this.router.navigate(['storify/explore']);
+              }
             } else if (val) {
               /* Set Dummy Lobby if the Lobby Object was not fetched yet.*/
               this.lobby = {
