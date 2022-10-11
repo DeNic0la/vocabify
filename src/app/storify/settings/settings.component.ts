@@ -1,13 +1,16 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {LobbyService} from "../services/lobby.service";
-import {Router} from "@angular/router";
-import {ToasterService} from "../../services/toaster.service";
-import {AngularFireStorage, AngularFireStorageReference} from "@angular/fire/compat/storage";
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { LobbyService } from '../services/lobby.service';
+import { Router } from '@angular/router';
+import { ToasterService } from '../../services/toaster.service';
+import {
+  AngularFireStorage,
+  AngularFireStorageReference,
+} from '@angular/fire/compat/storage';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
   private static maxFileSize: number = 5000000;
@@ -20,7 +23,8 @@ export class SettingsComponent implements OnInit {
     private lobbyService: LobbyService,
     private router: Router,
     private msgService: ToasterService,
-    private afStorage: AngularFireStorage) {}
+    private afStorage: AngularFireStorage
+  ) {}
 
   ngOnInit(): void {}
 

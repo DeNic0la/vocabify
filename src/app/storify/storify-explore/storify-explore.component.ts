@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {LobbyItem} from "./storify-explore";
-import {Lobby} from "../types/lobby";
-import {LobbyService} from "../services/lobby.service";
-import {Router} from "@angular/router";
-import {ToasterService} from "../../services/toaster.service";
+import { Component, OnInit } from '@angular/core';
+import { LobbyItem } from './storify-explore';
+import { Lobby } from '../types/lobby';
+import { LobbyService } from '../services/lobby.service';
+import { Router } from '@angular/router';
+import { ToasterService } from '../../services/toaster.service';
 
 @Component({
   selector: 'app-storify-explore',
@@ -14,9 +14,11 @@ export class StorifyExploreComponent implements OnInit {
   public isLoading: boolean = true;
   public isOpen: boolean = false;
 
-  constructor(private lobbyService: LobbyService,
-              private router: Router,
-              private msgService: ToasterService) {
+  constructor(
+    private lobbyService: LobbyService,
+    private router: Router,
+    private msgService: ToasterService
+  ) {
     lobbyService.getLobbiesToJoin().then((value: Lobby[]) => {
       this.transformer(value);
     });
