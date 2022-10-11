@@ -59,6 +59,9 @@ export class LobbyComponent implements OnInit, OnDestroy {
     const lobbySub = this.lobbyService
       .getLobbyObs(this.route.snapshot.paramMap.get('id') || '')
       .subscribe((lobby) => {
+        if (!lobby) {
+          this.router.navigate(['/storify/404']);
+        }
         const participantSub = this.lobbyService
           .getParticipantsObs(lobby?.id || '')
           .subscribe((participants) => {
