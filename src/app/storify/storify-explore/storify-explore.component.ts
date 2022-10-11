@@ -1,10 +1,14 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Lobby } from '../types/lobby';
 import { LobbyItem } from './storify-explore';
 import { LobbyService } from '../services/lobby.service';
 import { Router } from '@angular/router';
 import { ToasterService } from '../../services/toaster.service';
-import {AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask} from "@angular/fire/compat/storage";
+import {
+  AngularFireStorage,
+  AngularFireStorageReference,
+  AngularFireUploadTask,
+} from '@angular/fire/compat/storage';
 
 @Component({
   selector: 'app-storify-explore',
@@ -12,10 +16,10 @@ import {AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask} 
   styleUrls: ['./storify-explore.component.scss'],
 })
 export class StorifyExploreComponent implements OnInit {
-  private static maxFileSize:number = 5000000;
+  private static maxFileSize: number = 5000000;
   public isLoading: boolean = true;
   public isOpen: boolean = false;
-  private filename:string = "";
+  private filename: string = '';
   @ViewChild('fileUpload') input: ElementRef<HTMLInputElement> | undefined;
 
   constructor(
@@ -29,8 +33,7 @@ export class StorifyExploreComponent implements OnInit {
     });
   }
   ref: AngularFireStorageReference | undefined;
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
   createPage() {
     this.isOpen = true;
     this.filename = this.getFileName();
@@ -38,53 +41,61 @@ export class StorifyExploreComponent implements OnInit {
     console.log(this.filename);
   }
 
-
-  private getFileName():string {
-    return "lobby-images/"+ (Math.random() + 1).toString(36).substring(7) + "_" + Date.now().toString();
+  private getFileName(): string {
+    return (
+      'lobby-images/' +
+      (Math.random() + 1).toString(36).substring(7) +
+      '_' +
+      Date.now().toString()
+    );
   }
-
 
   async createLobby(topic: string) {
     let files = this.input?.nativeElement.files;
     let file = files?.item(0);
     if (!this.isLoading) {
-
       /*UPLOAD FILE*/
       this.isLoading = true;
-      if (this.input && this.input.nativeElement.files && this.input.nativeElement.files && this.input.nativeElement.files.length > 0){
+      if (
+        this.input &&
+        this.input.nativeElement.files &&
+        this.input.nativeElement.files &&
+        this.input.nativeElement.files.length > 0
+      ) {
         let file = this.input.nativeElement.files.item(0);
-        console.log("Has file");
+        console.log('Has file');
         if (file) {
-          console.log("Pow");
-          if (true /* file.size < StorifyExploreComponent.maxFileSize && file.type.startsWith("image")*/) {
-            console.log("Starting Fileupload");
+          console.log('Pow');
+          if (
+            true /* file.size < StorifyExploreComponent.maxFileSize && file.type.startsWith("image")*/
+          ) {
+            console.log('Starting Fileupload');
             let t = this.ref?.put(file);
 
-            console.group("Upload")
+            console.group('Upload');
             t?.snapshotChanges().subscribe({
-              next: (value)=>{
-                console.log(value)},
-              complete: ()=>{
+              next: (value) => {
+                console.log(value);
+              },
+              complete: () => {
                 console.groupEnd();
-                this.ref?.getDownloadURL().subscribe(value => {
-                  this.createSeLobby(topic,value)
+                this.ref?.getDownloadURL().subscribe((value) => {
+                  this.createSeLobby(topic, value);
                   console.log(value);
-                })
-                console.log("POW");
-              }
-            })
+                });
+                console.log('POW');
+              },
+            });
           }
         }
+      } else {
+        this.createSeLobby(topic, undefined);
       }
-      else {
-        this.createSeLobby(topic,undefined);
-      }
-
     }
   }
 
-  createSeLobby(topic:string,imgUrl:string|undefined){
-    this.lobbyService.createLobby(topic, imgUrl +"").then((value) => {
+  createSeLobby(topic: string, imgUrl: string | undefined) {
+    this.lobbyService.createLobby(topic, imgUrl + '').then((value) => {
       this.isLoading = false;
       this.isOpen = false;
       this.router.navigate(['/storify/lobby/', value]);
@@ -124,6 +135,4 @@ export class StorifyExploreComponent implements OnInit {
   }
 
   public Lobbies: LobbyItem[] = [];
-
-
 }
