@@ -7,7 +7,7 @@ import { Participant } from '../types/participant';
 import { User } from '../../auth/types/User';
 import { HeaderService } from '../../services/header.service';
 import { ToasterService } from '../../services/toaster.service';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { GameService } from '../services/game.service';
 
 @Component({
@@ -19,11 +19,12 @@ export class LobbyComponent implements OnInit, OnDestroy {
   lobby: Lobby | undefined;
   user: User | undefined;
   isHost: boolean = false;
+  isLeaving: boolean = false;
 
   private subscriptions: Subscription[] = [];
 
   get isLoading() {
-    return !(this.lobby && this.lobby.id.length > 0);
+    return !(this.lobby && this.lobby.id.length > 0) || this.isLeaving;
   }
 
   constructor(
@@ -65,7 +66,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
                 this.lobby.participants = participants;
             });
           },
-          error: (err) => {
+          error: () => {
             this.router.navigate(['not-found']);
           },
         })
@@ -77,6 +78,9 @@ export class LobbyComponent implements OnInit, OnDestroy {
           next: (val) => {
             if (this.lobby && val) {
               this.lobby.participants = val;
+              if (!val?.some((e) => e.uid === this.user?.uid)) {
+                this.router.navigate(['storify/explore']);
+              }
             } else if (val) {
               /* Set Dummy Lobby if the Lobby Object was not fetched yet.*/
               this.lobby = {
@@ -85,6 +89,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
                 state: 0,
                 name: '',
                 hostid: '',
+                imgUrl: '',
                 story: [],
               };
             }
@@ -93,11 +98,12 @@ export class LobbyComponent implements OnInit, OnDestroy {
     );
   }
 
-  public removeParticipant(participant: Participant): void {
-    // TODO: implement
+  public async removeParticipant(participant: Participant) {
+    await this.lobbyService.kick(this.lobby?.id || '', participant.uid);
   }
 
   public async leave() {
+    this.isLeaving = true;
     await this.lobbyService.leave(this.lobby?.id || '');
   }
 
