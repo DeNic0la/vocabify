@@ -78,6 +78,9 @@ export class LobbyComponent implements OnInit, OnDestroy {
           next: (val) => {
             if (this.lobby && val) {
               this.lobby.participants = val;
+              if (!val?.some((e) => e.uid === this.user?.uid)) {
+                this.router.navigate(['storify/explore']);
+              }
             } else if (val) {
               /* Set Dummy Lobby if the Lobby Object was not fetched yet.*/
               this.lobby = {
@@ -95,8 +98,8 @@ export class LobbyComponent implements OnInit, OnDestroy {
     );
   }
 
-  public removeParticipant(participant: Participant): void {
-    // TODO: implement
+  public async removeParticipant(participant: Participant) {
+    await this.lobbyService.kick(this.lobby?.id || '', participant.uid);
   }
 
   public async leave() {
