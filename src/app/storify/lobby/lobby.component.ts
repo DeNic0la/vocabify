@@ -18,7 +18,7 @@ import { GameService } from '../services/game.service';
 export class LobbyComponent implements OnInit, OnDestroy {
   lobby: Lobby | undefined;
   user: User | undefined;
-  isHost: boolean = false;
+  isHost: boolean|undefined;
   isLeaving: boolean = false;
 
   private subscriptions: Subscription[] = [];
@@ -45,13 +45,15 @@ export class LobbyComponent implements OnInit, OnDestroy {
           next: (value) => {
             this.authService.currentUser.subscribe((user) => {
               if (value && user?.uid === value.hostid) {
-                if (!this.isHost) {
+                if (this.isHost === false) {
                   this.isHost = true;
                   this.toast.showToast(
                     'success',
                     'The Host left, you are now the Host'
                   );
                 }
+
+                if (this.isHost === undefined) this.isHost = false;
                 this.headerService.setAction({
                   prompt: 'Start Game',
                   size: 'large',
