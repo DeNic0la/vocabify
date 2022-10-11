@@ -40,7 +40,8 @@ export class StorifyExploreComponent implements OnInit {
           i.name,
           i.id,
           i.participants.length,
-          this.getJoinLobbyCallback(i.id, this.lobbyService)
+          this.getJoinLobbyCallback(i.id, this.lobbyService),
+          i.imgUrl
         )
       );
     });
