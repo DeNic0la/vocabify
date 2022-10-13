@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { LobbyService } from '../services/lobby.service';
 import { Lobby, LobbyState } from '../types/lobby';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GameService } from '../services/game.service';
 import { ToasterService } from '../../services/toaster.service';
 import { Subscription } from 'rxjs';
@@ -9,6 +9,7 @@ import { Round } from '../types/round';
 import firebase from 'firebase/compat';
 import DocumentData = firebase.firestore.DocumentData;
 import { AuthService } from '../../auth/auth.service';
+import { User } from 'functions/src/types/user';
 
 @Component({
   selector: 'app-game',
@@ -18,33 +19,74 @@ import { AuthService } from '../../auth/auth.service';
 export class GameComponent implements OnDestroy {
   public loading: boolean = false;
   public gameState: LobbyState = LobbyState.SUBMITTING;
-  public lobby: Lobby | undefined;
+  lobby: Lobby = {
+    id: '',
+    participants: [],
+    state: 0,
+    name: '',
+    hostid: '',
+    story: [],
+    imgUrl: '',
+  };
+  public user: User | undefined;
   public story: string = '';
   public currentRound: Round | undefined;
   public submissionsViewed: boolean = false;
   private roundsSubscription: Subscription = new Subscription();
   private evaluated: boolean = false;
-  private isHost: boolean = false;
   private timeLeft: number = -1;
+
+  get isHost() {
+    if (this.lobby && this.user) {
+      return this.user.uid === this.lobby.hostid;
+    }
+    return false;
+  }
 
   constructor(
     private lobbyService: LobbyService,
     private gameService: GameService,
     private toastService: ToasterService,
     private authService: AuthService,
+    private router: Router,
     private route: ActivatedRoute,
   ) {
     this.loading = true;
+    this.authService.currentUser.subscribe((user) => {
+      this.user = user || undefined;
+    });
     const sub = this.lobbyService
       .getLobbyObs(route.snapshot.paramMap.get('id') || '')
       .subscribe((lobby) => {
-        this.lobby = lobby;
-        this.loadStory();
-        this.setGameState(lobby?.state);
-        this.loading = false;
-        this.authService.currentUser.subscribe((user) => {
-          this.isHost = user?.uid === this.lobby?.hostid;
-        });
+
+        const participantSub = this.lobbyService
+          .getParticipantsObs(lobby?.id || '')
+          .subscribe((participants) => {
+            this.lobby.id = lobby?.id || '';
+            this.lobby.hostid = lobby?.hostid || '';
+            this.lobby.name = lobby?.name || '';
+            this.lobby.state = lobby?.state || 0;
+            this.lobby.story = lobby?.story || [];
+            this.lobby.imgUrl = lobby?.imgUrl || '';
+            this.lobby.participants = participants || [];
+
+            this.loadStory();
+            this.setGameState(lobby?.state);
+            this.loading = false;
+
+            if (!participants?.some((e) => e.uid === this.user?.uid)) {
+              this.router.navigate(['storify/explore']);
+            }
+
+            if (this.lobby?.state !== LobbyState.JOINING) {
+              this.router.navigate(['/storify/play/' + this.lobby?.id]);
+            }
+
+            if (this.user?.uid !== this.lobby.hostid && this.isHost) {
+              this.toastService.showToast('success', 'You are now the Host');
+            }
+          });
+        this.roundsSubscription.add(participantSub);
       });
     this.roundsSubscription.add(sub);
   }
