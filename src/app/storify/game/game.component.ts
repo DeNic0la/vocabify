@@ -96,7 +96,7 @@ export class GameComponent implements OnDestroy {
 
   public loadStory() {
     let story = '';
-    this.lobby?.story.forEach(storyPart => {
+    this.lobby?.story.forEach((storyPart) => {
       if (
         !storyPart.sentence.endsWith('.') &&
         !storyPart.sentence.endsWith('!') &&
@@ -108,8 +108,8 @@ export class GameComponent implements OnDestroy {
           storyPart.sentence += ' ';
         }
       }
-      story += storyPart.sentence
-    })
+      story += storyPart.sentence;
+    });
     this.story = story;
   }
 
