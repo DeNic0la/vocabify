@@ -7,9 +7,9 @@ import { ToasterService } from '../../services/toaster.service';
 import { Subscription } from 'rxjs';
 import { Round } from '../types/round';
 import firebase from 'firebase/compat';
-import DocumentData = firebase.firestore.DocumentData;
 import { AuthService } from '../../auth/auth.service';
 import { User } from 'functions/src/types/user';
+import DocumentData = firebase.firestore.DocumentData;
 
 @Component({
   selector: 'app-game',
@@ -95,20 +95,22 @@ export class GameComponent implements OnDestroy {
   }
 
   public loadStory() {
-    let sentence: string =
-      this.lobby?.story[this.lobby?.story.length - 1].sentence || '';
-    if (
-      !sentence.endsWith('.') &&
-      !sentence.endsWith('!') &&
-      !sentence.endsWith('?')
-    ) {
-      sentence += '. ';
-    }
-    console.log((this.lobby?.story.length || 0) - 1);
-    if ((this.lobby?.story.length || 0) - 1 >= 1) {
-      sentence = `...${sentence}`;
-    }
-    this.story = sentence;
+    let story = '';
+    this.lobby?.story.forEach((storyPart) => {
+      if (
+        !storyPart.sentence.endsWith('.') &&
+        !storyPart.sentence.endsWith('!') &&
+        !storyPart.sentence.endsWith('?')
+      ) {
+        if (storyPart.uid !== 'ai') {
+          storyPart.sentence += '. ';
+        } else {
+          storyPart.sentence += ' ';
+        }
+      }
+      story += storyPart.sentence;
+    });
+    this.story = story;
   }
 
   ngOnDestroy() {
@@ -139,6 +141,9 @@ export class GameComponent implements OnDestroy {
       this.loading = false;
     }
     this.checkForEvaluation();
+    if (this.gameState === LobbyState.SUBMITTING) {
+      this.evaluated = false;
+    }
   }
 
   private checkForEvaluation(): void {
