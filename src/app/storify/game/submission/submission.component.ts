@@ -60,7 +60,7 @@ export class SubmissionComponent implements OnInit {
 
   checkTime(time: number) {
     this.timeLeft = time;
-    this.tick.emit(this.timeLeft)
+    this.tick.emit(this.timeLeft);
     if (this.timeLeft === 0) this.submitSentence();
   }
 }
