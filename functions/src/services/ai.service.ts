@@ -37,10 +37,19 @@ export class AiService {
       'Sort the sentences from best to worst.' + 'Reward longer sentences.';
     for (let sentence of sentences) {
       let senArray: string[];
-      senArray = sentence.split(".")
-      senArray = senArray[0].split("!")
-      senArray = senArray[0].split("?")
-      prompt = prompt + '\nSentence: ' + senArray[0] + ".";
+      let symbol: string = ".";
+
+      if(sentence.includes("!")) {
+        senArray = sentence.split("!");
+        symbol = "!";
+      } else if (sentence.includes("?")){
+        senArray = sentence.split("?");
+        symbol = "?";
+      } else {
+        senArray = sentence.split(".");
+      }
+
+      prompt = prompt + '\nSentence: ' + senArray[0] + symbol;
     }
     return prompt;
   }
