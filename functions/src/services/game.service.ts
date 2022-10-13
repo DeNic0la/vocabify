@@ -68,24 +68,27 @@ export class GameService {
       return;
     }
 
-    for (let i = 0; i < firebaseSentences.length; i++) {
-      if (sortedArray[0].includes(firebaseSentences[i].sentence)) {
-        await this.db
-          .collection('lobbies')
-          .doc(lobby.id)
-          .collection('rounds')
-          .doc(round.id)
-          .update({ winner: i });
-        lobby.story.push({
-          uid: firebaseSentences[i].uid,
-          sentence: firebaseSentences[i].sentence,
-        });
-        await this.db
-          .collection('lobbies')
-          .doc(lobby.id)
-          .update({ story: lobby.story });
-        this.addPoints(firebaseSentences[i].uid, lobby.id);
-        return;
+
+    for (let x = 0; x < sortedArray.length; x++) {
+      for (let i = 0; i < firebaseSentences.length; i++) {
+        if (sortedArray[x].includes(firebaseSentences[i].sentence)) {
+          await this.db
+            .collection('lobbies')
+            .doc(lobby.id)
+            .collection('rounds')
+            .doc(round.id)
+            .update({ winner: i });
+          lobby.story.push({
+            uid: firebaseSentences[i].uid,
+            sentence: firebaseSentences[i].sentence,
+          });
+          await this.db
+            .collection('lobbies')
+            .doc(lobby.id)
+            .update({ story: lobby.story, state: LobbyState.EVALUATED });
+          this.addPoints(firebaseSentences[i].uid, lobby.id);
+          return;
+        }
       }
     }
     throw new Error('There was an error choosing the best sentence.');
@@ -107,18 +110,11 @@ export class GameService {
       submittedStories: [],
       winner: -1,
     };
-    const numberOfRounds = (
-      await this.db
-        .collection('lobbies')
-        .doc(lobbyId)
-        .collection('rounds')
-        .listDocuments()
-    ).length;
     await this.db
       .collection('lobbies')
       .doc(lobbyId)
       .collection('rounds')
-      .doc('round_' + numberOfRounds)
+      .doc(Date.now().toString())
       .set(round, { merge: true });
   }
 
@@ -128,8 +124,8 @@ export class GameService {
         .collection('lobbies')
         .doc(lobbyId)
         .collection('rounds')
-        .orderBy('createdAt')
-        .limitToLast(1)
+        .orderBy('createdAt', 'desc')
+        .limit(1)
         .get()
     ).docs[0];
     if (!firebaseRound || !firebaseRound.exists) {
