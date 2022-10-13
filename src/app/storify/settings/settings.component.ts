@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { LobbyService } from '../services/lobby.service';
 import { Router } from '@angular/router';
 import { ToasterService } from '../../services/toaster.service';
@@ -13,11 +13,11 @@ import {
   styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent {
-  private static maxFileSize: number = 5000000;
   public isLoading: boolean = false;
   private filename: string = '';
+  public selectedFile: File | undefined;
+  public filereader: FileReader = new FileReader();
   ref: AngularFireStorageReference | undefined;
-  @ViewChild('fileUpload') input: ElementRef<HTMLInputElement> | undefined;
   private static defaultImgUrl: string =
     'https://images.pexels.com/photos/1670977/pexels-photo-1670977.jpeg?auto=compress&cs=tinysrgb&w=640&h=443&dpr=1';
 
@@ -28,40 +28,40 @@ export class SettingsComponent {
     private afStorage: AngularFireStorage
   ) {}
 
+  public previewSrcImage: string = '';
+
   async createLobby(topic: string) {
     this.filename = this.getFileName();
     this.ref = this.afStorage.ref(this.filename);
-    let files = this.input?.nativeElement.files;
-    let file = files?.item(0);
     if (!this.isLoading) {
-      /*UPLOAD FILE*/
       this.isLoading = true;
-      if (
-        this.input &&
-        this.input.nativeElement.files &&
-        this.input.nativeElement.files.length > 0
-      ) {
-        let file = this.input.nativeElement.files.item(0);
-        if (file) {
-          if (
-            true /* file.size < StorifyExploreComponent.maxFileSize && file.type.startsWith("image")*/
-          ) {
-            let t = this.ref?.put(file);
-
-            t?.snapshotChanges().subscribe({
-              next: (value) => {},
-              complete: () => {
-                this.ref?.getDownloadURL().subscribe((value) => {
-                  this.createSeLobby(topic, value);
-                });
-              },
+      if (this.selectedFile) {
+        /*UPLOAD FILE*/
+        let t = this.ref?.put(this.selectedFile);
+        t?.snapshotChanges().subscribe({
+          next: (value) => {},
+          complete: () => {
+            this.ref?.getDownloadURL().subscribe((value) => {
+              this.createSeLobby(topic, value);
             });
-          }
-        }
+          },
+        });
       } else {
         this.createSeLobby(topic, SettingsComponent.defaultImgUrl);
       }
     }
+  }
+
+  onFileSelect(event: File) {
+    this.selectedFile = event;
+    /* Do Preview:*/
+    this.filereader.readAsDataURL(this.selectedFile);
+    this.filereader.onload = (ev) => {
+      const r = this.filereader.result;
+      if (typeof r === 'string') {
+        this.previewSrcImage = r;
+      }
+    };
   }
 
   private getFileName(): string {
