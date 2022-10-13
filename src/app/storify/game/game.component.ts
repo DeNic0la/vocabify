@@ -7,9 +7,9 @@ import { ToasterService } from '../../services/toaster.service';
 import { Subscription } from 'rxjs';
 import { Round } from '../types/round';
 import firebase from 'firebase/compat';
-import DocumentData = firebase.firestore.DocumentData;
 import { AuthService } from '../../auth/auth.service';
 import { User } from 'functions/src/types/user';
+import DocumentData = firebase.firestore.DocumentData;
 
 @Component({
   selector: 'app-game',
@@ -141,6 +141,9 @@ export class GameComponent implements OnDestroy {
       this.loading = false;
     }
     this.checkForEvaluation();
+    if (this.gameState === LobbyState.SUBMITTING) {
+      this.evaluated = false;
+    }
   }
 
   private checkForEvaluation(): void {
