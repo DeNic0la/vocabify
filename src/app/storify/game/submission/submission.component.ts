@@ -1,10 +1,10 @@
 import {
-  Component,
+  Component, ElementRef,
   EventEmitter,
   HostListener,
   Input,
   OnInit,
-  Output,
+  Output, ViewChild,
 } from '@angular/core';
 import { TimerType } from '../../../ui/timer/timer.types';
 import { Lobby } from '../../types/lobby';
