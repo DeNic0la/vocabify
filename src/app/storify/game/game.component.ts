@@ -1,15 +1,15 @@
-import { Component, OnDestroy } from '@angular/core';
-import { LobbyService } from '../services/lobby.service';
-import { Lobby, LobbyState } from '../types/lobby';
-import { ActivatedRoute, Router } from '@angular/router';
-import { GameService } from '../services/game.service';
-import { ToasterService } from '../../services/toaster.service';
-import { Subscription } from 'rxjs';
-import { Round } from '../types/round';
+import {Component, OnDestroy} from '@angular/core';
+import {LobbyService} from '../services/lobby.service';
+import {Lobby, LobbyState} from '../types/lobby';
+import {ActivatedRoute, Router} from '@angular/router';
+import {GameService} from '../services/game.service';
+import {ToasterService} from '../../services/toaster.service';
+import {Subscription} from 'rxjs';
+import {Round} from '../types/round';
 import firebase from 'firebase/compat';
+import {AuthService} from '../../auth/auth.service';
+import {User} from 'functions/src/types/user';
 import DocumentData = firebase.firestore.DocumentData;
-import { AuthService } from '../../auth/auth.service';
-import { User } from 'functions/src/types/user';
 
 @Component({
   selector: 'app-game',
@@ -141,6 +141,9 @@ export class GameComponent implements OnDestroy {
       this.loading = false;
     }
     this.checkForEvaluation();
+    if (this.gameState === LobbyState.SUBMITTING) {
+      this.evaluated = false;
+    }
   }
 
   private checkForEvaluation(): void {
