@@ -18,11 +18,9 @@ export class SubmissionsViewComponent implements AfterViewInit {
   @ViewChild('sentence') sentenceBox: ElementRef | undefined;
 
   public stories: SubmittedStory[] = [
-    {username: 'test1', story: 'teststory1'},
-    {username: 'test2', story: 'teststory2'}
   ];
   public currentStory: SubmittedStory = this.stories[0]
-  public story: string = 'test test testtest test testtest test testtest test testtest test testtest test testtest test testtest test testtest test testtest test testtest test testtest test test'
+  public story: string = ''
   public showingStories: boolean = false;
   public hidden: boolean = false;
 
@@ -32,6 +30,7 @@ export class SubmissionsViewComponent implements AfterViewInit {
     this.round?.submittedStories.forEach(story => {
       this.stories.push({story: story.sentence, username: this.lobby?.participants.find(participant => participant.uid === story.uid)?.username || ''})
     })
+    this.story = this.lobby?.story[this.lobby?.story.length -1].sentence || '';
     this.showStories().then(() => {
       this.submissionsViewed.emit()
     });
