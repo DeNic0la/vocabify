@@ -1,8 +1,11 @@
-import {Component, Sanitizer, SecurityContext} from '@angular/core';
-import {LobbyService} from '../services/lobby.service';
-import {Router} from '@angular/router';
-import {ToasterService} from '../../services/toaster.service';
-import {AngularFireStorage, AngularFireStorageReference,} from '@angular/fire/compat/storage';
+import { Component, Sanitizer, SecurityContext } from '@angular/core';
+import { LobbyService } from '../services/lobby.service';
+import { Router } from '@angular/router';
+import { ToasterService } from '../../services/toaster.service';
+import {
+  AngularFireStorage,
+  AngularFireStorageReference,
+} from '@angular/fire/compat/storage';
 
 @Component({
   selector: 'app-settings',
@@ -12,8 +15,8 @@ import {AngularFireStorage, AngularFireStorageReference,} from '@angular/fire/co
 export class SettingsComponent {
   public isLoading: boolean = false;
   private filename: string = '';
-  public selectedFile:File|undefined;
-  public filereader:FileReader = new FileReader();
+  public selectedFile: File | undefined;
+  public filereader: FileReader = new FileReader();
   ref: AngularFireStorageReference | undefined;
   private static defaultImgUrl: string =
     'https://images.pexels.com/photos/1670977/pexels-photo-1670977.jpeg?auto=compress&cs=tinysrgb&w=640&h=443&dpr=1';
@@ -22,20 +25,17 @@ export class SettingsComponent {
     private lobbyService: LobbyService,
     private router: Router,
     private msgService: ToasterService,
-    private afStorage: AngularFireStorage,
+    private afStorage: AngularFireStorage
   ) {}
 
-  public previewSrcImage:string = "";
+  public previewSrcImage: string = '';
 
   async createLobby(topic: string) {
     this.filename = this.getFileName();
     this.ref = this.afStorage.ref(this.filename);
     if (!this.isLoading) {
-
       this.isLoading = true;
-      if (
-        this.selectedFile
-      ) {
+      if (this.selectedFile) {
         /*UPLOAD FILE*/
         let t = this.ref?.put(this.selectedFile);
         t?.snapshotChanges().subscribe({
@@ -52,16 +52,16 @@ export class SettingsComponent {
     }
   }
 
-  onFileSelect(event:File){
+  onFileSelect(event: File) {
     this.selectedFile = event;
     /* Do Preview:*/
     this.filereader.readAsDataURL(this.selectedFile);
-    this.filereader.onload = ev => {
+    this.filereader.onload = (ev) => {
       const r = this.filereader.result;
-      if (typeof(r) === "string"){
+      if (typeof r === 'string') {
         this.previewSrcImage = r;
       }
-    }
+    };
   }
 
   private getFileName(): string {

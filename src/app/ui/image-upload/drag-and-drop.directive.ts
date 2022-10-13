@@ -1,12 +1,16 @@
-import {Directive, EventEmitter, HostBinding, HostListener, Output} from '@angular/core';
-
+import {
+  Directive,
+  EventEmitter,
+  HostBinding,
+  HostListener,
+  Output,
+} from '@angular/core';
 
 @Directive({
-  selector: '[dropzone]'
+  selector: '[dropzone]',
 })
 export class DragAndDropDirective {
-
-  constructor() { }
+  constructor() {}
 
   @HostBinding('class.drag') fileOver: boolean = false;
   @Output() fileDropped = new EventEmitter<any>();
@@ -17,13 +21,13 @@ export class DragAndDropDirective {
     this.fileOver = true;
   }
 
-  @HostListener('dragleave', ['$event']) public onDragLeave(evt:Event) {
+  @HostListener('dragleave', ['$event']) public onDragLeave(evt: Event) {
     evt.preventDefault();
     evt.stopPropagation();
     this.fileOver = false;
   }
 
-  @HostListener('drop', ['$event']) public ondrop(evt:Event) {
+  @HostListener('drop', ['$event']) public ondrop(evt: Event) {
     evt.preventDefault();
     evt.stopPropagation();
     this.fileOver = false;
@@ -33,5 +37,4 @@ export class DragAndDropDirective {
       this.fileDropped.emit(files);
     }
   }
-
 }

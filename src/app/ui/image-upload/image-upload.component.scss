@@ -1,26 +1,25 @@
 @import "src/app/styles/colors.scss";
 
-@media screen and (min-width: 1000px){
-  .mobile-button{
+@media screen and (min-width: 1000px) {
+  .mobile-button {
     /*Dont Display that on Laptop*/
     display: none;
   }
-
 }
-@media screen and (max-width: 1000px){
-  .dropzone{
+@media screen and (max-width: 1000px) {
+  .dropzone {
     /*Dont Display on Phone*/
     display: none;
   }
 }
-.mobile-container{
+.mobile-container {
   /*Center Mobile Button*/
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 10px ;
+  margin-top: 10px;
 }
-.drag{
+.drag {
   border: dashed 10px $color-black;
   background-color: $color-main-active !important;
   animation: shake 1s;
@@ -63,8 +62,7 @@
   }
 }
 
-.dropzone{
-
+.dropzone {
   /*TODO: Make this responsive*/
   height: 30vh;
   width: 50vw;
@@ -76,7 +74,7 @@
   flex: content;
   justify-content: space-around;
 
-  input{
+  input {
     opacity: 0;
     position: absolute;
     z-index: 2;
@@ -86,13 +84,13 @@
     height: 100%;
   }
 
-  #img{
-    .disk{
+  #img {
+    .disk {
       height: 100px;
     }
   }
 
-  h3{
+  h3 {
     padding-top: 50px;
   }
 }
