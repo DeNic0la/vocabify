@@ -1,6 +1,8 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { Round } from '../../types/round';
 import { Lobby } from '../../types/lobby';
+import { GameService } from '../../services/game.service';
+import { LobbyState } from 'functions/src/types/lobby';
 
 @Component({
   selector: 'app-winner-view',
@@ -14,7 +16,9 @@ export class WinnerViewComponent implements OnChanges {
   public winnerName: string = 'test winner';
   public winnerStory: string = 'test story';
 
-  constructor() {}
+  constructor(
+    private gameService: GameService,
+  ) { }
 
   ngOnChanges(): void {
     if (this.round && this.lobby) {
@@ -28,5 +32,9 @@ export class WinnerViewComponent implements OnChanges {
           (participant) => participant.uid === winnerId
         )?.username || '';
     }
+  }
+
+  public async nextRound() {
+    await this.gameService.changeState(this.lobby?.id || '', LobbyState.SUBMITTING);
   }
 }

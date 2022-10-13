@@ -101,3 +101,12 @@
     transform: scale(1);
   }
 }
+
+@media only screen and (min-width: 1000px) {
+  .button-container {
+    bottom: 5%;
+    right: 5%;
+    position: fixed;
+    z-index: 1;
+  }
+}
