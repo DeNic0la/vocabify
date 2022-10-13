@@ -64,10 +64,7 @@
 }
 
 .dropzone{
-  /*region tempzone*/
-  margin-top: 100px !important;
-  margin-bottom: 100px !important;
-  /*endregion*/
+
   /*TODO: Make this responsive*/
   height: 30vh;
   width: 50vw;
@@ -75,7 +72,7 @@
   border: dashed 8px $color-black;
   text-align: center;
   background-color: $color-main;
-  margin: 0 auto;
+  margin: 10px auto;
   flex: content;
   justify-content: space-around;
 
