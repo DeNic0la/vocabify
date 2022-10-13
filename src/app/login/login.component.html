@@ -8,6 +8,7 @@
       name="email"
       placeholder="email"
       #email
+      (keyup.enter)="login(email.value, password.value)"
     ></app-textfield>
   </div>
   <div class="label pt-3 flex flex-column align-items-start">
@@ -18,6 +19,7 @@
       name="password"
       placeholder="password"
       #password
+      (keyup.enter)="login(email.value, password.value)"
     ></app-textfield>
   </div>
   <div class="login-btn">
