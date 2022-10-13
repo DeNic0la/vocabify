@@ -18,6 +18,8 @@ export class SubmissionsViewComponent implements OnInit {
     {username: 'test1', story: 'teststory1'},
     {username: 'test2', story: 'teststory2'}
   ];
+  public currentStory: SubmittedStory = this.stories[0]
+  public story: string = 'test test testtest test testtest test testtest test testtest test testtest test testtest test testtest test testtest test testtest test testtest test testtest test test'
 
   constructor() { }
 

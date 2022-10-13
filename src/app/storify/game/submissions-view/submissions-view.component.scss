@@ -1,0 +1,17 @@
+@import "src/app/styles/colors.scss";
+
+.content {
+
+  .header {
+    width: 100vw;
+    text-align: center;
+    margin: 36px 0;
+  }
+
+  .title {
+    width: 100vw;
+    text-align: center;
+    margin-top: 36px;
+    color: $color-main;
+  }
+}

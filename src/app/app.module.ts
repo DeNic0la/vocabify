@@ -30,6 +30,7 @@ import { GameComponent } from './storify/game/game.component';
 import { TimerComponent } from './ui/timer/timer.component';
 import { WinnerViewComponent } from './storify/game/winner-view/winner-view.component';
 import { SettingsComponent } from './storify/settings/settings.component';
+import { SubmissionsViewComponent } from './storify/game/submissions-view/submissions-view.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { SettingsComponent } from './storify/settings/settings.component';
     TimerComponent,
     WinnerViewComponent,
     SettingsComponent,
+    SubmissionsViewComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,3 +1,16 @@
 <div class="content">
-  <h3 class="title">Submitted sentences</h3>
+  <h3 class="header">submitted stories</h3>
+  <h5 class="title">{{story}}</h5>
+  <div class="username-wrapper">
+    <div class="username-box">
+      <h5>{{ currentStory.username }}</h5>
+    </div>
+  </div>
+  <div class="winning-sentence-wrapper">
+    <div class="winning-sentence-box">
+      <app-card size="large" color="inverted">
+        {{ currentStory.story }}
+      </app-card>
+    </div>
+  </div>
 </div>
