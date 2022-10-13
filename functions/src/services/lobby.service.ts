@@ -83,6 +83,16 @@ export class LobbyService {
     return lobby;
   }
 
+  public async deleteAllLobbiesOlderThan24Hours() {
+    const lobbies = await this.db
+      .collection('lobbies')
+      .where('id', '<', Date.now() - 24 * 60 * 60 * 1000 /* 24 hours */)
+      .get();
+    lobbies.forEach(async (lobby) => {
+      await lobby.ref.delete();
+    });
+  }
+
   private async getParticipants(lobbyId: string) {
     let participants: Participant[] = [];
     const firebaseParticpants = await this.db
