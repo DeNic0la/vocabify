@@ -175,3 +175,9 @@ exports.evaluate = functions.https.onRequest(async (req, res) => {
     }
   });
 });
+
+exports.lobbyDeletion = functions.pubsub.schedule('every 24 hours').onRun(async () => {
+  const lobbyService = new LobbyService();
+  await lobbyService.deleteAllLobbiesOlderThan24Hours();
+  return null;
+});
