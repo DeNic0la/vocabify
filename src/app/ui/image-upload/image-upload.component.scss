@@ -1,0 +1,55 @@
+@import "src/app/styles/colors.scss";
+
+@media screen and (min-width: 1000px){
+  .mobile-button{
+    /*Dont Display that on Laptop*/
+    display: none;
+  }
+
+}
+@media screen and (max-width: 1000px){
+  .dropzone{
+    /*Dont Display on Phone*/
+    display: none;
+  }
+}
+.mobile-container{
+  /*Center Mobile Button*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px ;
+}
+.dropzone{
+  /*region tempzone*/
+  margin-top: 100px !important;
+  margin-bottom: 100px !important;
+  /*endregion*/
+  /*TODO: Make this responsive*/
+  height: 30vh;
+  width: 50vw;
+  position: relative;
+  border: dashed 18px $color-black;
+  text-align: center;
+  background-color: $color-main;
+  margin: 0 auto;
+  flex: content;
+  justify-content: space-around;
+
+  input{
+    opacity: 0;
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  #img{
+    .disk{
+      height: 100px;
+    }
+  }
+
+}
