@@ -54,19 +54,19 @@ export class GameService {
       stories.push(story.sentence);
     }
 
-    let bestSentence = '';
-    if (stories.length >= 2) {
-      bestSentence = await this.aiService.getBestSentence(stories);
-      console.log('Best sentence: ' + bestSentence);
-    } else if (stories.length == 1) {
-      bestSentence = stories[0];
+    let sortedSentences = '';
+    let sortedArray:string[] = [];
+    if (stories.length >= 1) {
+      sortedSentences = await this.aiService.getSortedSentences(stories);
+      console.log('Sorted sentences: ' + sortedSentences);
+      sortedArray = sortedSentences.split("\n")
     } else {
       await new LobbyService().deleteLobby(lobby.id);
       return;
     }
 
     for (let i = 0; i < firebaseSentences.length; i++) {
-      if (bestSentence.includes(firebaseSentences[i].sentence)) {
+      if (sortedArray[0].includes(firebaseSentences[i].sentence)) {
         await this.db
           .collection('lobbies')
           .doc(lobby.id)
@@ -85,7 +85,6 @@ export class GameService {
         return;
       }
     }
-
     throw new Error('There was an error choosing the best sentence.');
   }
 
