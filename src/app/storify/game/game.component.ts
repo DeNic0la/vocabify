@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { LobbyService } from '../services/lobby.service';
 import { GameState } from './game.types';
-import { Lobby } from '../types/lobby';
+import { Lobby, LobbyState } from '../types/lobby';
 import { ActivatedRoute } from '@angular/router';
 import { GameService } from '../services/game.service';
 import { ToasterService } from '../../services/toaster.service';
@@ -37,8 +37,8 @@ export class GameComponent implements OnDestroy {
   ) {
     this.loading = true;
     this.lobbyService
-      .getLobby(route.snapshot.paramMap.get('id') || '')
-      .then((lobby) => {
+      .getLobbyObs(route.snapshot.paramMap.get('id') || '')
+      .subscribe((lobby) => {
         this.lobby = lobby;
         this.loadStory();
         this.loading = false;
@@ -58,7 +58,6 @@ export class GameComponent implements OnDestroy {
     ) {
       sentence += '. ';
     }
-    console.log((this.lobby?.story.length || 0) - 1);
     if ((this.lobby?.story.length || 0) - 1 >= 1) {
       sentence = `...${sentence}`;
     }
