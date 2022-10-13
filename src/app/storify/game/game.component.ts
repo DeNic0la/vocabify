@@ -17,12 +17,12 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class GameComponent implements OnDestroy {
   public loading: boolean = false;
-  public gameState: LobbyState = LobbyState.EVALUATING;
+  public gameState: LobbyState = LobbyState.SUBMITTING;
   public lobby: Lobby | undefined;
   public story: string = '';
   public currentRound: Round | undefined;
   public submissionsViewed: boolean = false;
-  private roundsSubscribtion: Subscription = new Subscription();;
+  private roundsSubscription: Subscription = new Subscription();
   private evaluated: boolean = false;
   private isHost: boolean = false;
   private timeLeft: number = -1;
@@ -46,7 +46,7 @@ export class GameComponent implements OnDestroy {
           this.isHost = user?.uid === this.lobby?.hostid;
         });
       });
-    this.roundsSubscribtion.add(sub);
+    this.roundsSubscription.add(sub);
   }
 
   public loadStory() {
@@ -68,7 +68,7 @@ export class GameComponent implements OnDestroy {
 
   ngOnDestroy() {
     this.lobbyService.leave(this.lobby?.id || '').then(() => {
-      this.roundsSubscribtion.unsubscribe();
+      this.roundsSubscription.unsubscribe();
     });
   }
 
@@ -84,7 +84,7 @@ export class GameComponent implements OnDestroy {
       const sub = rounds.subscribe((roundsData) =>
         this.handleRoundsChange(roundsData)
       );
-      this.roundsSubscribtion.add(sub);
+      this.roundsSubscription.add(sub);
     });
   }
 
