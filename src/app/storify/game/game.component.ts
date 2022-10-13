@@ -23,9 +23,9 @@ export class GameComponent implements OnDestroy {
   public story: string = '';
   private roundsSubscribtion: Subscription | undefined;
   public currentRound: Round | undefined;
-  private timeLeft: number = -1;
   private evaluated: boolean = false;
   private isHost: boolean = false;
+  private timeLeft: number = -1;
 
   constructor(
     private lobbyService: LobbyService,
@@ -65,24 +65,24 @@ export class GameComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.roundsSubscribtion?.unsubscribe();
+    this.lobbyService.leave(this.lobby?.id || '').then(() => {
+      this.roundsSubscribtion?.unsubscribe();
+    });
   }
 
-  submitSentence(sentence: string) {
+  async submitSentence(sentence: string) {
     this.loading = true;
     this.gameState = 'evaluating';
     if (sentence) {
-      this.gameService
+      await this.gameService
         .submitAnswer(this.lobby?.id || '', sentence)
-        .then(() => {
-          this.gameService.getAllRounds(this.lobby?.id || '').then((rounds) => {
-            this.roundsSubscribtion = rounds.subscribe((roundsData) =>
-              this.handleRoundsChange(roundsData)
-            );
-          });
-        })
         .catch((e) => this.toastService.showToast('error', e.error));
     }
+    this.gameService.getAllRounds(this.lobby?.id || '').then((rounds) => {
+      this.roundsSubscribtion = rounds.subscribe((roundsData) =>
+        this.handleRoundsChange(roundsData)
+      );
+    });
   }
 
   private handleRoundsChange(data: DocumentData[]) {
@@ -98,7 +98,7 @@ export class GameComponent implements OnDestroy {
     const playersAmount = this.lobby?.participants.length;
     const sentencesAmount = this.currentRound?.submittedStories.length;
     if (
-      (playersAmount === sentencesAmount || this.gameState != 'submitting') &&
+      (playersAmount === sentencesAmount || this.timeLeft === 0) &&
       !this.evaluated
     ) {
       if (this.isHost) {
@@ -106,5 +106,9 @@ export class GameComponent implements OnDestroy {
         this.gameService.evaluate(this.lobby?.id || '');
       }
     }
+  }
+
+  public tick(time: number): void {
+    this.timeLeft = time;
   }
 }

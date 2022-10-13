@@ -4,6 +4,7 @@
   [lobby]="lobby"
   [story]="story"
   (submit)="submitSentence($event)"
+  (tick)="tick($event)"
 ></app-submission>
 <app-winner-view
   *ngIf="gameState === 'evaluated' && !loading"
