@@ -43,6 +43,10 @@ export class GameComponent implements OnDestroy {
     return false;
   }
 
+  public get LobbyState(): typeof LobbyState {
+    return LobbyState;
+  }
+
   constructor(
     private lobbyService: LobbyService,
     private gameService: GameService,

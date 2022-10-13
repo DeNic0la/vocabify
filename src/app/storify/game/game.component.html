@@ -1,19 +1,19 @@
 <app-loader *ngIf="loading"></app-loader>
 <app-submission
-  *ngIf="gameState === 1 && !loading"
+  *ngIf="gameState === LobbyState.SUBMITTING && !loading"
   [lobby]="lobby"
   [story]="story"
   (submit)="submitSentence($event)"
   (tick)="tick($event)"
 ></app-submission>
 <app-submissions-view
-  *ngIf="(gameState === 2 || gameState === 3) && !loading && !submissionsViewed"
+  *ngIf="(gameState === LobbyState.EVALUATING || gameState === LobbyState.EVALUATED) && !loading && !submissionsViewed"
   [round]="currentRound"
   [lobby]="lobby"
   (submissions-viewed)="showWinner()"
 ></app-submissions-view>
 <app-winner-view
-  *ngIf="gameState === 2 && !loading && submissionsViewed"
+  *ngIf="gameState === LobbyState.EVALUATING && !loading && submissionsViewed"
   [round]="currentRound"
   [lobby]="lobby"
 ></app-winner-view>
