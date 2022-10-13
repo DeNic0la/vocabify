@@ -57,8 +57,11 @@ export class GameService {
     let sortedSentences = '';
     let sortedArray: string[] = [];
     if (stories.length >= 1) {
-      sortedSentences = await this.aiService.getSortedSentences(stories);
-      console.log('Sorted sentences: ' + sortedSentences);
+      if (stories.length > 1) {
+        sortedSentences = await this.aiService.getSortedSentences(stories);
+      } else {
+        sortedSentences = stories[0];
+      }
       sortedArray = sortedSentences.split('\n');
     } else {
       await new LobbyService().deleteLobby(lobby.id);
