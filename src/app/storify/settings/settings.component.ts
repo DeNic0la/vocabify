@@ -1,4 +1,4 @@
-import { Component, Sanitizer, SecurityContext } from '@angular/core';
+import { Component } from '@angular/core';
 import { LobbyService } from '../services/lobby.service';
 import { Router } from '@angular/router';
 import { ToasterService } from '../../services/toaster.service';
