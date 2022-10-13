@@ -1,6 +1,7 @@
-<div class="center flex-column flex gap-4">
-  <h1 class="text">Lobby Settings</h1>
+<div class="center flex-column flex gap-4" *ngIf="!isLoading">
+  <h3 class="text title">Lobby Settings</h3>
   <app-textfield placeholder="TOPIC" #topic></app-textfield>
+  <h5 class="image-title">background image</h5>
   <input type="file" #fileUpload name="f" />
   <div class="button-container">
     <app-button
@@ -11,3 +12,4 @@
     </app-button>
   </div>
 </div>
+<app-loader *ngIf="isLoading"></app-loader>

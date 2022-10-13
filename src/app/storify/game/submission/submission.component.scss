@@ -10,7 +10,7 @@
       width: 128px;
       position: absolute;
       right: 0;
-      margin-top: 50vh;
+      margin-top: 55vh;
       transform: translateY(-384px);
       z-index: 1;
       pointer-events: none;
@@ -20,8 +20,13 @@
       width: 100vw;
       display: flex;
       justify-content: space-around;
-      height: 256px;
-      transform: translateY(128px);
+      height: calc(100vh - 352px);
+      vertical-align: center;
+      min-height: 328px;
+
+      .card {
+        margin-top: calc(50vh - 352px);
+      }
     }
   }
 
@@ -64,6 +69,10 @@
   .card-wrapper {
     transform: translateY(192px) !important;
   }
+
+  .card {
+    margin-top: 0 !important;
+  }
 }
 
 @media screen and (max-width: 620px) {
@@ -73,5 +82,25 @@
     .button-wrapper {
       transform: translate(calc(50vw - 8px), -312px) !important;
     }
+  }
+}
+
+@media screen and (max-height: 760px) {
+  .card {
+    margin-top: 32px !important;
+  }
+
+  .timer-wrapper:has(app-timer:has(.horizontal)) {
+    margin-top: 420px !important;
+  }
+}
+
+@media screen and (max-height: 650px) {
+  .card {
+    margin-top: 0 !important;
+  }
+
+  .timer-wrapper {
+    margin-top: 384px !important;
   }
 }
