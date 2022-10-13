@@ -167,7 +167,7 @@ exports.evaluate = functions.https.onRequest(async (req, res) => {
 
       const lobby = await lobbyService.getLobby(req.body.lobbyId);
       await gameService.changeState(uid, lobby, LobbyState.EVALUATING);
-      await gameService.evaluate(uid, lobby);
+      await gameService.evaluate(lobby);
 
       res.status(200).send();
     } catch (error: any) {

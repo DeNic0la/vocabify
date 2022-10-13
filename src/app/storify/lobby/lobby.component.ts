@@ -122,7 +122,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
       try {
         await this.gameService.changeState(
           this.lobby?.id || '',
-          LobbyState.IN_PROGRESS
+          LobbyState.SUBMITTING
         );
         this.isStarting = false;
       } catch (e) {

@@ -30,7 +30,7 @@ export class LobbyService {
   }
 
   public async join(user: User, lobby: Lobby) {
-    if (lobby.state == LobbyState.IN_PROGRESS) {
+    if (lobby.state !== LobbyState.JOINING) {
       throw new Error('The lobby is already in progress.');
     }
     const particpant: Participant = {
@@ -111,7 +111,7 @@ export class LobbyService {
     return participants;
   }
 
-  private async deleteLobby(lobbyId: string) {
+  public async deleteLobby(lobbyId: string) {
     this.db
       .collection('lobbies')
       .doc(lobbyId)
