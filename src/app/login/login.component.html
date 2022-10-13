@@ -2,16 +2,30 @@
   <h2 class="title">Login</h2>
   <div class="label flex flex-column align-items-start">
     <label class="text" for="email">Email:</label>
-    <app-textfield type="email" id="email" name="email" placeholder="email" #email
-      (keyup.enter)="login(email.value, password.value)"></app-textfield>
+    <app-textfield
+      type="email"
+      id="email"
+      name="email"
+      placeholder="email"
+      #email
+      (keyup.enter)="login(email.value, password.value)"
+    ></app-textfield>
   </div>
   <div class="label pt-3 flex flex-column align-items-start">
     <label class="text" for="password">Password:</label>
-    <app-textfield type="password" id="password" name="password" placeholder="password" #password
-      (keyup.enter)="login(email.value, password.value)"></app-textfield>
+    <app-textfield
+      type="password"
+      id="password"
+      name="password"
+      placeholder="password"
+      #password
+      (keyup.enter)="login(email.value, password.value)"
+    ></app-textfield>
   </div>
   <div class="login-btn">
-    <app-button (click)="login(email.value, password.value)" size="medium">Login</app-button>
+    <app-button (click)="login(email.value, password.value)" size="medium"
+      >Login</app-button
+    >
   </div>
   <div class="links">
     <h2 class="text link">

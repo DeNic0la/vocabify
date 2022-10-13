@@ -2,36 +2,91 @@
   <h2 class="title">Register</h2>
   <div class="label flex flex-column align-items-start">
     <label class="text" for="username">Username:</label>
-    <app-textfield type="text" id="username" name="username" placeholder="username" #username
-      (keyup.enter)="register( username.value, email.value, password.value, reapeatedpassword.value)"></app-textfield>
+    <app-textfield
+      type="text"
+      id="username"
+      name="username"
+      placeholder="username"
+      #username
+      (keyup.enter)="
+        register(
+          username.value,
+          email.value,
+          password.value,
+          reapeatedpassword.value
+        )
+      "
+    ></app-textfield>
   </div>
   <div class="label pt-3 flex flex-column align-items-start">
     <label class="text" for="email">Email:</label>
-    <app-textfield type="email" id="email" name="email" placeholder="email" #email
-      (keyup.enter)="register( username.value, email.value, password.value, reapeatedpassword.value)"></app-textfield>
+    <app-textfield
+      type="email"
+      id="email"
+      name="email"
+      placeholder="email"
+      #email
+      (keyup.enter)="
+        register(
+          username.value,
+          email.value,
+          password.value,
+          reapeatedpassword.value
+        )
+      "
+    ></app-textfield>
   </div>
   <div class="label pt-3 flex flex-column align-items-start">
     <label class="text" for="password">Password:</label>
-    <app-textfield type="password" id="password" name="password" placeholder="password" #password
-      (keyup.enter)="register( username.value, email.value, password.value, reapeatedpassword.value)">
+    <app-textfield
+      type="password"
+      id="password"
+      name="password"
+      placeholder="password"
+      #password
+      (keyup.enter)="
+        register(
+          username.value,
+          email.value,
+          password.value,
+          reapeatedpassword.value
+        )
+      "
+    >
     </app-textfield>
   </div>
   <div class="label pt-3 flex flex-column align-items-start">
     <label class="text" for="password">Repeat Password:</label>
-    <app-textfield type="password" id="repeatedpassword" name="repeatedpassword" placeholder="password"
+    <app-textfield
+      type="password"
+      id="repeatedpassword"
+      name="repeatedpassword"
+      placeholder="password"
       #reapeatedpassword
-      (keyup.enter)="register( username.value, email.value, password.value, reapeatedpassword.value)">
+      (keyup.enter)="
+        register(
+          username.value,
+          email.value,
+          password.value,
+          reapeatedpassword.value
+        )
+      "
+    >
     </app-textfield>
   </div>
 
-  <app-button class="pt-5" (click)="
+  <app-button
+    class="pt-5"
+    (click)="
       register(
         username.value,
         email.value,
         password.value,
         reapeatedpassword.value
       )
-    " size="large">Register
+    "
+    size="large"
+    >Register
   </app-button>
   <div class="links">
     <h2 class="text">
