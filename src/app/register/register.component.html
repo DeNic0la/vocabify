@@ -8,6 +8,14 @@
       name="username"
       placeholder="username"
       #username
+      (keyup.enter)="
+        register(
+          username.value,
+          email.value,
+          password.value,
+          reapeatedpassword.value
+        )
+      "
     ></app-textfield>
   </div>
   <div class="label pt-3 flex flex-column align-items-start">
@@ -18,6 +26,14 @@
       name="email"
       placeholder="email"
       #email
+      (keyup.enter)="
+        register(
+          username.value,
+          email.value,
+          password.value,
+          reapeatedpassword.value
+        )
+      "
     ></app-textfield>
   </div>
   <div class="label pt-3 flex flex-column align-items-start">
@@ -28,6 +44,14 @@
       name="password"
       placeholder="password"
       #password
+      (keyup.enter)="
+        register(
+          username.value,
+          email.value,
+          password.value,
+          reapeatedpassword.value
+        )
+      "
     >
     </app-textfield>
   </div>
@@ -39,6 +63,14 @@
       name="repeatedpassword"
       placeholder="password"
       #reapeatedpassword
+      (keyup.enter)="
+        register(
+          username.value,
+          email.value,
+          password.value,
+          reapeatedpassword.value
+        )
+      "
     >
     </app-textfield>
   </div>
