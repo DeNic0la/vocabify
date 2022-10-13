@@ -28,12 +28,13 @@ export class LobbyComponent implements OnInit, OnDestroy {
   user: User | undefined;
   isLeaving: boolean = false;
   isKicking: boolean = false;
+  isStarting: boolean = false;
   hostId: string = '';
 
   private subscriptions: Subscription = new Subscription();
 
   get isLoading() {
-    return !(this.lobby && this.lobby.id.length > 0) || this.isLeaving;
+    return !(this.lobby && this.lobby.id.length > 0) || this.isLeaving || this.isStarting;
   }
 
   get isHost() {
@@ -115,13 +116,23 @@ export class LobbyComponent implements OnInit, OnDestroy {
   }
 
   public async start() {
+    this.isStarting = true;
+    this.headerService.setAction(undefined);
     if (this.isHost && this.lobby) {
       try {
         await this.gameService.changeState(
           this.lobby?.id || '',
           LobbyState.IN_PROGRESS
         );
+        this.isStarting = false;
       } catch (e) {
+        this.isStarting = false;
+        this.headerService.setAction({
+          prompt: 'Start Game',
+          size: 'large',
+          color: 'success',
+          action: this.start.bind(this),
+        });
         this.toast.showToast('error', "Game couldn't be started");
       }
     }

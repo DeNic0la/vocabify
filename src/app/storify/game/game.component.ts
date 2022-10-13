@@ -21,7 +21,7 @@ export class GameComponent implements OnDestroy {
   public gameState: GameState = 'submitting';
   public lobby: Lobby | undefined;
   public story: string = '';
-  private roundsSubscribtion: Subscription | undefined;
+  private roundsSubscription: Subscription | undefined;
   public currentRound: Round | undefined;
   private evaluated: boolean = false;
   private isHost: boolean = false;
