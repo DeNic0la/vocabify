@@ -20,6 +20,49 @@
   align-items: center;
   margin-top: 10px ;
 }
+.drag{
+  border: dashed 10px $color-black;
+  background-color: $color-main-active !important;
+  animation: shake 1s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(1px, 0px) rotate(-1deg);
+  }
+  10% {
+    transform: translate(-1px, -2px) rotate(-1deg);
+  }
+  20% {
+    transform: translate(-3px, 0px) rotate(1deg);
+  }
+  30% {
+    transform: translate(3px, 2px) rotate(0deg);
+  }
+  40% {
+    transform: translate(1px, -1px) rotate(1deg);
+  }
+  50% {
+    transform: translate(-1px, 2px) rotate(-1deg);
+  }
+  60% {
+    transform: translate(-3px, 1px) rotate(0deg);
+  }
+  70% {
+    transform: translate(3px, 1px) rotate(-1deg);
+  }
+  80% {
+    transform: translate(-1px, -1px) rotate(1deg);
+  }
+  90% {
+    transform: translate(1px, 2px) rotate(0deg);
+  }
+  100% {
+    transform: translate(1px, -2px) rotate(-1deg);
+  }
+}
+
 .dropzone{
   /*region tempzone*/
   margin-top: 100px !important;
@@ -29,7 +72,7 @@
   height: 30vh;
   width: 50vw;
   position: relative;
-  border: dashed 18px $color-black;
+  border: dashed 8px $color-black;
   text-align: center;
   background-color: $color-main;
   margin: 0 auto;
@@ -52,4 +95,7 @@
     }
   }
 
+  h3{
+    padding-top: 50px;
+  }
 }

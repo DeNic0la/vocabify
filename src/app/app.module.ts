@@ -31,6 +31,7 @@ import { TimerComponent } from './ui/timer/timer.component';
 import { WinnerViewComponent } from './storify/game/winner-view/winner-view.component';
 import { SettingsComponent } from './storify/settings/settings.component';
 import { ImageUploadComponent } from './ui/image-upload/image-upload.component';
+import { DragAndDropDirective } from './ui/image-upload/drag-and-drop.directive';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { ImageUploadComponent } from './ui/image-upload/image-upload.component';
     WinnerViewComponent,
     SettingsComponent,
     ImageUploadComponent,
+    DragAndDropDirective,
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,8 @@
 <div class="center flex-column flex gap-4">
   <h1 class="text">Lobby Settings</h1>
   <app-textfield placeholder="TOPIC" #topic></app-textfield>
-  <input type="file" #fileUpload name="f" />
+  <app-image-upload (file)="selectedFile=$event"></app-image-upload>
+  <div class="preview-container"></div>
   <div class="button-container">
     <app-button
       color="success"
@@ -11,5 +12,4 @@
     </app-button>
   </div>
 </div>
-
-<app-image-upload></app-image-upload>
+<div *ngIf="selectedFile">Has a File</div>

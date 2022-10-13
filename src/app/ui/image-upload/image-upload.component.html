@@ -1,8 +1,9 @@
-<div class="dropzone">
-  <input type="file" #fileDropRef name="file" id="fileDropRef">
-  <div id="img">
+<div class="dropzone" dropzone (fileDropped)="fileDropped($event)">
+  <input type="file" (change)="fileBrowseHandler($event)" #fileDropRef name="file" id="fileDropRef">
+  <!-- TODO: Add a Good Image-->
+  <!--div id="img">
     <img src="../../../assets/images/disk.svg" class="disk" alt="Disk">
-  </div>
+  </div-->
   <h3>Drag and Drop your Image here </h3>
   <h3>Or Choose a File</h3>
 </div>

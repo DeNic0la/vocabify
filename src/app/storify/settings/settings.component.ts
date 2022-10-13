@@ -13,11 +13,10 @@ import {
   styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent {
-  private static maxFileSize: number = 5000000;
   public isLoading: boolean = false;
   private filename: string = '';
+  public selectedFile:File|undefined;
   ref: AngularFireStorageReference | undefined;
-  @ViewChild('fileUpload') input: ElementRef<HTMLInputElement> | undefined;
   private static defaultImgUrl: string =
     'https://images.pexels.com/photos/1670977/pexels-photo-1670977.jpeg?auto=compress&cs=tinysrgb&w=640&h=443&dpr=1';
 
@@ -31,33 +30,22 @@ export class SettingsComponent {
   async createLobby(topic: string) {
     this.filename = this.getFileName();
     this.ref = this.afStorage.ref(this.filename);
-    let files = this.input?.nativeElement.files;
-    let file = files?.item(0);
     if (!this.isLoading) {
-      /*UPLOAD FILE*/
+
       this.isLoading = true;
       if (
-        this.input &&
-        this.input.nativeElement.files &&
-        this.input.nativeElement.files.length > 0
+        this.selectedFile
       ) {
-        let file = this.input.nativeElement.files.item(0);
-        if (file) {
-          if (
-            true /* file.size < StorifyExploreComponent.maxFileSize && file.type.startsWith("image")*/
-          ) {
-            let t = this.ref?.put(file);
-
-            t?.snapshotChanges().subscribe({
-              next: (value) => {},
-              complete: () => {
-                this.ref?.getDownloadURL().subscribe((value) => {
-                  this.createSeLobby(topic, value);
-                });
-              },
+        /*UPLOAD FILE*/
+        let t = this.ref?.put(this.selectedFile);
+        t?.snapshotChanges().subscribe({
+          next: (value) => {},
+          complete: () => {
+            this.ref?.getDownloadURL().subscribe((value) => {
+              this.createSeLobby(topic, value);
             });
-          }
-        }
+          },
+        });
       } else {
         this.createSeLobby(topic, SettingsComponent.defaultImgUrl);
       }
