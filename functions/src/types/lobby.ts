@@ -10,8 +10,9 @@ export interface Lobby {
 }
 
 export enum LobbyState {
-  JOINING,
-  IN_PROGRESS,
-  EVALUATING,
-  FINISHED,
+  JOINING = 0,
+  SUBMITTING = 1,
+  EVALUATING = 2,
+  EVALUATED = 3,
+  ENDED = 4,
 }

@@ -11,7 +11,7 @@ export class GameService {
   private aiService = new AiService();
 
   public async submit(uid: string, lobby: Lobby, sentence: string) {
-    if (lobby.state === LobbyState.IN_PROGRESS) {
+    if (lobby.state === LobbyState.SUBMITTING) {
       const story: Story = {
         uid,
         sentence,
@@ -37,9 +37,9 @@ export class GameService {
       throw new Error('Not Authorized');
     }
     if (
-      (lobby.state === LobbyState.EVALUATING &&
-        state === LobbyState.IN_PROGRESS) ||
-      (lobby.state === LobbyState.JOINING && state === LobbyState.IN_PROGRESS)
+      (lobby.state === LobbyState.EVALUATED &&
+        state === LobbyState.SUBMITTING) ||
+      (lobby.state === LobbyState.JOINING && state === LobbyState.SUBMITTING)
     ) {
       await this.createRound(lobby.id);
     }

@@ -119,7 +119,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
       try {
         await this.gameService.changeState(
           this.lobby?.id || '',
-          LobbyState.IN_PROGRESS
+          LobbyState.SUBMITTING
         );
       } catch (e) {
         this.toast.showToast('error', "Game couldn't be started");
