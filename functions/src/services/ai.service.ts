@@ -37,7 +37,10 @@ export class AiService {
       'Sort the sentences from best to worst.' +
       'Reward longer sentences.';
     for (const sentence of sentences) {
-      prompt = prompt + '\nSentence: ' + sentence;
+      sentence.split(".")
+      sentence.split("!")
+      sentence.split("?")
+      prompt = prompt + '\nSentence: ' + sentence[0] + ".";
     }
     return prompt;
   }
