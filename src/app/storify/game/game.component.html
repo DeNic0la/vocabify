@@ -6,8 +6,13 @@
   (submit)="submitSentence($event)"
   (tick)="tick($event)"
 ></app-submission>
+<app-submissions-view
+  *ngIf="(gameState === 'evaluating' || gameState === 'evaluated') && !loading && !submissionsViewed"
+  [round]="currentRound"
+  [lobby]="lobby"
+></app-submissions-view>
 <app-winner-view
-  *ngIf="gameState === 'evaluated' && !loading"
+  *ngIf="gameState === 'evaluated' && !loading && submissionsViewed"
   [round]="currentRound"
   [lobby]="lobby"
 ></app-winner-view>

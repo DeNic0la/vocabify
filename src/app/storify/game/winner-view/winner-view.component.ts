@@ -11,8 +11,8 @@ export class WinnerViewComponent implements OnChanges {
   @Input('round') round: Round | undefined;
   @Input('lobby') lobby: Lobby | undefined;
 
-  public winnerName: string = '';
-  public winnerStory: string = '';
+  public winnerName: string = 'test winner';
+  public winnerStory: string = 'test story';
 
   constructor() {}
 

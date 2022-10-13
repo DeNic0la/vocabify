@@ -18,11 +18,12 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class GameComponent implements OnDestroy {
   public loading: boolean = false;
-  public gameState: GameState = 'submitting';
+  public gameState: GameState = 'evaluating';
   public lobby: Lobby | undefined;
   public story: string = '';
-  private roundsSubscribtion: Subscription | undefined;
   public currentRound: Round | undefined;
+  public submissionsViewed: boolean = false;
+  private roundsSubscribtion: Subscription | undefined;
   private evaluated: boolean = false;
   private isHost: boolean = false;
   private timeLeft: number = -1;
@@ -102,6 +103,7 @@ export class GameComponent implements OnDestroy {
       !this.evaluated
     ) {
       if (this.isHost) {
+        this.loading = false;
         this.evaluated = true;
         this.gameService.evaluate(this.lobby?.id || '');
       }
