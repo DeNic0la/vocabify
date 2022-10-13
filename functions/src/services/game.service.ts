@@ -4,6 +4,7 @@ import { AiService } from './ai.service';
 import { Round } from '../types/round';
 import { Story } from '../types/story';
 import { Participant } from '../types/participant';
+import { LobbyService } from './lobby.service';
 
 export class GameService {
   private db = admin.firestore();
@@ -45,11 +46,7 @@ export class GameService {
     await this.db.collection('lobbies').doc(lobby.id).update({ state });
   }
 
-  public async evaluate(uid: string, lobby: Lobby) {
-    if (lobby.hostid !== uid) {
-      throw new Error('Unauthorized');
-    }
-
+  public async evaluate(lobby: Lobby) {
     const round = await this.getLastRound(lobby.id);
     const firebaseSentences = round.data().submittedStories;
     const stories: string[] = [];
@@ -57,7 +54,16 @@ export class GameService {
       stories.push(story.sentence);
     }
 
-    const bestSentence = await this.aiService.getBestSentence(stories);
+    let bestSentence = '';
+    if (stories.length >= 2) {
+      bestSentence = await this.aiService.getBestSentence(stories);
+      console.log('Best sentence: ' + bestSentence);
+    } else if (stories.length == 1) {
+      bestSentence = stories[0];
+    } else {
+      await new LobbyService().deleteLobby(lobby.id);
+      return;
+    }
 
     for (let i = 0; i < firebaseSentences.length; i++) {
       if (bestSentence.includes(firebaseSentences[i].sentence)) {
@@ -76,9 +82,11 @@ export class GameService {
           .doc(lobby.id)
           .update({ story: lobby.story });
         this.addPoints(firebaseSentences[i].uid, lobby.id);
-        break;
+        return;
       }
     }
+
+    throw new Error('There was an error choosing the best sentence.');
   }
 
   private async addPoints(uid: string, lobbyId: string) {
