@@ -35,11 +35,12 @@ export class AiService {
   private getPrompt(sentences: string[]): string {
     let prompt =
       'Sort the sentences from best to worst.' + 'Reward longer sentences.';
-    for (const sentence of sentences) {
-      sentence.split(".")
-      sentence.split("!")
-      sentence.split("?")
-      prompt = prompt + '\nSentence: ' + sentence[0] + ".";
+    for (let sentence of sentences) {
+      let senArray: string[];
+      senArray = sentence.split(".")
+      senArray = senArray[0].split("!")
+      senArray = senArray[0].split("?")
+      prompt = prompt + '\nSentence: ' + senArray[0] + ".";
     }
     return prompt;
   }
