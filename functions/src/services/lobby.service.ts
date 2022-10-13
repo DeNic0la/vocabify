@@ -111,7 +111,7 @@ export class LobbyService {
     return participants;
   }
 
-  private async deleteLobby(lobbyId: string) {
+  public async deleteLobby(lobbyId: string) {
     this.db
       .collection('lobbies')
       .doc(lobbyId)
