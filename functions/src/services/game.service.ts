@@ -68,7 +68,6 @@ export class GameService {
       return;
     }
 
-
     for (let x = 0; x < sortedArray.length; x++) {
       for (let i = 0; i < firebaseSentences.length; i++) {
         if (sortedArray[x].includes(firebaseSentences[i].sentence)) {
