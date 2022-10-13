@@ -32,6 +32,7 @@ import { WinnerViewComponent } from './storify/game/winner-view/winner-view.comp
 import { SettingsComponent } from './storify/settings/settings.component';
 import { ImageUploadComponent } from './ui/image-upload/image-upload.component';
 import { DragAndDropDirective } from './ui/image-upload/drag-and-drop.directive';
+import { SubmissionsViewComponent } from './storify/game/submissions-view/submissions-view.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { DragAndDropDirective } from './ui/image-upload/drag-and-drop.directive'
     SettingsComponent,
     ImageUploadComponent,
     DragAndDropDirective,
+    SubmissionsViewComponent,
   ],
   imports: [
     BrowserModule,

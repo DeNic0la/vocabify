@@ -1,3 +1,13 @@
+@import "src/app/styles/colors.scss";
+
+.title {
+  margin: 36px 0 16px 0;
+}
+
+.image-title {
+  margin-top: 36px;
+}
+
 .preview-container{
   img{
     max-height: 30vh;

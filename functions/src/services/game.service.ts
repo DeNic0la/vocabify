@@ -4,13 +4,14 @@ import { AiService } from './ai.service';
 import { Round } from '../types/round';
 import { Story } from '../types/story';
 import { Participant } from '../types/participant';
+import { LobbyService } from './lobby.service';
 
 export class GameService {
   private db = admin.firestore();
   private aiService = new AiService();
 
   public async submit(uid: string, lobby: Lobby, sentence: string) {
-    if (lobby.state === LobbyState.IN_PROGRESS) {
+    if (lobby.state === LobbyState.SUBMITTING) {
       const story: Story = {
         uid,
         sentence,
@@ -36,20 +37,16 @@ export class GameService {
       throw new Error('Not Authorized');
     }
     if (
-      (lobby.state === LobbyState.EVALUATING &&
-        state === LobbyState.IN_PROGRESS) ||
-      (lobby.state === LobbyState.JOINING && state === LobbyState.IN_PROGRESS)
+      (lobby.state === LobbyState.EVALUATED &&
+        state === LobbyState.SUBMITTING) ||
+      (lobby.state === LobbyState.JOINING && state === LobbyState.SUBMITTING)
     ) {
       await this.createRound(lobby.id);
     }
     await this.db.collection('lobbies').doc(lobby.id).update({ state });
   }
 
-  public async evaluate(uid: string, lobby: Lobby) {
-    if (lobby.hostid !== uid) {
-      throw new Error('Unauthorized');
-    }
-
+  public async evaluate(lobby: Lobby) {
     const round = await this.getLastRound(lobby.id);
     const firebaseSentences = round.data().submittedStories;
     const stories: string[] = [];
@@ -57,28 +54,43 @@ export class GameService {
       stories.push(story.sentence);
     }
 
-    const bestSentence = await this.aiService.getBestSentence(stories);
+    let sortedSentences = '';
+    let sortedArray: string[] = [];
+    if (stories.length >= 1) {
+      if (stories.length > 1) {
+        sortedSentences = await this.aiService.getSortedSentences(stories);
+      } else {
+        sortedSentences = stories[0];
+      }
+      sortedArray = sortedSentences.split('\n');
+    } else {
+      await new LobbyService().deleteLobby(lobby.id);
+      return;
+    }
 
-    for (let i = 0; i < firebaseSentences.length; i++) {
-      if (bestSentence.includes(firebaseSentences[i].sentence)) {
-        await this.db
-          .collection('lobbies')
-          .doc(lobby.id)
-          .collection('rounds')
-          .doc(round.id)
-          .update({ winner: i });
-        lobby.story.push({
-          uid: firebaseSentences[i].uid,
-          sentence: firebaseSentences[i].sentence,
-        });
-        await this.db
-          .collection('lobbies')
-          .doc(lobby.id)
-          .update({ story: lobby.story });
-        this.addPoints(firebaseSentences[i].uid, lobby.id);
-        break;
+    for (let x = 0; x < sortedArray.length; x++) {
+      for (let i = 0; i < firebaseSentences.length; i++) {
+        if (sortedArray[x].includes(firebaseSentences[i].sentence)) {
+          await this.db
+            .collection('lobbies')
+            .doc(lobby.id)
+            .collection('rounds')
+            .doc(round.id)
+            .update({ winner: i });
+          lobby.story.push({
+            uid: firebaseSentences[i].uid,
+            sentence: firebaseSentences[i].sentence,
+          });
+          await this.db
+            .collection('lobbies')
+            .doc(lobby.id)
+            .update({ story: lobby.story, state: LobbyState.EVALUATED });
+          this.addPoints(firebaseSentences[i].uid, lobby.id);
+          return;
+        }
       }
     }
+    throw new Error('There was an error choosing the best sentence.');
   }
 
   private async addPoints(uid: string, lobbyId: string) {
@@ -97,18 +109,11 @@ export class GameService {
       submittedStories: [],
       winner: -1,
     };
-    const numberOfRounds = (
-      await this.db
-        .collection('lobbies')
-        .doc(lobbyId)
-        .collection('rounds')
-        .listDocuments()
-    ).length;
     await this.db
       .collection('lobbies')
       .doc(lobbyId)
       .collection('rounds')
-      .doc('round_' + numberOfRounds)
+      .doc(Date.now().toString())
       .set(round, { merge: true });
   }
 
@@ -118,8 +123,8 @@ export class GameService {
         .collection('lobbies')
         .doc(lobbyId)
         .collection('rounds')
-        .orderBy('createdAt')
-        .limitToLast(1)
+        .orderBy('createdAt', 'desc')
+        .limit(1)
         .get()
     ).docs[0];
     if (!firebaseRound || !firebaseRound.exists) {

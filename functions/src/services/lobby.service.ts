@@ -30,7 +30,7 @@ export class LobbyService {
   }
 
   public async join(user: User, lobby: Lobby) {
-    if (lobby.state == LobbyState.IN_PROGRESS) {
+    if (lobby.state !== LobbyState.JOINING) {
       throw new Error('The lobby is already in progress.');
     }
     const particpant: Participant = {
@@ -83,6 +83,16 @@ export class LobbyService {
     return lobby;
   }
 
+  public async deleteAllLobbiesOlderThan24Hours() {
+    const lobbies = await this.db
+      .collection('lobbies')
+      .where('id', '<', Date.now() - 24 * 60 * 60 * 1000 /* 24 hours */)
+      .get();
+    lobbies.forEach(async (lobby) => {
+      await lobby.ref.delete();
+    });
+  }
+
   private async getParticipants(lobbyId: string) {
     let participants: Participant[] = [];
     const firebaseParticpants = await this.db
@@ -101,7 +111,7 @@ export class LobbyService {
     return participants;
   }
 
-  private async deleteLobby(lobbyId: string) {
+  public async deleteLobby(lobbyId: string) {
     this.db
       .collection('lobbies')
       .doc(lobbyId)

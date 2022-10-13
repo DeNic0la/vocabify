@@ -1,10 +1,18 @@
 @import "src/app/styles/colors.scss";
 
 .content {
-  .winner-text {
-    margin-top: 36px;
+  .header {
+    width: 100vw;
     text-align: center;
-    animation: appear-title 1000ms;
+    margin: 36px 0;
+  }
+
+  .title {
+    width: calc(100vw - 128px);
+    text-align: center;
+    margin: 36px 64px 0 64px;
+    color: $color-main;
+    animation: appear 1000ms;
   }
 
   .username-wrapper {
@@ -20,7 +28,7 @@
       background-color: $color-white;
       margin-top: 48px;
       transform: scale(0);
-      animation: appear-winner 1000ms;
+      animation: appear 1000ms;
       animation-delay: 1400ms;
       animation-fill-mode: forwards;
 
@@ -33,58 +41,28 @@
     }
   }
 
-  .winning-sentence-wrapper {
+  .sentence-wrapper {
     width: 100vw;
     display: flex;
     justify-content: space-around;
 
-    .winning-sentence-box {
+    .sentence-box {
       margin-top: 44px;
       transform: scale(0);
-      animation: appear-winner 1000ms;
+      animation: appear 1000ms;
       animation-delay: 1400ms;
       animation-fill-mode: forwards;
     }
   }
-}
 
-@keyframes appear-title {
-  0% {
-    transform: scale(0);
-  }
-  40% {
-    transform: scale(1.1);
-  }
-  50% {
-    transform: scale(1);
-  }
-  56.25% {
-    transform: rotate(12deg);
-  }
-  62.5% {
-    transform: rotate(0deg);
-  }
-  68.75% {
-    transform: rotate(-12deg);
-  }
-  75% {
-    transform: rotate(0deg);
-  }
-  81.25% {
-    transform: rotate(12deg);
-  }
-  87.5% {
-    transform: rotate(0deg);
-  }
-  93.75% {
-    transform: rotate(-12deg);
-  }
-  100% {
-    transform: rotate(0deg);
+  .hidden {
+    opacity: 1;
+    animation: disappear 1000ms;
+    animation-fill-mode: forwards;
   }
 }
 
-@keyframes appear-winner {
+@keyframes appear {
   0% {
     transform: scale(0);
   }
@@ -102,11 +80,11 @@
   }
 }
 
-@media only screen and (min-width: 1000px) {
-  .button-container {
-    bottom: 5%;
-    right: 5%;
-    position: fixed;
-    z-index: 1;
+@keyframes disappear {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }

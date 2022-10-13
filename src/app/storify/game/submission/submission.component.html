@@ -8,7 +8,7 @@
       ></app-timer>
     </div>
     <div class="card-wrapper">
-      <app-card size="large" color="inverted">
+      <app-card size="large" color="inverted" class="card">
         {{ story }}
       </app-card>
     </div>
@@ -21,6 +21,7 @@
           size="large"
           [color]="textareaColor"
           [(value)]="sentence"
+          (keyup.enter)="submitSentence()"
         ></app-textfield>
         <div class="button-wrapper">
           <app-button size="mini" color="success" (click)="submitSentence()">
