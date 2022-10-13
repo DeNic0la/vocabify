@@ -10,6 +10,7 @@
   *ngIf="(gameState === 2 || gameState === 3) && !loading && !submissionsViewed"
   [round]="currentRound"
   [lobby]="lobby"
+  (submissions-viewed)="showWinner()"
 ></app-submissions-view>
 <app-winner-view
   *ngIf="gameState === 2 && !loading && submissionsViewed"

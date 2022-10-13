@@ -120,4 +120,8 @@ export class GameComponent implements OnDestroy {
   public tick(time: number): void {
     this.timeLeft = time;
   }
+
+  showWinner() {
+    this.submissionsViewed = true;
+  }
 }
