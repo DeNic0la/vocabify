@@ -34,7 +34,11 @@ export class LobbyComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
 
   get isLoading() {
-    return !(this.lobby && this.lobby.id.length > 0) || this.isLeaving || this.isStarting;
+    return (
+      !(this.lobby && this.lobby.id.length > 0) ||
+      this.isLeaving ||
+      this.isStarting
+    );
   }
 
   get isHost() {
