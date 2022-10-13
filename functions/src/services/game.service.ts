@@ -48,6 +48,9 @@ export class GameService {
 
   public async evaluate(lobby: Lobby) {
     const round = await this.getLastRound(lobby.id);
+    if (round.data().winner !== -1) {
+      throw new Error('The evaluation was already triggered');
+    }
     const firebaseSentences = round.data().submittedStories;
     const stories: string[] = [];
     for (let story of firebaseSentences) {
@@ -81,11 +84,7 @@ export class GameService {
             uid: firebaseSentences[i].uid,
             sentence: firebaseSentences[i].sentence,
           });
-          await this.db
-            .collection('lobbies')
-            .doc(lobby.id)
-            .update({ story: lobby.story, state: LobbyState.EVALUATED });
-          this.addPoints(firebaseSentences[i].uid, lobby.id);
+          await this.addPoints(firebaseSentences[i].uid, lobby.id);
           return;
         }
       }
