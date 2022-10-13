@@ -16,9 +16,7 @@ export class WinnerViewComponent implements OnChanges {
   public winnerName: string = 'test winner';
   public winnerStory: string = 'test story';
 
-  constructor(
-    private gameService: GameService,
-  ) { }
+  constructor(private gameService: GameService) {}
 
   ngOnChanges(): void {
     if (this.round && this.lobby) {
@@ -35,6 +33,9 @@ export class WinnerViewComponent implements OnChanges {
   }
 
   public async nextRound() {
-    await this.gameService.changeState(this.lobby?.id || '', LobbyState.SUBMITTING);
+    await this.gameService.changeState(
+      this.lobby?.id || '',
+      LobbyState.SUBMITTING
+    );
   }
 }

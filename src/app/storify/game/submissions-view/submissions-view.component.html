@@ -1,13 +1,13 @@
 <div class="content">
   <h3 class="header">submitted stories</h3>
-  <h5 class="title">{{story}}</h5>
+  <h5 class="title">{{ story }}</h5>
   <div class="username-wrapper" #username *ngIf="showingStories">
-    <div class="username-box" [ngClass]="{hidden: hidden}">
+    <div class="username-box" [ngClass]="{ hidden: hidden }">
       <h5>{{ currentStory.username }}</h5>
     </div>
   </div>
   <div class="sentence-wrapper" #sentence *ngIf="showingStories">
-    <div class="sentence-box" [ngClass]="{hidden: hidden}">
+    <div class="sentence-box" [ngClass]="{ hidden: hidden }">
       <app-card size="large" color="inverted">
         {{ currentStory.story }}
       </app-card>

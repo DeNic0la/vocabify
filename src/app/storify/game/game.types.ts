@@ -1,4 +1,4 @@
 export interface SubmittedStory {
-  username: string,
-  story: string
+  username: string;
+  story: string;
 }

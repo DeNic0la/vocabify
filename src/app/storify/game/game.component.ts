@@ -49,7 +49,7 @@ export class GameComponent implements OnDestroy {
     private toastService: ToasterService,
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute
   ) {
     this.loading = true;
     this.authService.currentUser.subscribe((user) => {
@@ -58,7 +58,6 @@ export class GameComponent implements OnDestroy {
     const sub = this.lobbyService
       .getLobbyObs(route.snapshot.paramMap.get('id') || '')
       .subscribe((lobby) => {
-
         const participantSub = this.lobbyService
           .getParticipantsObs(lobby?.id || '')
           .subscribe((participants) => {
@@ -155,8 +154,7 @@ export class GameComponent implements OnDestroy {
   }
 
   private setGameState(state: LobbyState | undefined) {
-    if (state)
-      this.gameState = state;
+    if (state) this.gameState = state;
   }
 
   public tick(time: number): void {
