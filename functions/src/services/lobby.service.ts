@@ -84,7 +84,10 @@ export class LobbyService {
   }
 
   public async deleteAllLobbiesOlderThan24Hours() {
-    const lobbies = (await this.db.collection('lobbies').where('id', '<', Date.now() - (24 * 60 * 60 * 1000) /* 24 hours */).get());
+    const lobbies = await this.db
+      .collection('lobbies')
+      .where('id', '<', Date.now() - 24 * 60 * 60 * 1000 /* 24 hours */)
+      .get();
     lobbies.forEach(async (lobby) => {
       await lobby.ref.delete();
     });
