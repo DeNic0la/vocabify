@@ -3,7 +3,7 @@
     <div class="grid">
       <div class="button-container">
         <app-button color="success" class="relative" (click)="createPage()"
-        >CREATE
+          >CREATE
         </app-button>
       </div>
       <div class="refresh-container refresh">
@@ -14,4 +14,3 @@
 </div>
 <app-settings *ngIf="isOpen && !isLoading"></app-settings>
 <app-loader *ngIf="isLoading"></app-loader>
-
