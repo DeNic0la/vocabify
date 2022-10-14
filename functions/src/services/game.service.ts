@@ -52,7 +52,7 @@ export class GameService {
       throw new Error('The evaluation was already triggered');
     }
     const participants = await new LobbyService().getParticipants(lobby.id);
-    const firebaseSentences = round.data().submittedStories;
+    const firebaseSentences: Story[] = round.data().submittedStories;
     const stories: string[] = [];
     for (let story of firebaseSentences) {
       stories.push(story.sentence);
@@ -76,7 +76,7 @@ export class GameService {
       lobby,
       sortedArray,
       firebaseSentences,
-      round.data().id,
+      round.data().createdAt,
       participants
     );
     if (aiError) {
@@ -84,7 +84,7 @@ export class GameService {
         lobby,
         stories,
         firebaseSentences,
-        round.data().id,
+        round.data().createdAt,
         participants
       );
     }
@@ -93,7 +93,7 @@ export class GameService {
   private async evaluateAiOutput(
     lobby: Lobby,
     sortedArray: string[],
-    firebaseSentences: any,
+    firebaseSentences: Story[],
     roundId: string,
     participants: Participant[]
   ) {
