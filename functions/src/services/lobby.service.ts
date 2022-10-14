@@ -3,7 +3,6 @@ import { Lobby, LobbyState } from '../types/lobby';
 import { Participant } from '../types/participant';
 import { AiService } from './ai.service';
 import { User } from '../types/user';
-import { storage } from 'firebase-admin';
 
 export class LobbyService {
   private db = admin.firestore();
