@@ -1,6 +1,5 @@
 @import "src/app/styles/colors.scss";
 
-
 .drag {
   border: dashed 4px $color-black;
   background-color: $color-main-active !important;
@@ -100,16 +99,16 @@
 
   .separator::before,
   .separator::after {
-    content: '';
+    content: "";
     flex: 1;
     border-bottom: 1px solid $color-white;
   }
 
   .separator:not(:empty)::before {
-    margin-right: .25em;
+    margin-right: 0.25em;
   }
 
   .separator:not(:empty)::after {
-    margin-left: .25em;
+    margin-left: 0.25em;
   }
 }
