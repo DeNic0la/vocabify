@@ -67,5 +67,9 @@ export class StorifyExploreComponent implements OnInit {
     };
   }
 
+  refresh(){
+    window.location.reload();
+  }
+
   public Lobbies: LobbyItem[] = [];
 }
