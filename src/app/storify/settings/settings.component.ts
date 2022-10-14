@@ -31,8 +31,8 @@ export class SettingsComponent {
   public previewSrcImage: string = '';
 
   async createLobby(topic: string) {
-    if(topic === '' || topic === null) {
-      this.msgService.showToast('error','Enter a topic.');
+    if (topic.length === 0) {
+      this.msgService.showToast('error', 'Enter a topic.');
       return;
     }
     this.filename = this.getFileName();
