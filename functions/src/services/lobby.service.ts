@@ -14,7 +14,7 @@ export class LobbyService {
     user: User,
     topic: string,
     imgUrl: string,
-    filename: string,
+    filename: string
   ): Promise<Lobby> {
     try {
       const lobby: Lobby = {

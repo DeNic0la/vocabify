@@ -74,9 +74,11 @@ export class SettingsComponent {
   }
 
   createSeLobby(topic: string, imgUrl: string | undefined, filename: string) {
-    this.lobbyService.createLobby(topic, imgUrl + '', filename).then((value) => {
-      this.isLoading = true;
-      this.router.navigate(['/storify/lobby/', value]);
-    });
+    this.lobbyService
+      .createLobby(topic, imgUrl + '', filename)
+      .then((value) => {
+        this.isLoading = true;
+        this.router.navigate(['/storify/lobby/', value]);
+      });
   }
 }
