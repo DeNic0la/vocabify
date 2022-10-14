@@ -1,9 +1,14 @@
 <div *ngIf="!isOpen && !isLoading">
   <app-card-grid title="Lobbies" [cards]="Lobbies">
-    <div class="button-container">
-      <app-button color="success" class="relative" (click)="createPage()"
-        >CREATE
-      </app-button>
+    <div class="grid">
+      <div class="button-container">
+        <app-button color="success" class="relative" (click)="createPage()"
+          >CREATE
+        </app-button>
+      </div>
+      <div class="refresh-container refresh">
+        <app-button class="relative" (click)="refresh()">Refresh</app-button>
+      </div>
     </div>
   </app-card-grid>
 </div>

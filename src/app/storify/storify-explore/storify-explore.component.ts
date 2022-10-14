@@ -24,10 +24,9 @@ export class StorifyExploreComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  loadLobbies() {
-    this.lobbyService.getLobbiesToJoin().then((value: Lobby[]) => {
-      this.transformer(value);
-    });
+  async loadLobbies() {
+    const value = await this.lobbyService.getLobbiesToJoin();
+    this.transformer(value);
   }
 
   createPage() {
@@ -65,6 +64,12 @@ export class StorifyExploreComponent implements OnInit {
           );
         });
     };
+  }
+
+  async refresh() {
+    this.isLoading = true;
+    await this.loadLobbies();
+    this.isLoading = false;
   }
 
   public Lobbies: LobbyItem[] = [];

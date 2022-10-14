@@ -5,4 +5,14 @@
     position: fixed;
     z-index: 1;
   }
+  .refresh-container {
+    top: 18%;
+    right: 5%;
+    position: absolute;
+    z-index: 1;
+  }
+}
+.refresh {
+  text-align: center;
+  transform: translateX(16px);
 }
