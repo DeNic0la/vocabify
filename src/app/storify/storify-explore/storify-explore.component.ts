@@ -67,7 +67,7 @@ export class StorifyExploreComponent implements OnInit {
     };
   }
 
-  refresh(){
+  refresh() {
     window.location.reload();
   }
 
