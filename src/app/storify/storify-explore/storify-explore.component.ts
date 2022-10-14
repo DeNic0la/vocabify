@@ -24,8 +24,8 @@ export class StorifyExploreComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  loadLobbies() {
-    this.lobbyService.getLobbiesToJoin().then((value: Lobby[]) => {
+  async loadLobbies() {
+    await this.lobbyService.getLobbiesToJoin().then((value: Lobby[]) => {
       this.transformer(value);
     });
   }
@@ -67,8 +67,10 @@ export class StorifyExploreComponent implements OnInit {
     };
   }
 
-  refresh(){
-    window.location.reload();
+  async refresh(){
+    this.isLoading = true;
+    await this.loadLobbies();
+    this.isLoading = false;
   }
 
   public Lobbies: LobbyItem[] = [];
