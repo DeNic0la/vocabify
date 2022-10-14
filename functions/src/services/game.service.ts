@@ -92,7 +92,7 @@ export class GameService {
               .doc(lobby.id)
               .update({ story: lobby.story });
           }
-          await this.addPoints(firebaseSentences[i].uid, lobby.id, (rank * 50));
+          await this.addPoints(firebaseSentences[i].uid, lobby.id, rank * 50);
           rank--;
         }
       }
