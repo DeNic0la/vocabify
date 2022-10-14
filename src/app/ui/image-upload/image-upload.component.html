@@ -1,0 +1,20 @@
+<div class="dropzone" dropzone (fileDropped)="fileDropped($event)">
+  <input
+    type="file"
+    (change)="fileBrowseHandler($event)"
+    #fileDropRef
+    name="file"
+    id="fileDropRef"
+  />
+  <!-- TODO: Add a Good Image-->
+  <!--div id="img">
+    <img src="../../../assets/images/disk.svg" class="disk" alt="Disk">
+  </div-->
+  <h3>Drag and Drop your Image here</h3>
+  <h3>Or Choose a File</h3>
+</div>
+<div class="mobile-container">
+  <app-button class="mobile-button" color="primary" (click)="chooseFile()"
+    >Upload</app-button
+  >
+</div>

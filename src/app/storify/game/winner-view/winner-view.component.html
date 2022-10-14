@@ -12,8 +12,12 @@
       </app-card>
     </div>
   </div>
-  <div class="button-container">
-    <app-button color="success" class="relative" (click)="nextRound()"
+  <div *ngIf="isHost" class="button-container">
+    <app-button
+      color="success"
+      class="relative"
+      size="large"
+      (click)="nextRound()"
       >Next Round
     </app-button>
   </div>
