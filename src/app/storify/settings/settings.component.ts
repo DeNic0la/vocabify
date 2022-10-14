@@ -42,12 +42,12 @@ export class SettingsComponent {
           next: (value) => {},
           complete: () => {
             this.ref?.getDownloadURL().subscribe((value) => {
-              this.createSeLobby(topic, value);
+              this.createSeLobby(topic, value, this.filename);
             });
           },
         });
       } else {
-        this.createSeLobby(topic, SettingsComponent.defaultImgUrl);
+        this.createSeLobby(topic, SettingsComponent.defaultImgUrl, '');
       }
     }
   }
@@ -73,10 +73,12 @@ export class SettingsComponent {
     );
   }
 
-  createSeLobby(topic: string, imgUrl: string | undefined) {
-    this.lobbyService.createLobby(topic, imgUrl + '').then((value) => {
-      this.isLoading = true;
-      this.router.navigate(['/storify/lobby/', value]);
-    });
+  createSeLobby(topic: string, imgUrl: string | undefined, filename: string) {
+    this.lobbyService
+      .createLobby(topic, imgUrl + '', filename)
+      .then((value) => {
+        this.isLoading = true;
+        this.router.navigate(['/storify/lobby/', value]);
+      });
   }
 }

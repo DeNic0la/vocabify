@@ -13,7 +13,12 @@ exports.lobby = functions
   .runWith({ secrets: ['OPENAI_API_KEY'] })
   .https.onRequest(async (req, res) => {
     cors(req, res, async () => {
-      if (req.method !== 'POST' || !req.body.topic || !req.body.imgUrl)
+      if (
+        req.method !== 'POST' ||
+        !req.body.topic ||
+        !req.body.imgUrl ||
+        req.body.filename === undefined
+      )
         res.status(400).send('Bad request');
       const authService = new AuthService();
       const idToken = await authService.validateFirebaseIdToken(req);
@@ -28,7 +33,8 @@ exports.lobby = functions
         const lobby = await lobbyService.createLobby(
           user,
           req.body.topic,
-          req.body.imgUrl
+          req.body.imgUrl,
+          req.body.filename
         );
         await lobbyService.join(user, lobby);
 

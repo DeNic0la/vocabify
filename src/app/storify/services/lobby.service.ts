@@ -61,6 +61,7 @@ export class LobbyService {
         state: firebaseLobby.data().state,
         story: firebaseLobby.data().story,
         imgUrl: firebaseLobby.data().imgUrl,
+        imgName: firebaseLobby.data().imgName,
         participants: await this.getAllParticipants(firebaseLobby.data().id),
       };
       lobbies.push(lobby);
@@ -81,6 +82,7 @@ export class LobbyService {
         state: firebaseLobby.data().state,
         story: firebaseLobby.data().story,
         imgUrl: firebaseLobby.data().imgUrl,
+        imgName: firebaseLobby.data().imgName,
         participants: await this.getAllParticipants(firebaseLobby.data().id),
       };
       lobbies.push(lobby);
@@ -107,10 +109,15 @@ export class LobbyService {
    * Creates a lobby
    * @returns created lobbyId
    */
-  async createLobby(topic: string, imageUrl: string): Promise<string> {
+  async createLobby(
+    topic: string,
+    imageUrl: string,
+    filename: string
+  ): Promise<string> {
     const resp = await this.httpService.post(Functions.CREATE_LOBBY, {
       topic: topic,
       imgUrl: imageUrl,
+      filename: filename,
     });
     return resp.lobbyId;
   }

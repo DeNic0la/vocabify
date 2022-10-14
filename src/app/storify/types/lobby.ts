@@ -9,6 +9,7 @@ export interface Lobby {
   state: LobbyState;
   participants: Participant[];
   imgUrl: string;
+  imgName: string | undefined;
 }
 
 export enum LobbyState {

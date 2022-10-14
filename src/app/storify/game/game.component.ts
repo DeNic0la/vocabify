@@ -27,6 +27,7 @@ export class GameComponent implements OnDestroy {
     hostid: '',
     story: [],
     imgUrl: '',
+    imgName: '',
   };
   public user: User | undefined;
   public story: string = '';
