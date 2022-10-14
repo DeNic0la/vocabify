@@ -1,17 +1,5 @@
 @import "src/app/styles/colors.scss";
 
-@media screen and (min-width: 1000px) {
-  .mobile-button {
-    /*Dont Display that on Laptop*/
-    display: none;
-  }
-}
-@media screen and (max-width: 1000px) {
-  .dropzone {
-    /*Dont Display on Phone*/
-    display: none;
-  }
-}
 .mobile-container {
   /*Center Mobile Button*/
   display: flex;
@@ -20,10 +8,16 @@
   margin-top: 10px;
 }
 .drag {
-  border: dashed 10px $color-black;
+  border: dashed 4px $color-black;
   background-color: $color-main-active !important;
   animation: shake 1s;
   animation-iteration-count: infinite;
+}
+
+@media screen and (max-width: 500px) {
+  .dropzone {
+    width: 100vw !important;
+  }
 }
 
 @keyframes shake {
@@ -67,12 +61,15 @@
   height: 30vh;
   width: 50vw;
   position: relative;
-  border: dashed 8px $color-black;
+  border: dashed 4px $color-black;
   text-align: center;
   background-color: $color-main;
   margin: 10px auto;
   flex: content;
   justify-content: space-around;
+  padding: 16px;
+  border-radius: 4px;
+  box-shadow: 6px 6px 6px $color-shadow;
 
   input {
     opacity: 0;
