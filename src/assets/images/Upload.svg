@@ -15,6 +15,7 @@
   <style>
     .base{
       fill: white !important;
+      stroke: white !important;
     }
   </style>
 </svg>
