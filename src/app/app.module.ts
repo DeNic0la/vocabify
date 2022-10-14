@@ -30,6 +30,8 @@ import { GameComponent } from './storify/game/game.component';
 import { TimerComponent } from './ui/timer/timer.component';
 import { WinnerViewComponent } from './storify/game/winner-view/winner-view.component';
 import { SettingsComponent } from './storify/settings/settings.component';
+import { ImageUploadComponent } from './ui/image-upload/image-upload.component';
+import { DragAndDropDirective } from './ui/image-upload/drag-and-drop.directive';
 import { SubmissionsViewComponent } from './storify/game/submissions-view/submissions-view.component';
 
 @NgModule({
@@ -59,6 +61,8 @@ import { SubmissionsViewComponent } from './storify/game/submissions-view/submis
     TimerComponent,
     WinnerViewComponent,
     SettingsComponent,
+    ImageUploadComponent,
+    DragAndDropDirective,
     SubmissionsViewComponent,
   ],
   imports: [
