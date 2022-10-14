@@ -24,6 +24,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
     hostid: '',
     story: [],
     imgUrl: '',
+    imgName: '',
   };
   user: User | undefined;
   isLeaving: boolean = false;
