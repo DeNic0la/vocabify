@@ -72,13 +72,31 @@ export class GameService {
       return;
     }
 
-    const aiError = await this.evaluateAiOutput(lobby, sortedArray, firebaseSentences, round.data().id, participants);
+    const aiError = await this.evaluateAiOutput(
+      lobby,
+      sortedArray,
+      firebaseSentences,
+      round.data().id,
+      participants
+    );
     if (aiError) {
-      await this.evaluateAiOutput(lobby, stories, firebaseSentences, round.data().id, participants);
+      await this.evaluateAiOutput(
+        lobby,
+        stories,
+        firebaseSentences,
+        round.data().id,
+        participants
+      );
     }
   }
 
-  private async evaluateAiOutput(lobby: Lobby, sortedArray: string[], firebaseSentences: any, roundId: string, participants: Participant[]) {
+  private async evaluateAiOutput(
+    lobby: Lobby,
+    sortedArray: string[],
+    firebaseSentences: any,
+    roundId: string,
+    participants: Participant[]
+  ) {
     let aiError = true;
     let rank = participants.length;
     for (let x = 0; x < sortedArray.length; x++) {
