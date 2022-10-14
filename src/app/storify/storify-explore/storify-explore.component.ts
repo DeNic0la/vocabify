@@ -25,9 +25,8 @@ export class StorifyExploreComponent implements OnInit {
   ngOnInit(): void {}
 
   async loadLobbies() {
-    await this.lobbyService.getLobbiesToJoin().then((value: Lobby[]) => {
-      this.transformer(value);
-    });
+    const value = await this.lobbyService.getLobbiesToJoin();
+    this.transformer(value);
   }
 
   createPage() {

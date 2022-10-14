@@ -10,10 +10,11 @@
   .refresh-container {
     top: 18%;
     right: 5%;
-    position: fixed;
+    position: absolute;
     z-index: 1;
   }
 }
 .refresh {
   text-align: center;
+  transform: translateX(16px);
 }
