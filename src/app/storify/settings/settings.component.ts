@@ -31,7 +31,7 @@ export class SettingsComponent {
   public previewSrcImage: string = '';
 
   async createLobby(topic: string) {
-    if (topic.length === 0) {
+    if (topic.trim().length === 0) {
       this.msgService.showToast('error', 'Enter a topic.');
       return;
     }
