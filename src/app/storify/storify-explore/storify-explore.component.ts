@@ -66,7 +66,7 @@ export class StorifyExploreComponent implements OnInit {
     };
   }
 
-  async refresh(){
+  async refresh() {
     this.isLoading = true;
     await this.loadLobbies();
     this.isLoading = false;
