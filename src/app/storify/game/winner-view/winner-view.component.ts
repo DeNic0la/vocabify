@@ -3,6 +3,7 @@ import { Round } from '../../types/round';
 import { Lobby } from '../../types/lobby';
 import { GameService } from '../../services/game.service';
 import { LobbyState } from 'functions/src/types/lobby';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-winner-view',
@@ -13,10 +14,17 @@ export class WinnerViewComponent implements OnChanges {
   @Input('round') round: Round | undefined;
   @Input('lobby') lobby: Lobby | undefined;
 
+  isHost: boolean = false;
   public winnerName: string = 'test winner';
   public winnerStory: string = 'test story';
 
-  constructor(private gameService: GameService) {}
+  constructor(private gameService: GameService, private auth: AuthService) {
+    auth.currentUser.subscribe((x) => {
+      if (x?.uid == this.lobby?.hostid) {
+        this.isHost = true;
+      }
+    });
+  }
 
   ngOnChanges(): void {
     if (this.round && this.lobby) {
