@@ -17,7 +17,7 @@ exports.lobby = functions
         req.method !== 'POST' ||
         !req.body.topic ||
         !req.body.imgUrl ||
-        !req.body.filename
+        req.body.filename === undefined
       )
         res.status(400).send('Bad request');
       const authService = new AuthService();
