@@ -51,6 +51,7 @@ export class GameService {
     if (round.data().winner !== -1) {
       throw new Error('The evaluation was already triggered');
     }
+    const participants = await new LobbyService().getParticipants(lobby.id);
     const firebaseSentences = round.data().submittedStories;
     const stories: string[] = [];
     for (let story of firebaseSentences) {
@@ -71,7 +72,14 @@ export class GameService {
       return;
     }
 
-    const participants = await new LobbyService().getParticipants(lobby.id);
+    const aiError = await this.evaluateAiOutput(lobby, sortedArray, firebaseSentences, round.data().id, participants);
+    if (aiError) {
+      await this.evaluateAiOutput(lobby, stories, firebaseSentences, round.data().id, participants);
+    }
+  }
+
+  private async evaluateAiOutput(lobby: Lobby, sortedArray: string[], firebaseSentences: any, roundId: string, participants: Participant[]) {
+    let aiError = true;
     let rank = participants.length;
     for (let x = 0; x < sortedArray.length; x++) {
       for (let i = 0; i < firebaseSentences.length; i++) {
@@ -81,7 +89,7 @@ export class GameService {
               .collection('lobbies')
               .doc(lobby.id)
               .collection('rounds')
-              .doc(round.id)
+              .doc(roundId)
               .update({ winner: i });
             lobby.story.push({
               uid: firebaseSentences[i].uid,
@@ -91,12 +99,14 @@ export class GameService {
               .collection('lobbies')
               .doc(lobby.id)
               .update({ story: lobby.story });
+            aiError = false;
           }
           await this.addPoints(firebaseSentences[i].uid, lobby.id, rank * 50);
           rank--;
         }
       }
     }
+    return aiError;
   }
 
   private async addPoints(uid: string, lobbyId: string, points: number) {
