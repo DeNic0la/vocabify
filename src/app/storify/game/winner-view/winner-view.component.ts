@@ -29,14 +29,16 @@ export class WinnerViewComponent implements OnChanges {
   ngOnChanges(): void {
     if (this.round && this.lobby) {
       const winnerId =
-        this.round.submittedStories[this.round.winner as number].uid;
-      this.winnerStory =
-        this.round.submittedStories.find((story) => story.uid === winnerId)
-          ?.sentence || '';
-      this.winnerName =
-        this.lobby.participants.find(
-          (participant) => participant.uid === winnerId
-        )?.username || '';
+        this.round.submittedStories[this.round.winner as number]?.uid || '';
+      if (winnerId) {
+        this.winnerStory =
+          this.round.submittedStories.find((story) => story.uid === winnerId)
+            ?.sentence || '';
+        this.winnerName =
+          this.lobby.participants.find(
+            (participant) => participant.uid === winnerId
+          )?.username || '';
+      }
     }
   }
 
