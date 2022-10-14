@@ -89,20 +89,6 @@ export class GameService {
         }
       }
     }
-    //if the AI can't find best sentence it will choose a random one **change later :)**
-    const id = Math.floor(Math.random() * firebaseSentences.length);
-    await this.db
-      .collection('lobbies')
-      .doc(lobby.id)
-      .collection('rounds')
-      .doc(round.id)
-      .update({ winner: id });
-    lobby.story.push({
-      uid: firebaseSentences[id].uid,
-      sentence: firebaseSentences[id].sentence,
-    });
-    await this.addPoints(firebaseSentences[id].uid, lobby.id);
-    return;
   }
 
   private async addPoints(uid: string, lobbyId: string) {
