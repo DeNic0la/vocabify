@@ -3,15 +3,18 @@ import { Lobby, LobbyState } from '../types/lobby';
 import { Participant } from '../types/participant';
 import { AiService } from './ai.service';
 import { User } from '../types/user';
+import { storage } from 'firebase-admin';
 
 export class LobbyService {
   private db = admin.firestore();
   private aiService = new AiService();
+  private bucket = admin.storage().bucket();
 
   public async createLobby(
     user: User,
     topic: string,
-    imgUrl: string
+    imgUrl: string,
+    filename: string
   ): Promise<Lobby> {
     try {
       const lobby: Lobby = {
@@ -20,6 +23,7 @@ export class LobbyService {
         name: user.username + "'s Lobby",
         story: [await this.aiService.getStory(topic)],
         state: LobbyState.JOINING,
+        imgName: filename,
         imgUrl: imgUrl,
       };
       await this.db.collection('lobbies').doc(lobby.id).create(lobby);
@@ -132,6 +136,10 @@ export class LobbyService {
           val.delete();
         });
       });
+    const filename = (await this.getLobby(lobbyId)).imgName;
+    if (filename && filename !== '') {
+      await this.bucket.file(filename).delete();
+    }
     await this.db.collection('lobbies').doc(lobbyId).delete();
   }
 

@@ -97,7 +97,6 @@ export class GameService {
         }
       }
     }
-    throw new Error('There was an error choosing the best sentence.');
   }
 
   private async addPoints(uid: string, lobbyId: string, points: number) {
