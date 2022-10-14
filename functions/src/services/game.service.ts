@@ -71,39 +71,43 @@ export class GameService {
       return;
     }
 
+    const participants = await new LobbyService().getParticipants(lobby.id);
+    let rank = participants.length;
     for (let x = 0; x < sortedArray.length; x++) {
       for (let i = 0; i < firebaseSentences.length; i++) {
         if (sortedArray[x].includes(firebaseSentences[i].sentence)) {
-          await this.db
-            .collection('lobbies')
-            .doc(lobby.id)
-            .collection('rounds')
-            .doc(round.id)
-            .update({ winner: i });
-          lobby.story.push({
-            uid: firebaseSentences[i].uid,
-            sentence: firebaseSentences[i].sentence,
-          });
-          await this.db
-            .collection('lobbies')
-            .doc(lobby.id)
-            .update({ story: lobby.story, state: LobbyState.EVALUATED });
-          await this.addPoints(firebaseSentences[i].uid, lobby.id);
-          return;
+          if (rank === participants.length) {
+            await this.db
+              .collection('lobbies')
+              .doc(lobby.id)
+              .collection('rounds')
+              .doc(round.id)
+              .update({ winner: i });
+            lobby.story.push({
+              uid: firebaseSentences[i].uid,
+              sentence: firebaseSentences[i].sentence,
+            });
+            await this.db
+              .collection('lobbies')
+              .doc(lobby.id)
+              .update({ story: lobby.story });
+          }
+          await this.addPoints(firebaseSentences[i].uid, lobby.id, rank * 50);
+          rank--;
         }
       }
     }
     throw new Error('There was an error choosing the best sentence.');
   }
 
-  private async addPoints(uid: string, lobbyId: string) {
+  private async addPoints(uid: string, lobbyId: string, points: number) {
     const participantRef = this.db
       .collection('lobbies')
       .doc(lobbyId)
       .collection('participants')
       .doc(uid);
     const particpant = <Participant>(await participantRef.get()).data();
-    await participantRef.update({ points: particpant.points + 50 });
+    await participantRef.update({ points: particpant.points + points });
   }
 
   private async createRound(lobbyId: string) {

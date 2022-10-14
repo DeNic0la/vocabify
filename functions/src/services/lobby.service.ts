@@ -93,7 +93,7 @@ export class LobbyService {
     });
   }
 
-  private async getParticipants(lobbyId: string) {
+  public async getParticipants(lobbyId: string) {
     let participants: Participant[] = [];
     const firebaseParticpants = await this.db
       .collection('lobbies')
