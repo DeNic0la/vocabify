@@ -44,8 +44,4 @@ export class ImageUploadComponent {
     }
   }
 
-  chooseFile() {
-    if (this.fileDropRef) this.fileDropRef.nativeElement.click();
-    else this.toast.showToast('error', 'Something is wrong');
-  }
 }
