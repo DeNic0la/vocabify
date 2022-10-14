@@ -84,6 +84,10 @@ export class GameService {
             uid: firebaseSentences[i].uid,
             sentence: firebaseSentences[i].sentence,
           });
+          await this.db
+            .collection('lobbies')
+            .doc(lobby.id)
+            .update({ story: lobby.story, state: LobbyState.EVALUATED });
           await this.addPoints(firebaseSentences[i].uid, lobby.id);
           return;
         }
