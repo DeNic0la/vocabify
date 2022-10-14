@@ -69,7 +69,7 @@ export class SubmissionsViewComponent implements AfterViewInit {
         setTimeout(() => {
           resolve();
         }, 600);
-      }, 3000);
+      }, 6000);
     });
   }
 }
