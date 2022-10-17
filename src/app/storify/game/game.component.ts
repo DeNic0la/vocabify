@@ -160,7 +160,6 @@ export class GameComponent implements OnDestroy {
     if (playersAmount === sentencesAmount || this.timeLeft === 0) {
       if (this.isHost) {
         this.loading = false;
-        console.log(this.gameState);
         if (
           this.currentRound?.winner === -1 &&
           !this.isEvaluating &&
@@ -184,7 +183,7 @@ export class GameComponent implements OnDestroy {
 
   public showWinner() {
     this.submissionsViewed = true;
-    console.log(this.submissionsViewed)
+    console.log(this.submissionsViewed);
   }
 
   public showSummary() {
