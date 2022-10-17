@@ -34,6 +34,7 @@ import { ImageUploadComponent } from './ui/image-upload/image-upload.component';
 import { DragAndDropDirective } from './ui/image-upload/drag-and-drop.directive';
 import { SubmissionsViewComponent } from './storify/game/submissions-view/submissions-view.component';
 import { RoundSummaryComponent } from './storify/game/round-summary/round-summary.component';
+import { EndViewComponent } from './storify/game/end-view/end-view.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { RoundSummaryComponent } from './storify/game/round-summary/round-summar
     DragAndDropDirective,
     SubmissionsViewComponent,
     RoundSummaryComponent,
+    EndViewComponent,
   ],
   imports: [
     BrowserModule,

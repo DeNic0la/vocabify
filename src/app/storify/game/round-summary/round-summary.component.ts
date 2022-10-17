@@ -17,6 +17,8 @@ export class RoundSummaryComponent implements OnInit {
 
   @Output('next-round') nextRoundEvent: EventEmitter<void> =
     new EventEmitter<void>();
+  @Output('end-game') endGameEvent: EventEmitter<void> =
+    new EventEmitter<void>();
 
   public isHost: boolean = false;
   public participantsSorted: Participant[] = [];
@@ -35,10 +37,10 @@ export class RoundSummaryComponent implements OnInit {
   }
 
   public async nextRound() {
-    await this.gameService.changeState(
-      this.lobby?.id || '',
-      LobbyState.SUBMITTING
-    );
     this.nextRoundEvent.emit();
+  }
+
+  public async endGame() {
+    this.endGameEvent.emit();
   }
 }
