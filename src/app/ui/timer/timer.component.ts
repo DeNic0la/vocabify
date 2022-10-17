@@ -30,6 +30,7 @@ export class TimerComponent implements OnInit, OnChanges {
   private timerRunning = false;
 
   ngOnInit() {
+    this.timeRemaining = this.totalTime;
     this.adjustTimeSlider();
   }
 
