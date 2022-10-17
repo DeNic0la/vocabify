@@ -1,4 +1,10 @@
-import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+} from '@angular/core';
 import { Round } from '../../types/round';
 import { Lobby } from '../../types/lobby';
 import { GameService } from '../../services/game.service';
