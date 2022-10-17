@@ -71,9 +71,11 @@ export class GameComponent implements OnDestroy {
     this.authService.currentUser.subscribe((user) => {
       this.user = user || undefined;
     });
+    let innerSubscriptions = new Subscription();
     const sub = this.lobbyService
       .getLobbyObs(route.snapshot.paramMap.get('id') || '')
       .subscribe((lobby) => {
+        innerSubscriptions.unsubscribe();
         const participantSub = this.lobbyService
           .getParticipantsObs(lobby?.id || '')
           .subscribe((participants) => {
@@ -92,7 +94,7 @@ export class GameComponent implements OnDestroy {
                     async (roundsData) =>
                       await this.handleRoundsChange(roundsData)
                   );
-                  this.roundsSubscription.add(sub);
+                  innerSubscriptions.add(sub);
                 });
               this.loadStory();
               this.setGameState(lobby?.state);
@@ -111,8 +113,9 @@ export class GameComponent implements OnDestroy {
               this.toastService.showToast('success', 'You are now the Host');
             }
           });
-        this.roundsSubscription.add(participantSub);
+        innerSubscriptions.add(participantSub);
       });
+    this.roundsSubscription.add(innerSubscriptions);
     this.roundsSubscription.add(sub);
   }
 
@@ -174,6 +177,7 @@ export class GameComponent implements OnDestroy {
   }
 
   private setGameState(state: LobbyState | undefined) {
+    localStorage.clear();
     if (state) this.gameState = state;
   }
 
