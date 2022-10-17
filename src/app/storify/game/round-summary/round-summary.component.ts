@@ -29,7 +29,6 @@ export class RoundSummaryComponent implements OnInit {
 
   ngOnInit() {
     this.lobby?.participants.forEach((participant) => {
-      console.log(participant);
     });
   }
 

@@ -30,7 +30,6 @@ export class AiService {
       EngineName.TextDavinci,
       completionRequest
     );
-    console.log(result.choices[0].text);
     return result.choices[0].text;
   }
 

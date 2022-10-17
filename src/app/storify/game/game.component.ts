@@ -172,7 +172,6 @@ export class GameComponent implements OnDestroy {
 
   private setGameState(state: LobbyState | undefined) {
     if (state) this.gameState = state;
-    console.log(this.gameState);
   }
 
   public tick(time: number): void {
