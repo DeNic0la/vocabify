@@ -155,6 +155,7 @@ export class GameComponent implements OnDestroy {
   private async checkForEvaluation() {
     const playersAmount = this.lobby?.participants.length;
     const sentencesAmount = this.currentRound?.submittedStories.length;
+
     if (playersAmount === sentencesAmount || this.timeLeft === 0) {
       if (this.isHost) {
         if (
@@ -172,6 +173,7 @@ export class GameComponent implements OnDestroy {
 
   private setGameState(state: LobbyState | undefined) {
     if (state) this.gameState = state;
+    if (this.gameState === LobbyState.SUBMITTING) this.submissionsViewed = false;
   }
 
   public tick(time: number): void {
@@ -184,10 +186,5 @@ export class GameComponent implements OnDestroy {
 
   public showSummary() {
     this.gameService.changeState(this.lobby.id, LobbyState.RANKING);
-    this.submissionsViewed = false;
-  }
-
-  public nextRound() {
-    this.submissionsViewed = false;
   }
 }
