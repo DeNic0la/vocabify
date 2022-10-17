@@ -138,7 +138,6 @@ export class GameComponent implements OnDestroy {
 
   async submitSentence(sentence: string) {
     this.loading = true;
-    this.gameState = LobbyState.EVALUATING;
     if (sentence) {
       await this.gameService
         .submitAnswer(this.lobby?.id || '', sentence)
@@ -159,7 +158,8 @@ export class GameComponent implements OnDestroy {
     ) {
       if (this.isHost) {
         this.loading = false;
-        if (this.currentRound?.winner === -1 && !this.isEvaluating) {
+        console.log(this.gameState);
+        if (this.currentRound?.winner === -1 && !this.isEvaluating && this.gameState === LobbyState.SUBMITTING) {
           this.isEvaluating = true;
           await this.gameService.evaluate(this.lobby?.id || '');
           this.isEvaluating = false;
