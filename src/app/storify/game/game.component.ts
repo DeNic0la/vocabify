@@ -34,6 +34,7 @@ export class GameComponent implements OnDestroy {
   public currentRound: Round | undefined;
   public submissionsViewed: boolean = false;
   public showingSummary: boolean = false;
+  private isSubscribed: boolean = false;
   private roundsSubscription: Subscription = new Subscription();
   private timeLeft: number = -1;
   private isEvaluating: boolean = false;
@@ -71,51 +72,52 @@ export class GameComponent implements OnDestroy {
     this.authService.currentUser.subscribe((user) => {
       this.user = user || undefined;
     });
-    let innerSubscriptions = new Subscription();
     const sub = this.lobbyService
       .getLobbyObs(route.snapshot.paramMap.get('id') || '')
       .subscribe((lobby) => {
-        innerSubscriptions.unsubscribe();
-        const participantSub = this.lobbyService
-          .getParticipantsObs(lobby?.id || '')
-          .subscribe((participants) => {
-            if (lobby) {
-              this.lobby.id = lobby?.id || '';
-              this.lobby.hostid = lobby?.hostid || '';
-              this.lobby.name = lobby?.name || '';
-              this.lobby.state = lobby?.state || 0;
-              this.lobby.story = lobby?.story || [];
-              this.lobby.imgUrl = lobby?.imgUrl || '';
-              this.lobby.participants = participants || [];
-              this.gameService
-                .getAllRounds(this.lobby?.id || '')
-                .then((rounds) => {
-                  const sub = rounds.subscribe(
-                    async (roundsData) =>
-                      await this.handleRoundsChange(roundsData)
-                  );
-                  innerSubscriptions.add(sub);
-                });
-              this.loadStory();
-              this.setGameState(lobby?.state);
-            }
-            this.loading = false;
+        if (!this.isSubscribed) {
+          this.isSubscribed = true;
+          const participantSub = this.lobbyService
+            .getParticipantsObs(lobby?.id || '')
+            .subscribe((participants) => {
+              if (lobby) {
+                this.lobby.id = lobby?.id || '';
+                this.lobby.hostid = lobby?.hostid || '';
+                this.lobby.name = lobby?.name || '';
+                this.lobby.state = lobby?.state || 0;
+                console.log(this.lobby);
+                this.lobby.story = lobby?.story || [];
+                this.lobby.imgUrl = lobby?.imgUrl || '';
+                this.lobby.participants = participants || [];
+                this.gameService
+                  .getAllRounds(this.lobby?.id || '')
+                  .then((rounds) => {
+                    const sub = rounds.subscribe(
+                      async (roundsData) =>
+                        await this.handleRoundsChange(roundsData)
+                    );
+                    this.roundsSubscription.add(sub);
+                  });
+                this.loadStory();
+                this.setGameState(lobby?.state);
+              }
+              this.loading = false;
 
-            if (!participants?.some((e) => e.uid === this.user?.uid)) {
-              this.router.navigate(['storify/explore']);
-            }
+              if (!participants?.some((e) => e.uid === this.user?.uid)) {
+                this.router.navigate(['storify/explore']);
+              }
 
-            if (this.lobby?.state !== LobbyState.JOINING) {
-              this.router.navigate(['/storify/play/' + this.lobby?.id]);
-            }
+              if (this.lobby?.state !== LobbyState.JOINING) {
+                this.router.navigate(['/storify/play/' + this.lobby?.id]);
+              }
 
-            if (this.user?.uid !== this.lobby.hostid && this.isHost) {
-              this.toastService.showToast('success', 'You are now the Host');
-            }
-          });
-        innerSubscriptions.add(participantSub);
+              if (this.user?.uid !== this.lobby.hostid && this.isHost) {
+                this.toastService.showToast('success', 'You are now the Host');
+              }
+            });
+          this.roundsSubscription.add(participantSub);
+        }
       });
-    this.roundsSubscription.add(innerSubscriptions);
     this.roundsSubscription.add(sub);
   }
 
