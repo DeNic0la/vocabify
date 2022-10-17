@@ -7,4 +7,15 @@
       </app-card>
     </div>
   </div>
+
+  <div class="section">
+    <div class="summary-wrapper">
+      <div class="summary">
+        <div *ngFor="let participant of participantsSorted" class="participant">
+          <h4 class="username text">{{ participant.username }}</h4>
+          <h4 class="points text">{{ participant.points }}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
