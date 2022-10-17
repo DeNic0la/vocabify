@@ -183,7 +183,7 @@ export class GameComponent implements OnDestroy {
 
   public showWinner() {
     this.submissionsViewed = true;
-    console.log(this.submissionsViewed)
+    console.log(this.submissionsViewed);
   }
 
   public showSummary() {

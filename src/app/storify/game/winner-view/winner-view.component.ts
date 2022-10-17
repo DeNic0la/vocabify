@@ -20,7 +20,8 @@ export class WinnerViewComponent implements OnChanges {
   @Input('round') round: Round | undefined;
   @Input('lobby') lobby: Lobby | undefined;
 
-  @Output('continue') continueEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Output('continue') continueEvent: EventEmitter<void> =
+    new EventEmitter<void>();
 
   public isHost: boolean = false;
 
@@ -52,6 +53,6 @@ export class WinnerViewComponent implements OnChanges {
   }
 
   continue() {
-    this.continueEvent.emit()
+    this.continueEvent.emit();
   }
 }

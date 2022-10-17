@@ -15,7 +15,12 @@
   (submissions-viewed)="showWinner()"
 ></app-submissions-view>
 <app-winner-view
-  *ngIf="gameState === LobbyState.EVALUATED && !loading && submissionsViewed && !showingSummary"
+  *ngIf="
+    gameState === LobbyState.EVALUATED &&
+    !loading &&
+    submissionsViewed &&
+    !showingSummary
+  "
   [round]="currentRound"
   [lobby]="lobby"
   (continue)="showSummary()"

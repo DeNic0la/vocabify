@@ -1,8 +1,8 @@
 <div class="content">
   <h3 class="summary-text">Summary</h3>
   <div *ngFor="let participant of this.lobby?.participants">
-    {{participant.username}}
-    {{participant.points}}
+    {{ participant.username }}
+    {{ participant.points }}
   </div>
   <div *ngIf="isHost" class="button-container">
     <app-button
@@ -10,7 +10,7 @@
       class="relative"
       size="large"
       (click)="nextRound()"
-    >next round
+      >next round
     </app-button>
   </div>
 </div>

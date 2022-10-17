@@ -62,10 +62,12 @@ export class TimerComponent implements OnInit, OnChanges {
   private adjustTimeSlider(): void {
     if (this.timeSlider) {
       const timeSliderStyle = this.timeSlider.nativeElement.style;
-      timeSliderStyle.height = `${this.timePercentilePx * this.timeRemaining
-        }px`;
-      timeSliderStyle.marginTop = `${this.timePercentilePx * (this.totalTime - this.timeRemaining)
-        }px`;
+      timeSliderStyle.height = `${
+        this.timePercentilePx * this.timeRemaining
+      }px`;
+      timeSliderStyle.marginTop = `${
+        this.timePercentilePx * (this.totalTime - this.timeRemaining)
+      }px`;
 
       if (this.timeRemaining <= this.totalTime / 2) {
         timeSliderStyle.backgroundColor = '#ffca3a';
