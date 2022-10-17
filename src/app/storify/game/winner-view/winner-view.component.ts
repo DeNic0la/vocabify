@@ -29,8 +29,6 @@ export class WinnerViewComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
-    console.log(this.round);
-    console.log(this.lobby);
     if (this.round && this.lobby) {
       const winnerId =
         this.round.submittedStories[this.round.winner as number]?.uid || '';

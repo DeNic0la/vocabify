@@ -34,8 +34,8 @@ export class GameComponent implements OnDestroy {
   public currentRound: Round | undefined;
   public submissionsViewed: boolean = false;
   private roundsSubscription: Subscription = new Subscription();
-  private evaluated: boolean = false;
   private timeLeft: number = -1;
+  private isEvaluating: boolean = false;
 
   get isHost() {
     if (this.lobby && this.user) {
@@ -46,6 +46,16 @@ export class GameComponent implements OnDestroy {
 
   public get LobbyState(): typeof LobbyState {
     return LobbyState;
+  }
+
+  public get isWaitingForEvaluation() {
+    const res = this.currentRound?.submittedStories.filter((obj) => {
+      return obj.uid === this.user?.uid && this.currentRound?.winner === -1;
+    });
+    if (res && res.length !== 0) {
+      return true;
+    }
+    return false;
   }
 
   constructor(
@@ -66,15 +76,23 @@ export class GameComponent implements OnDestroy {
         const participantSub = this.lobbyService
           .getParticipantsObs(lobby?.id || '')
           .subscribe((participants) => {
-            this.lobby.id = lobby?.id || '';
-            this.lobby.hostid = lobby?.hostid || '';
-            this.lobby.name = lobby?.name || '';
-            this.lobby.state = lobby?.state || 0;
-            this.lobby.story = lobby?.story || [];
-            this.lobby.imgUrl = lobby?.imgUrl || '';
-            this.lobby.participants = participants || [];
-            this.loadStory();
-            this.setGameState(lobby?.state);
+            if (lobby) {
+              this.lobby.id = lobby?.id || '';
+              this.lobby.hostid = lobby?.hostid || '';
+              this.lobby.name = lobby?.name || '';
+              this.lobby.state = lobby?.state || 0;
+              this.lobby.story = lobby?.story || [];
+              this.lobby.imgUrl = lobby?.imgUrl || '';
+              this.lobby.participants = participants || [];
+              this.gameService.getAllRounds(this.lobby?.id || '').then((rounds) => {
+                const sub = rounds.subscribe(async (roundsData) =>
+                  await this.handleRoundsChange(roundsData)
+                );
+                this.roundsSubscription.add(sub);
+              });
+              this.loadStory();
+              this.setGameState(lobby?.state);
+            }
             this.loading = false;
 
             if (!participants?.some((e) => e.uid === this.user?.uid)) {
@@ -126,37 +144,26 @@ export class GameComponent implements OnDestroy {
         .submitAnswer(this.lobby?.id || '', sentence)
         .catch((e) => this.toastService.showToast('error', e.error));
     }
-    this.gameService.getAllRounds(this.lobby?.id || '').then((rounds) => {
-      const sub = rounds.subscribe((roundsData) =>
-        this.handleRoundsChange(roundsData)
-      );
-      this.roundsSubscription.add(sub);
-    });
   }
 
-  private handleRoundsChange(data: DocumentData[]) {
+  private async handleRoundsChange(data: DocumentData[]) {
     this.currentRound = (data as Round[])[data.length - 1];
-    if (((data[data.length - 1] as Round).winner as number) >= 0) {
-      this.gameState = LobbyState.EVALUATED;
-      this.loading = false;
-    }
-    this.checkForEvaluation();
-    if (this.gameState === LobbyState.SUBMITTING) {
-      this.evaluated = false;
-    }
+    await this.checkForEvaluation();
   }
 
-  private checkForEvaluation(): void {
+  private async checkForEvaluation() {
     const playersAmount = this.lobby?.participants.length;
     const sentencesAmount = this.currentRound?.submittedStories.length;
     if (
-      (playersAmount === sentencesAmount || this.timeLeft === 0) &&
-      !this.evaluated
+      (playersAmount === sentencesAmount || this.timeLeft === 0)
     ) {
       if (this.isHost) {
         this.loading = false;
-        this.evaluated = true;
-        this.gameService.evaluate(this.lobby?.id || '');
+        if (this.currentRound?.winner === -1 && !this.isEvaluating) {
+          this.isEvaluating = true;
+          await this.gameService.evaluate(this.lobby?.id || '');
+          this.isEvaluating = false;
+        }
       }
     }
   }
@@ -174,8 +181,6 @@ export class GameComponent implements OnDestroy {
   }
 
   public nextRound() {
-    console.log('nextRound')
     this.submissionsViewed = false;
-    this.evaluated = false;
   }
 }
