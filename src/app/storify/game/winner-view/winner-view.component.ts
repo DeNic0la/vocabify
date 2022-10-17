@@ -53,6 +53,7 @@ export class WinnerViewComponent implements OnChanges {
   }
 
   async continue() {
+
     this.continueEvent.emit();
   }
 }

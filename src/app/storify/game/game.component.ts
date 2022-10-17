@@ -1,14 +1,14 @@
-import { Component, OnDestroy } from '@angular/core';
-import { LobbyService } from '../services/lobby.service';
-import { Lobby, LobbyState } from '../types/lobby';
-import { ActivatedRoute, Router } from '@angular/router';
-import { GameService } from '../services/game.service';
-import { ToasterService } from '../../services/toaster.service';
-import { Subscription } from 'rxjs';
-import { Round } from '../types/round';
+import {Component, OnDestroy} from '@angular/core';
+import {LobbyService} from '../services/lobby.service';
+import {Lobby, LobbyState} from '../types/lobby';
+import {ActivatedRoute, Router} from '@angular/router';
+import {GameService} from '../services/game.service';
+import {ToasterService} from '../../services/toaster.service';
+import {Subscription} from 'rxjs';
+import {Round} from '../types/round';
 import firebase from 'firebase/compat';
-import { AuthService } from '../../auth/auth.service';
-import { User } from 'functions/src/types/user';
+import {AuthService} from '../../auth/auth.service';
+import {User} from 'functions/src/types/user';
 import DocumentData = firebase.firestore.DocumentData;
 
 @Component({
@@ -33,7 +33,6 @@ export class GameComponent implements OnDestroy {
   public story: string = '';
   public currentRound: Round | undefined;
   public submissionsViewed: boolean = false;
-  public showingSummary: boolean = false;
   private roundsSubscription: Subscription = new Subscription();
   private timeLeft: number = -1;
   private isEvaluating: boolean = false;
@@ -182,13 +181,11 @@ export class GameComponent implements OnDestroy {
 
   public showWinner() {
     this.submissionsViewed = true;
-    console.log(this.submissionsViewed);
   }
 
   public showSummary() {
-    this.showingSummary = true;
+    this.gameService.changeState(this.lobby.id, LobbyState.RANKING);
     this.submissionsViewed = false;
-    console.log(this.submissionsViewed);
   }
 
   public nextRound() {

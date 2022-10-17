@@ -12,8 +12,7 @@
   *ngIf="
     gameState === LobbyState.EVALUATED &&
     !loading &&
-    !submissionsViewed &&
-    !showingSummary
+    !submissionsViewed
   "
   [round]="currentRound"
   [lobby]="lobby"
@@ -23,15 +22,14 @@
   *ngIf="
     gameState === LobbyState.EVALUATED &&
     !loading &&
-    submissionsViewed &&
-    !showingSummary
+    submissionsViewed
   "
   [round]="currentRound"
   [lobby]="lobby"
   (continue)="showSummary()"
 ></app-winner-view>
 <app-round-summary
-  *ngIf="gameState === LobbyState.EVALUATED && !loading && showingSummary"
+  *ngIf="gameState === LobbyState.RANKING && !loading "
   [round]="currentRound"
   [lobby]="lobby"
   (next-round)="nextRound()"
