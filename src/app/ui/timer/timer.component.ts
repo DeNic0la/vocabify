@@ -30,7 +30,7 @@ export class TimerComponent implements OnInit, OnChanges {
   private timerRunning = false;
 
   ngOnInit() {
-    this.timeRemaining = this.totalTime;
+    this.timeRemaining = Number.parseInt(localStorage.getItem('time') || this.totalTime.toString());
   }
 
   ngOnChanges() {
@@ -46,6 +46,7 @@ export class TimerComponent implements OnInit, OnChanges {
 
   private tick(): void {
     this.timeRemaining--;
+    localStorage.setItem('time', this.timeRemaining.toString());
     if (this.timeRemaining === 0) {
       this.stopTimer();
     }
@@ -56,18 +57,17 @@ export class TimerComponent implements OnInit, OnChanges {
   private stopTimer(): void {
     this.timerRunning = false;
     this.started = false;
+    localStorage.setItem('time', this.totalTime.toString());
     if (this.timeInterval) clearInterval(this.timeInterval);
   }
 
   private adjustTimeSlider(): void {
     if (this.timeSlider) {
       const timeSliderStyle = this.timeSlider.nativeElement.style;
-      timeSliderStyle.height = `${
-        this.timePercentilePx * this.timeRemaining
-      }px`;
-      timeSliderStyle.marginTop = `${
-        this.timePercentilePx * (this.totalTime - this.timeRemaining)
-      }px`;
+      timeSliderStyle.height = `${this.timePercentilePx * this.timeRemaining
+        }px`;
+      timeSliderStyle.marginTop = `${this.timePercentilePx * (this.totalTime - this.timeRemaining)
+        }px`;
 
       if (this.timeRemaining <= this.totalTime / 2) {
         timeSliderStyle.backgroundColor = '#ffca3a';

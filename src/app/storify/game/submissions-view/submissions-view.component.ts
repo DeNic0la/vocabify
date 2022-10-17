@@ -36,7 +36,6 @@ export class SubmissionsViewComponent implements AfterViewInit {
   constructor() {}
 
   ngAfterViewInit(): void {
-    console.log('afterViewInit')
     this.round?.submittedStories.forEach((story) => {
       this.stories.push({
         story: story.sentence,
@@ -46,7 +45,7 @@ export class SubmissionsViewComponent implements AfterViewInit {
           )?.username || '',
       });
     });
-    this.story = this.lobby?.story[this.lobby?.story.length - 1].sentence || '';
+    this.story = this.lobby?.story[this.lobby?.story.length - 2].sentence || '';
     this.showStories().then(() => {
       this.submissionsViewed.emit();
     });
