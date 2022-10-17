@@ -1,0 +1,52 @@
+@import "src/app/styles/colors.scss";
+
+.content {
+  text-align: center;
+  padding-top: 50px;
+
+  .section {
+    height: 100vw;
+  }
+
+  .card-wrapper {
+    width: 100vw;
+    display: flex;
+    justify-content: space-around;
+    height: calc(100vh - 352px);
+    vertical-align: center;
+    min-height: 328px;
+
+    .card {
+      margin-top: calc(50vh - 352px);
+    }
+  }
+
+  .summary {
+    margin-top: 36px;
+    max-width: 512px;
+    width: 512px;
+    min-height: 512px;
+    border: 4px solid $color-main;
+    border-radius: 4px;
+    background-color: $color-white;
+    padding: 48px;
+
+    .participant {
+      border-top: 4px solid $color-main;
+      padding: 16px;
+      display: flex;
+
+      .text {
+        color: $color-main;
+      }
+
+      .username {
+        width: 75%;
+      }
+
+      .points {
+        width: 25%;
+      }
+    }
+  }
+}

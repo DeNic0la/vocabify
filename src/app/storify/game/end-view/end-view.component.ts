@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Lobby } from '../../types/lobby';
+import { Participant } from '../../types/participant';
 
 @Component({
   selector: 'app-end-view',
@@ -6,7 +8,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./end-view.component.scss'],
 })
 export class EndViewComponent implements OnInit {
-  constructor() {}
+  @Input('lobby') lobby: Lobby | undefined;
+  @Input('story') story: string = '';
 
-  ngOnInit(): void {}
+  public participantsSorted: Participant[] = [];
+
+  constructor() { }
+
+  ngOnInit(): void {
+    this.participantsSorted = this.lobby?.participants.sort((a, b) => b.points - a.points) || [];
+  }
+
 }
