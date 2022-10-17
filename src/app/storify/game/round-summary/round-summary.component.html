@@ -1,0 +1,16 @@
+<div class="content">
+  <h3 class="summary-text">Summary</h3>
+  <div *ngFor="let participant of this.lobby?.participants">
+    {{participant.username}}
+    {{participant.points}}
+  </div>
+  <div *ngIf="isHost" class="button-container">
+    <app-button
+      color="success"
+      class="relative"
+      size="large"
+      (click)="nextRound()"
+    >next round
+    </app-button>
+  </div>
+</div>

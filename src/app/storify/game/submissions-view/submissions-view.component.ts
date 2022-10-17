@@ -45,7 +45,7 @@ export class SubmissionsViewComponent implements AfterViewInit {
           )?.username || '',
       });
     });
-    this.story = this.lobby?.story[this.lobby?.story.length - 1].sentence || '';
+    this.story = this.lobby?.story[this.lobby?.story.length - 2].sentence || '';
     this.showStories().then(() => {
       this.submissionsViewed.emit();
     });
