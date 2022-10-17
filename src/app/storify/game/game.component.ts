@@ -33,6 +33,7 @@ export class GameComponent implements OnDestroy {
   public story: string = '';
   public currentRound: Round | undefined;
   public submissionsViewed: boolean = false;
+  public showingSummary: boolean = false;
   private roundsSubscription: Subscription = new Subscription();
   private evaluated: boolean = false;
   private timeLeft: number = -1;
@@ -171,11 +172,18 @@ export class GameComponent implements OnDestroy {
 
   public showWinner() {
     this.submissionsViewed = true;
+    console.log(this.submissionsViewed)
+  }
+
+  public showSummary() {
+    this.showingSummary = true;
+    this.submissionsViewed = false;
+    console.log(this.submissionsViewed);
   }
 
   public nextRound() {
     console.log('nextRound')
-    this.submissionsViewed = false;
+    this.showingSummary = false;
     this.evaluated = false;
   }
 }
