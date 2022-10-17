@@ -9,18 +9,10 @@
     </div>
   </div>
   <div *ngIf="isHost" class="button-container">
-    <app-button
-      color="success"
-      class="right"
-      size="large"
-      (click)="nextRound()"
+    <app-button color="success" class="right" size="large" (click)="nextRound()"
       >next round
     </app-button>
-    <app-button
-      color="error"
-      class="left"
-      size="large"
-      (click)="endGame()"
+    <app-button color="error" class="left" size="large" (click)="endGame()"
       >end game
     </app-button>
   </div>

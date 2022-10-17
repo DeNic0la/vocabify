@@ -173,7 +173,8 @@ export class GameComponent implements OnDestroy {
 
   private setGameState(state: LobbyState | undefined) {
     if (state) this.gameState = state;
-    if (this.gameState === LobbyState.SUBMITTING) this.submissionsViewed = false;
+    if (this.gameState === LobbyState.SUBMITTING)
+      this.submissionsViewed = false;
   }
 
   public tick(time: number): void {
@@ -201,10 +202,7 @@ export class GameComponent implements OnDestroy {
 
   public async endGame() {
     this.loading = true;
-    await this.gameService.changeState(
-      this.lobby?.id || '',
-      LobbyState.ENDED
-    );
+    await this.gameService.changeState(this.lobby?.id || '', LobbyState.ENDED);
     this.loading = false;
   }
 }

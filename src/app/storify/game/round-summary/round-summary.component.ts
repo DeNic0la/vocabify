@@ -4,7 +4,7 @@ import { LobbyState } from '../../../../../functions/src/types/lobby';
 import { GameService } from '../../services/game.service';
 import { Lobby } from '../../types/lobby';
 import { Round } from '../../types/round';
-import {Participant} from "../../types/participant";
+import { Participant } from '../../types/participant';
 
 @Component({
   selector: 'app-round-summary',
@@ -32,7 +32,8 @@ export class RoundSummaryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.participantsSorted = this.lobby?.participants.sort((a, b) => b.points - a.points) || [];
+    this.participantsSorted =
+      this.lobby?.participants.sort((a, b) => b.points - a.points) || [];
     console.log(this.participantsSorted);
   }
 
