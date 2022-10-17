@@ -33,10 +33,6 @@ export class RoundSummaryComponent implements OnInit {
   }
 
   public async nextRound() {
-    await this.gameService.changeState(
-      this.lobby?.id || '',
-      LobbyState.SUBMITTING
-    );
     this.nextRoundEvent.emit();
   }
 }
