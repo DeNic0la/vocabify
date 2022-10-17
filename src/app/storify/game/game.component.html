@@ -1,17 +1,15 @@
 <app-loader *ngIf="loading || isWaitingForEvaluation"></app-loader>
 <app-submission
-  *ngIf="gameState === LobbyState.SUBMITTING && !loading && !isWaitingForEvaluation"
+  *ngIf="
+    gameState === LobbyState.SUBMITTING && !loading && !isWaitingForEvaluation
+  "
   [lobby]="lobby"
   [story]="story"
   (submit)="submitSentence($event)"
   (tick)="tick($event)"
 ></app-submission>
 <app-submissions-view
-  *ngIf="
-    gameState === LobbyState.EVALUATED &&
-    !loading &&
-    !submissionsViewed
-  "
+  *ngIf="gameState === LobbyState.EVALUATED && !loading && !submissionsViewed"
   [round]="currentRound"
   [lobby]="lobby"
   (submissions-viewed)="showWinner()"
