@@ -69,6 +69,7 @@ export class GameService {
       } else {
         sortedSentences = stories[0];
       }
+      console.log(sortedSentences);
       sortedArray = sortedSentences.split('\n');
     } else {
       await new LobbyService().deleteLobby(lobby.id);
