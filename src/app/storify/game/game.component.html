@@ -25,4 +25,6 @@
   [round]="currentRound"
   [lobby]="lobby"
   (next-round)="nextRound()"
+  (end-game)="endGame()"
 ></app-round-summary>
+<app-end-view *ngIf="gameState === LobbyState.ENDED && !loading"></app-end-view>

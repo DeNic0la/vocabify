@@ -123,12 +123,12 @@ export class GameComponent implements OnDestroy {
         !storyPart.sentence.endsWith('?')
       ) {
         if (storyPart.uid !== 'ai') {
-          storyPart.sentence += '. ';
+          storyPart.sentence += '.';
         } else {
           storyPart.sentence += ' ';
         }
       }
-      story += storyPart.sentence;
+      story += storyPart.sentence + ' ';
     });
     this.story = story;
   }
@@ -195,6 +195,15 @@ export class GameComponent implements OnDestroy {
     await this.gameService.changeState(
       this.lobby?.id || '',
       LobbyState.SUBMITTING
+    );
+    this.loading = false;
+  }
+
+  public async endGame() {
+    this.loading = true;
+    await this.gameService.changeState(
+      this.lobby?.id || '',
+      LobbyState.ENDED
     );
     this.loading = false;
   }

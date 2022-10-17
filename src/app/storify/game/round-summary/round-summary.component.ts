@@ -16,6 +16,8 @@ export class RoundSummaryComponent implements OnInit {
 
   @Output('next-round') nextRoundEvent: EventEmitter<void> =
     new EventEmitter<void>();
+  @Output('end-game') endGameEvent: EventEmitter<void> =
+    new EventEmitter<void>();
 
   isHost: boolean = false;
 
@@ -34,5 +36,9 @@ export class RoundSummaryComponent implements OnInit {
 
   public async nextRound() {
     this.nextRoundEvent.emit();
+  }
+
+  public async endGame() {
+    this.endGameEvent.emit();
   }
 }
