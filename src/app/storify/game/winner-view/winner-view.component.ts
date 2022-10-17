@@ -1,4 +1,10 @@
-import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+} from '@angular/core';
 import { Round } from '../../types/round';
 import { Lobby } from '../../types/lobby';
 import { GameService } from '../../services/game.service';
@@ -14,7 +20,8 @@ export class WinnerViewComponent implements OnChanges {
   @Input('round') round: Round | undefined;
   @Input('lobby') lobby: Lobby | undefined;
 
-  @Output('next-round') nextRoundEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Output('next-round') nextRoundEvent: EventEmitter<void> =
+    new EventEmitter<void>();
 
   isHost: boolean = false;
   public winnerName: string = '';

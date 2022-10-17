@@ -84,12 +84,15 @@ export class GameComponent implements OnDestroy {
               this.lobby.story = lobby?.story || [];
               this.lobby.imgUrl = lobby?.imgUrl || '';
               this.lobby.participants = participants || [];
-              this.gameService.getAllRounds(this.lobby?.id || '').then((rounds) => {
-                const sub = rounds.subscribe(async (roundsData) =>
-                  await this.handleRoundsChange(roundsData)
-                );
-                this.roundsSubscription.add(sub);
-              });
+              this.gameService
+                .getAllRounds(this.lobby?.id || '')
+                .then((rounds) => {
+                  const sub = rounds.subscribe(
+                    async (roundsData) =>
+                      await this.handleRoundsChange(roundsData)
+                  );
+                  this.roundsSubscription.add(sub);
+                });
               this.loadStory();
               this.setGameState(lobby?.state);
             }
@@ -154,9 +157,7 @@ export class GameComponent implements OnDestroy {
   private async checkForEvaluation() {
     const playersAmount = this.lobby?.participants.length;
     const sentencesAmount = this.currentRound?.submittedStories.length;
-    if (
-      (playersAmount === sentencesAmount || this.timeLeft === 0)
-    ) {
+    if (playersAmount === sentencesAmount || this.timeLeft === 0) {
       if (this.isHost) {
         this.loading = false;
         if (this.currentRound?.winner === -1 && !this.isEvaluating) {
