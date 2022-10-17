@@ -61,7 +61,7 @@ export class GameService {
     let sortedArray: string[] = [];
     if (stories.length >= 1) {
       if (stories.length > 1) {
-        sortedSentences = await this.aiService.getSortedSentences(stories);
+        sortedSentences = await this.aiService.getSortedSentences(stories, lobby);
       } else {
         sortedSentences = stories[0];
       }

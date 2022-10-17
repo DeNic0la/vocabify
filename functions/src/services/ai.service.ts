@@ -1,4 +1,5 @@
 import { CompletionRequest, EngineName, OpenAI } from '@dalenguyen/openai';
+import { Lobby } from '../types/lobby';
 import { Story } from '../types/story';
 
 const openAI = new OpenAI(process.env.OPENAI_API_KEY || '');
@@ -19,9 +20,9 @@ export class AiService {
     };
   }
 
-  public async getSortedSentences(sentences: string[]) {
+  public async getSortedSentences(sentences: string[], lobby: Lobby) {
     const completionRequest: CompletionRequest = {
-      prompt: this.getPrompt(sentences),
+      prompt: this.getPrompt(sentences, lobby.story),
       temperature: 0.6,
       max_tokens: 300,
     };
@@ -32,7 +33,7 @@ export class AiService {
     return result.choices[0].text;
   }
 
-  private getPrompt(sentences: string[]): string {
+  private getPrompt(sentences: string[], story: Story[]): string {
     let prompt =
       'Sort the sentences from best to worst.' + 'Reward longer sentences.';
     for (let sentence of sentences) {
@@ -49,7 +50,7 @@ export class AiService {
         senArray = sentence.split('.');
       }
 
-      prompt = prompt + '\nSentence: ' + senArray[0] + symbol;
+      prompt = prompt + '\nSentence: ' + story[story.length - 1].sentence.trim() + ' ' + senArray[0].trim() + symbol;
     }
     return prompt;
   }
