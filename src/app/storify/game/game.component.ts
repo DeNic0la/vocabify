@@ -34,8 +34,8 @@ export class GameComponent implements OnDestroy {
   public currentRound: Round | undefined;
   public submissionsViewed: boolean = false;
   private roundsSubscription: Subscription = new Subscription();
-  private evaluated: boolean = false;
   private timeLeft: number = -1;
+  private isEvaluating: boolean = false;
 
   get isHost() {
     if (this.lobby && this.user) {
@@ -46,6 +46,16 @@ export class GameComponent implements OnDestroy {
 
   public get LobbyState(): typeof LobbyState {
     return LobbyState;
+  }
+
+  public get isWaitingForEvaluation() {
+    const res = this.currentRound?.submittedStories.filter((obj) => {
+      return obj.uid === this.user?.uid && this.currentRound?.winner === -1;
+    });
+    if (res && res.length !== 0) {
+      return true;
+    }
+    return false;
   }
 
   constructor(
@@ -59,40 +69,49 @@ export class GameComponent implements OnDestroy {
     this.loading = true;
     this.authService.currentUser.subscribe((user) => {
       this.user = user || undefined;
+      if (this.user?.uid !== this.lobby.hostid && this.isHost) {
+        this.toastService.showToast('success', 'You are now the Host');
+      }
     });
     const sub = this.lobbyService
       .getLobbyObs(route.snapshot.paramMap.get('id') || '')
       .subscribe((lobby) => {
-        const participantSub = this.lobbyService
-          .getParticipantsObs(lobby?.id || '')
-          .subscribe((participants) => {
-            this.lobby.id = lobby?.id || '';
-            this.lobby.hostid = lobby?.hostid || '';
-            this.lobby.name = lobby?.name || '';
-            this.lobby.state = lobby?.state || 0;
-            this.lobby.story = lobby?.story || [];
-            this.lobby.imgUrl = lobby?.imgUrl || '';
-            this.lobby.participants = participants || [];
+        if (lobby) {
+          this.loading = false;
+          this.lobby.id = lobby?.id || '';
+          this.lobby.hostid = lobby?.hostid || '';
+          this.lobby.name = lobby?.name || '';
+          this.lobby.state = lobby?.state || 0;
+          this.lobby.story = lobby?.story || [];
+          this.lobby.imgUrl = lobby?.imgUrl || '';
+          this.setGameState(lobby?.state);
+          this.loadStory();
 
-            this.loadStory();
-            this.setGameState(lobby?.state);
-            this.loading = false;
-
-            if (!participants?.some((e) => e.uid === this.user?.uid)) {
-              this.router.navigate(['storify/explore']);
-            }
-
-            if (this.lobby?.state !== LobbyState.JOINING) {
-              this.router.navigate(['/storify/play/' + this.lobby?.id]);
-            }
-
-            if (this.user?.uid !== this.lobby.hostid && this.isHost) {
-              this.toastService.showToast('success', 'You are now the Host');
-            }
-          });
-        this.roundsSubscription.add(participantSub);
+          if (this.lobby?.state !== LobbyState.JOINING) {
+            this.router.navigate(['/storify/play/' + this.lobby?.id]);
+          }
+        }
       });
     this.roundsSubscription.add(sub);
+
+    const participantSub = this.lobbyService
+      .getParticipantsObs(route.snapshot.paramMap.get('id') || '')
+      .subscribe((participants) => {
+        if (participants) {
+          this.lobby.participants = participants || [];
+          if (!participants?.some((e) => e.uid === this.user?.uid)) {
+            this.router.navigate(['storify/explore']);
+          }
+        }
+      });
+    this.roundsSubscription.add(participantSub);
+
+    const roundsSub = this.gameService
+      .getAllRounds(route.snapshot.paramMap.get('id') || '')
+      .subscribe(async (roundsData) => {
+        await this.handleRoundsChange(roundsData);
+      });
+    this.roundsSubscription.add(roundsSub);
   }
 
   public loadStory() {
@@ -121,56 +140,55 @@ export class GameComponent implements OnDestroy {
 
   async submitSentence(sentence: string) {
     this.loading = true;
-    this.gameState = LobbyState.EVALUATING;
     if (sentence) {
       await this.gameService
         .submitAnswer(this.lobby?.id || '', sentence)
         .catch((e) => this.toastService.showToast('error', e.error));
     }
-    this.gameService.getAllRounds(this.lobby?.id || '').then((rounds) => {
-      const sub = rounds.subscribe((roundsData) =>
-        this.handleRoundsChange(roundsData)
-      );
-      this.roundsSubscription.add(sub);
-    });
   }
 
-  private handleRoundsChange(data: DocumentData[]) {
+  private async handleRoundsChange(data: DocumentData[]) {
     this.currentRound = (data as Round[])[data.length - 1];
-    if (((data[data.length - 1] as Round).winner as number) >= 0) {
-      this.gameState = LobbyState.EVALUATED;
-      this.loading = false;
-    }
-    this.checkForEvaluation();
-    if (this.gameState === LobbyState.SUBMITTING) {
-      this.evaluated = false;
-    }
+    await this.checkForEvaluation();
   }
 
-  private checkForEvaluation(): void {
+  private async checkForEvaluation() {
     const playersAmount = this.lobby?.participants.length;
     const sentencesAmount = this.currentRound?.submittedStories.length;
-    if (
-      (playersAmount === sentencesAmount || this.timeLeft === 0) &&
-      !this.evaluated
-    ) {
+    if (playersAmount === sentencesAmount || this.timeLeft === 0) {
       if (this.isHost) {
-        this.loading = false;
-        this.evaluated = true;
-        this.gameService.evaluate(this.lobby?.id || '');
+        if (
+          this.currentRound?.winner === -1 &&
+          !this.isEvaluating &&
+          this.gameState === LobbyState.SUBMITTING
+        ) {
+          this.isEvaluating = true;
+          await this.gameService.evaluate(this.lobby?.id || '');
+          this.isEvaluating = false;
+        }
       }
     }
   }
 
   private setGameState(state: LobbyState | undefined) {
     if (state) this.gameState = state;
+    console.log(this.gameState);
   }
 
   public tick(time: number): void {
     this.timeLeft = time;
   }
 
-  showWinner() {
+  public showWinner() {
     this.submissionsViewed = true;
+  }
+
+  public showSummary() {
+    this.gameService.changeState(this.lobby.id, LobbyState.RANKING);
+    this.submissionsViewed = false;
+  }
+
+  public nextRound() {
+    this.submissionsViewed = false;
   }
 }
