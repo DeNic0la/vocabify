@@ -27,7 +27,7 @@ export class WinnerViewComponent implements OnChanges {
   public winnerName: string = '';
   public winnerStory: string = '';
 
-  constructor(private auth: AuthService) {
+  constructor(private auth: AuthService, private gameService: GameService) {
     auth.currentUser.subscribe((x) => {
       if (x?.uid == this.lobby?.hostid) {
         this.isHost = true;
@@ -51,7 +51,11 @@ export class WinnerViewComponent implements OnChanges {
     }
   }
 
-  continue() {
-    this.continueEvent.emit()
+  async continue() {
+    await this.gameService.changeState(
+      this.lobby?.id || '',
+      LobbyState.SUBMITTING
+    );
+    this.continueEvent.emit();
   }
 }
