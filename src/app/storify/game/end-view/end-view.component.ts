@@ -13,10 +13,10 @@ export class EndViewComponent implements OnInit {
 
   public participantsSorted: Participant[] = [];
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
-    this.participantsSorted = this.lobby?.participants.sort((a, b) => b.points - a.points) || [];
+    this.participantsSorted =
+      this.lobby?.participants.sort((a, b) => b.points - a.points) || [];
   }
-
 }
