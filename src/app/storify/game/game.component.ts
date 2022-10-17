@@ -110,7 +110,7 @@ export class GameComponent implements OnDestroy {
     const roundsSub = this.gameService
       .getAllRounds(route.snapshot.paramMap.get('id') || '')
       .subscribe(async (roundsData) => {
-        await this.handleRoundsChange(roundsData)
+        await this.handleRoundsChange(roundsData);
       });
     this.roundsSubscription.add(roundsSub);
   }
