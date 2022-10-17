@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import { Round } from '../../types/round';
 import { Lobby } from '../../types/lobby';
 import { GameService } from '../../services/game.service';
@@ -14,9 +14,11 @@ export class WinnerViewComponent implements OnChanges {
   @Input('round') round: Round | undefined;
   @Input('lobby') lobby: Lobby | undefined;
 
+  @Output('next-round') nextRoundEvent: EventEmitter<void> = new EventEmitter<void>();
+
   isHost: boolean = false;
-  public winnerName: string = 'test winner';
-  public winnerStory: string = 'test story';
+  public winnerName: string = '';
+  public winnerStory: string = '';
 
   constructor(private gameService: GameService, private auth: AuthService) {
     auth.currentUser.subscribe((x) => {
@@ -27,6 +29,8 @@ export class WinnerViewComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
+    console.log(this.round);
+    console.log(this.lobby);
     if (this.round && this.lobby) {
       const winnerId =
         this.round.submittedStories[this.round.winner as number]?.uid || '';
@@ -47,5 +51,6 @@ export class WinnerViewComponent implements OnChanges {
       this.lobby?.id || '',
       LobbyState.SUBMITTING
     );
+    this.nextRoundEvent.emit();
   }
 }

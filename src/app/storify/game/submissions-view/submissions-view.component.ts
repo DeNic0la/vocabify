@@ -1,4 +1,5 @@
 import {
+  AfterContentChecked,
   AfterViewInit,
   Component,
   ElementRef,
@@ -35,6 +36,7 @@ export class SubmissionsViewComponent implements AfterViewInit {
   constructor() {}
 
   ngAfterViewInit(): void {
+    console.log('afterViewInit')
     this.round?.submittedStories.forEach((story) => {
       this.stories.push({
         story: story.sentence,

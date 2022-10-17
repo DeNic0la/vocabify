@@ -73,7 +73,6 @@ export class GameComponent implements OnDestroy {
             this.lobby.story = lobby?.story || [];
             this.lobby.imgUrl = lobby?.imgUrl || '';
             this.lobby.participants = participants || [];
-
             this.loadStory();
             this.setGameState(lobby?.state);
             this.loading = false;
@@ -170,7 +169,13 @@ export class GameComponent implements OnDestroy {
     this.timeLeft = time;
   }
 
-  showWinner() {
+  public showWinner() {
     this.submissionsViewed = true;
+  }
+
+  public nextRound() {
+    console.log('nextRound')
+    this.submissionsViewed = false;
+    this.evaluated = false;
   }
 }

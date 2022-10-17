@@ -8,8 +8,7 @@
 ></app-submission>
 <app-submissions-view
   *ngIf="
-    (gameState === LobbyState.EVALUATING ||
-      gameState === LobbyState.EVALUATED) &&
+    gameState === LobbyState.EVALUATED &&
     !loading &&
     !submissionsViewed
   "
@@ -21,4 +20,5 @@
   *ngIf="gameState === LobbyState.EVALUATED && !loading && submissionsViewed"
   [round]="currentRound"
   [lobby]="lobby"
+  (next-round)="nextRound()"
 ></app-winner-view>
