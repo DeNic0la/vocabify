@@ -11,6 +11,7 @@ export class GameService {
   private aiService = new AiService();
 
   public async submit(uid: string, lobby: Lobby, sentence: string) {
+    if (sentence.length > 100) throw new Error('The text is too long');
     if (lobby.state === LobbyState.SUBMITTING) {
       const story: Story = {
         uid,
@@ -61,7 +62,10 @@ export class GameService {
     let sortedArray: string[] = [];
     if (stories.length >= 1) {
       if (stories.length > 1) {
-        sortedSentences = await this.aiService.getSortedSentences(stories);
+        sortedSentences = await this.aiService.getSortedSentences(
+          stories,
+          lobby
+        );
       } else {
         sortedSentences = stories[0];
       }
