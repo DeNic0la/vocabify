@@ -34,7 +34,6 @@ export class GameComponent implements OnDestroy {
   public currentRound: Round | undefined;
   public submissionsViewed: boolean = false;
   public showingSummary: boolean = false;
-  private isSubscribed: boolean = false;
   private roundsSubscription: Subscription = new Subscription();
   private timeLeft: number = -1;
   private isEvaluating: boolean = false;
@@ -71,54 +70,49 @@ export class GameComponent implements OnDestroy {
     this.loading = true;
     this.authService.currentUser.subscribe((user) => {
       this.user = user || undefined;
+      if (this.user?.uid !== this.lobby.hostid && this.isHost) {
+        this.toastService.showToast('success', 'You are now the Host');
+      }
     });
     const sub = this.lobbyService
       .getLobbyObs(route.snapshot.paramMap.get('id') || '')
       .subscribe((lobby) => {
-        if (!this.isSubscribed) {
-          this.isSubscribed = true;
-          const participantSub = this.lobbyService
-            .getParticipantsObs(lobby?.id || '')
-            .subscribe((participants) => {
-              if (lobby) {
-                this.lobby.id = lobby?.id || '';
-                this.lobby.hostid = lobby?.hostid || '';
-                this.lobby.name = lobby?.name || '';
-                this.lobby.state = lobby?.state || 0;
-                console.log(this.lobby);
-                this.lobby.story = lobby?.story || [];
-                this.lobby.imgUrl = lobby?.imgUrl || '';
-                this.lobby.participants = participants || [];
-                this.gameService
-                  .getAllRounds(this.lobby?.id || '')
-                  .then((rounds) => {
-                    const sub = rounds.subscribe(
-                      async (roundsData) =>
-                        await this.handleRoundsChange(roundsData)
-                    );
-                    this.roundsSubscription.add(sub);
-                  });
-                this.loadStory();
-                this.setGameState(lobby?.state);
-              }
-              this.loading = false;
+        if (lobby) {
+          this.loading = false;
+          this.lobby.id = lobby?.id || '';
+          this.lobby.hostid = lobby?.hostid || '';
+          this.lobby.name = lobby?.name || '';
+          this.lobby.state = lobby?.state || 0;
+          this.lobby.story = lobby?.story || [];
+          this.lobby.imgUrl = lobby?.imgUrl || '';
+          this.setGameState(lobby?.state);
+          this.loadStory();
 
-              if (!participants?.some((e) => e.uid === this.user?.uid)) {
-                this.router.navigate(['storify/explore']);
-              }
-
-              if (this.lobby?.state !== LobbyState.JOINING) {
-                this.router.navigate(['/storify/play/' + this.lobby?.id]);
-              }
-
-              if (this.user?.uid !== this.lobby.hostid && this.isHost) {
-                this.toastService.showToast('success', 'You are now the Host');
-              }
-            });
-          this.roundsSubscription.add(participantSub);
+          if (this.lobby?.state !== LobbyState.JOINING) {
+            this.router.navigate(['/storify/play/' + this.lobby?.id]);
+          }
         }
       });
     this.roundsSubscription.add(sub);
+
+    const participantSub = this.lobbyService
+      .getParticipantsObs(route.snapshot.paramMap.get('id') || '')
+      .subscribe((participants) => {
+        if (participants) {
+          this.lobby.participants = participants || [];
+          if (!participants?.some((e) => e.uid === this.user?.uid)) {
+            this.router.navigate(['storify/explore']);
+          }
+        }
+      });
+    this.roundsSubscription.add(participantSub);
+
+    const roundsSub = this.gameService
+      .getAllRounds(route.snapshot.paramMap.get('id') || '')
+      .subscribe(async (roundsData) => {
+        await this.handleRoundsChange(roundsData)
+      });
+    this.roundsSubscription.add(roundsSub);
   }
 
   public loadStory() {
@@ -164,7 +158,6 @@ export class GameComponent implements OnDestroy {
     const sentencesAmount = this.currentRound?.submittedStories.length;
     if (playersAmount === sentencesAmount || this.timeLeft === 0) {
       if (this.isHost) {
-        this.loading = false;
         if (
           this.currentRound?.winner === -1 &&
           !this.isEvaluating &&
@@ -179,8 +172,8 @@ export class GameComponent implements OnDestroy {
   }
 
   private setGameState(state: LobbyState | undefined) {
-    localStorage.clear();
     if (state) this.gameState = state;
+    console.log(this.gameState);
   }
 
   public tick(time: number): void {

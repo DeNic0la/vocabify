@@ -50,7 +50,7 @@ export class GameService {
     }
   }
 
-  public async getAllRounds(lobbyId: string) {
+  public getAllRounds(lobbyId: string) {
     return this.fireStore
       .collection('lobbies')
       .doc(lobbyId)
