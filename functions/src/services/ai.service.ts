@@ -51,7 +51,13 @@ export class AiService {
         senArray = sentence.split('.');
       }
 
-      prompt = prompt + '\nSentence: ' + story[story.length - 1].sentence.trim() + ' ' + senArray[0].trim() + symbol;
+      prompt =
+        prompt +
+        '\nSentence: ' +
+        story[story.length - 1].sentence.trim() +
+        ' ' +
+        senArray[0].trim() +
+        symbol;
     }
     return prompt;
   }
