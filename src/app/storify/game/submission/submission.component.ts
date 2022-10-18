@@ -39,7 +39,7 @@ export class SubmissionComponent implements OnInit {
     setTimeout(() => (this.timerStarted = true), 1000);
     this.timer.interval.subscribe(() => {
       this.timeLeft = this.timer.timeRemaining;
-      console.log(this.timeLeft  );
+      console.log(this.timeLeft);
       this.tick.emit(this.timeLeft);
       if (this.timeLeft <= 0) this.submitSentence();
     });
@@ -56,14 +56,20 @@ export class SubmissionComponent implements OnInit {
 
   public submitSentence(): void {
     this.textareaColor = 'inverted';
-    if (this.sentence.split(' ').length >= 3 || this.timeLeft === 0) {
-      this.submit.emit(this.sentence);
-    } else {
+    if (this.sentence.length > 100) {
+      this.textareaColor = 'error';
+      this.toastService.showToast(
+        'error',
+        'Your sentence is too long.'
+      );
+    } else if (this.sentence.split(' ').length < 3 && this.timeLeft !== 0) {
       this.textareaColor = 'error';
       this.toastService.showToast(
         'error',
         'You need to write a whole sentence.'
       );
+    } else {
+      this.submit.emit(this.sentence);
     }
   }
 }
