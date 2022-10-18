@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { LobbyService } from '../services/lobby.service';
 import { Router } from '@angular/router';
 import { ToasterService } from '../../services/toaster.service';
-import * as images from "./imageUrl.json"
+import * as images from './imageUrl.json';
 import {
   AngularFireStorage,
   AngularFireStorageReference,
@@ -51,7 +51,13 @@ export class SettingsComponent {
           },
         });
       } else {
-        this.createSeLobby(topic, SettingsComponent.imageUrls[Math.floor(Math.random()* SettingsComponent.imageUrls.length)], '');
+        this.createSeLobby(
+          topic,
+          SettingsComponent.imageUrls[
+            Math.floor(Math.random() * SettingsComponent.imageUrls.length)
+          ],
+          ''
+        );
       }
     }
   }
