@@ -16,6 +16,7 @@ export class GameService {
       const story: Story = {
         uid,
         sentence,
+        userRatings: [],
       };
       const round = await this.getLastRound(lobby.id);
       let submittedStories = round.data().submittedStories;
@@ -90,6 +91,7 @@ export class GameService {
             lobby.story.push({
               uid: firebaseSentences[i].uid,
               sentence: firebaseSentences[i].sentence,
+              userRatings: firebaseSentences[i].userRatings,
             });
             await this.db
               .collection('lobbies')
@@ -99,6 +101,20 @@ export class GameService {
           await this.addPoints(firebaseSentences[i].uid, lobby.id, rank * 50);
           rank--;
         }
+      }
+    }
+  }
+
+  public async rate(uid: string, lobby: Lobby, storyUid: any) {
+    if (uid === storyUid) throw new Error('You cannot vote for your story')
+
+    let round = await this.getLastRound(lobby.id);
+    let stories = round.data().submittedStories;
+    for (let i = 0; i < stories.length; i++) {
+      if (stories[i].uid === storyUid) {
+        stories[i].userRatings.push(storyUid);
+        (await this.getRoundById(lobby.id, round.data().createdAt)).update({ submittedStories: stories });
+        break;
       }
     }
   }
@@ -143,5 +159,9 @@ export class GameService {
       );
     }
     return firebaseRound;
+  }
+
+  private async getRoundById(lobbyId: string, roundId: string) {
+    return this.db.collection('lobbies').doc(lobbyId).collection('rounds').doc(roundId);
   }
 }
