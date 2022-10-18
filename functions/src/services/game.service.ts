@@ -64,7 +64,9 @@ export class GameService {
     const participants = await new LobbyService().getParticipants(lobby.id);
 
     for (let participant of participants) {
-      if (!firebaseSentences.find((sentence) => participant.uid === sentence.uid)) {
+      if (
+        !firebaseSentences.find((sentence) => participant.uid === sentence.uid)
+      ) {
         new LobbyService().leave(participant.uid, lobby);
       }
     }
