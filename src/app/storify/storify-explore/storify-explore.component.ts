@@ -22,7 +22,7 @@ export class StorifyExploreComponent implements OnInit {
     this.loadLobbies();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   async loadLobbies() {
     const value = await this.lobbyService.getLobbiesToJoin();
@@ -56,11 +56,11 @@ export class StorifyExploreComponent implements OnInit {
       lobbyService
         .joinLobby(lobbyId)
         .then(() => (this.isLoading = false))
-        .catch((reason) => {
+        .catch((error: any) => {
           this.isLoading = false;
           this.msgService.showToast(
             'error',
-            "Unexpected Error: Can't join lobby"
+            error.message
           );
         });
     };

@@ -41,6 +41,8 @@ export class GameService {
       (lobby.state === LobbyState.RANKING && state === LobbyState.SUBMITTING) ||
       (lobby.state === LobbyState.JOINING && state === LobbyState.SUBMITTING)
     ) {
+      const numberOfParticipants = (await new LobbyService().getParticipants(lobby.id)).length;
+      if (numberOfParticipants < 3) throw new Error('There are not enough players in the lobby');
       await this.createRound(lobby.id);
     }
     await this.db.collection('lobbies').doc(lobby.id).update({ state });

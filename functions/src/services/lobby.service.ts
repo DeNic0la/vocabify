@@ -36,6 +36,9 @@ export class LobbyService {
     if (lobby.state !== LobbyState.JOINING) {
       throw new Error('The lobby is already in progress.');
     }
+    const numberOfParticipants = (await this.getParticipants(lobby.id)).length;
+    if (numberOfParticipants >= 10) throw new Error('The lobby is full');
+
     const particpant: Participant = {
       uid: user.uid,
       username: user.username,

@@ -130,7 +130,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
           LobbyState.SUBMITTING
         );
         this.isStarting = false;
-      } catch (e) {
+      } catch (e: any) {
         this.isStarting = false;
         this.headerService.setAction({
           prompt: 'Start Game',
@@ -138,7 +138,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
           color: 'success',
           action: this.start.bind(this),
         });
-        this.toast.showToast('error', "Game couldn't be started");
+        this.toast.showToast('error', e.message);
       }
     }
   }
