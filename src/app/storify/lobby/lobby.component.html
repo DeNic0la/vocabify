@@ -1,7 +1,12 @@
 <app-loader *ngIf="isLoading"></app-loader>
 <div class="content" *ngIf="!isLoading && lobby">
   <div class="leave-btn-wrapper">
-    <app-button class="leave-btn" color="error" size="medium" (click)="leave()" mobile="full"
+    <app-button
+      class="leave-btn"
+      color="error"
+      size="medium"
+      (click)="leave()"
+      mobile="full"
       >Leave</app-button
     >
   </div>
