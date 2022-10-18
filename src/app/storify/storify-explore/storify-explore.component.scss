@@ -1,4 +1,4 @@
-@media only screen and (min-width: 1000px) {
+@media only screen and (min-width: 480px) {
   .button-container {
     bottom: 5%;
     right: 5%;
@@ -6,13 +6,17 @@
     z-index: 1;
   }
   .refresh-container {
-    top: 18%;
+    top: 10%;
     right: 5%;
     position: absolute;
     z-index: 1;
   }
 }
+
 .refresh {
-  text-align: center;
-  transform: translateX(16px);
+  margin: 32px 0;
+}
+
+.button-container {
+  margin-top: 32px;
 }

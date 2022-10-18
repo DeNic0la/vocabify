@@ -9,7 +9,7 @@
 
 @media screen and (max-width: 500px) {
   .dropzone {
-    width: 100vw !important;
+    width: calc(100vw - 32px) !important;
     height: 40vh !important;
   }
 }
