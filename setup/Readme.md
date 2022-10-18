@@ -1,10 +1,10 @@
 # Setup
 
-To setup this project simply follow this guide. I Highly recommend doing this on a Linux machine.
+It is highly recommend doing this setup on a Linux machine.
 
 ## Step 1
 
-Clone The Project and open it in your IDE(A).
+Clone the project and open it in your IDE(A).
 
 ```shell
 git clone https://github.com/DeNic0la/vocabify.git && cd vocabify
@@ -12,15 +12,15 @@ git clone https://github.com/DeNic0la/vocabify.git && cd vocabify
 
 ## Step 2
 
-There is a script for the setup if you are using Linux. For the setup with linux read the [Script Tutorial](linux.md). Else follow those steps.
+There is a script for the setup if you are using Linux. For the setup with Linux read the [script tutorial](linux.md). Else follow these steps.
 
 ### Step 2.1
 
-make sure you have npm, firebase-tools and angular-cli installed.
+Make sure you have npm, firebase-tools and angular-cli installed.
 
 ### Step 2.2
 
-Run those commands
+Run these commands
 
 ```shell
 firebase login
@@ -30,12 +30,12 @@ firebase projects:create
 ## Step 3
 
 Go to the [firebase console](https://console.firebase.google.com/) and select the project you just created.
-Add a new Application to the Project. Take a look at the [environment.prod.ts](../src/environments/environment.prod.ts) file and copy the values from the Firebaseconfig into said file.
-![Firebase Config](img/Image_1.png)
+Add a new application to the project. Take a look at the [environment.prod.ts](../src/environments/environment.prod.ts) file and copy the values from the Firebase config into said file.
+![Firebase config](img/Image_1.png)
 
 ## Step 4
 
-Make yourself an [Open-Ai-Api-Key](https://openai.com/api/) and add it as a firebase secret. (Make sure you are using the right project `firebase use {your project}`).
+Make yourself an [Open-Ai-Api-Key](https://openai.com/api/) and add it as a Firebase secret. (Make sure you are using the right project `Firebase use {your project}`).
 
 ```shell
 your_key=12345
@@ -44,7 +44,7 @@ firebase functions:secrets:set OPENAI_API_KEY $your_key
 
 ## Step 5
 
-Deploy the Functions:
+Deploy the functions:
 
 ```shell
 cd functions
@@ -54,13 +54,13 @@ cd ..
 
 ## Step 6
 
-Build the Frontend
+Build the frontend
 
 ```shell
 ng build
 ```
 
-Deploy the Frontend
+Deploy the frontend
 
 ```shell
 firebase deploy --only hosting
