@@ -12,17 +12,21 @@
   <div class="sentence-wrapper" #sentence>
     <div class="sentence-box" *ngFor="let story of viewedStories">
       <app-card size="large" color="inverted">
-        {{ story.story }}
+        <div class="story">
+          {{ story.story }}
+        </div>
+        <div class="icon">
+          <img
+            *ngIf="timerStarted && !hasVotedFor(story)"
+            (click)="vote(story)"
+            src="../../../../assets/images/heart_empty.svg"
+          />
+          <img
+            *ngIf="timerStarted && hasVotedFor(story)"
+            src="../../../../assets/images/heart_filled.svg"
+          />
+        </div>
       </app-card>
-      <img
-        *ngIf="timerStarted && !hasVotedFor(story)"
-        (click)="vote(story)"
-        src="../../../../assets/images/heart_empty.svg"
-      />
-      <img
-        *ngIf="timerStarted && hasVotedFor(story)"
-        src="../../../../assets/images/heart_filled.svg"
-      />
     </div>
   </div>
 </div>
