@@ -31,6 +31,7 @@ export class TimerComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.timeRemaining = this.totalTime;
+    this.adjustTimeSlider();
   }
 
   ngOnChanges() {

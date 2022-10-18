@@ -38,8 +38,7 @@ export class GameService {
       throw new Error('Not Authorized');
     }
     if (
-      (lobby.state === LobbyState.EVALUATED &&
-        state === LobbyState.SUBMITTING) ||
+      (lobby.state === LobbyState.RANKING && state === LobbyState.SUBMITTING) ||
       (lobby.state === LobbyState.JOINING && state === LobbyState.SUBMITTING)
     ) {
       await this.createRound(lobby.id);
@@ -69,6 +68,7 @@ export class GameService {
       } else {
         sortedSentences = stories[0];
       }
+      console.log(sortedSentences);
       sortedArray = sortedSentences.split('\n');
     } else {
       await new LobbyService().deleteLobby(lobby.id);
