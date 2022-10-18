@@ -59,10 +59,10 @@
 
 @media screen and (max-width: 620px) {
   .textarea {
-    width: 100vw;
+    width: calc(100vw - 32px);
     border: none;
     padding: 8px;
-    transform: translateX(16px);
+    transform: translateX(8px);
 
     &:focus {
       border: none;

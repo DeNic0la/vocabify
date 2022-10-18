@@ -25,12 +25,13 @@
     width: 100vw;
     display: flex;
     justify-content: space-around;
+    margin-bottom: 32px;
 
     .summary {
       margin-top: 36px;
       max-width: 512px;
       width: 512px;
-      min-height: 512px;
+      min-height: 256px;
       border: 4px solid $color-main;
       border-radius: 4px;
       background-color: $color-white;

@@ -29,3 +29,9 @@
 .error {
   filter: $color-error-filter;
 }
+
+@media screen and (max-width: 480px) {
+  .icon {
+    transform: translate(-4px, 6px) !important;
+  }
+}
