@@ -62,8 +62,13 @@
     .text {
       width: auto;
       height: auto;
-      max-height: 380px;
     }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .text {
+    margin-top: 16px !important;
   }
 }
 

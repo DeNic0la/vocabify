@@ -9,3 +9,5 @@ export type ButtonColor =
   | 'danger-inverted'
   | 'error'
   | 'error-inverted';
+
+export type ButtonMobileSize = 'inherit' | 'full';

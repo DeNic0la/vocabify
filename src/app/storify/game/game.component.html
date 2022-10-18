@@ -9,13 +9,13 @@
   (tick)="tick($event)"
 ></app-submission>
 <app-submissions-view
-  *ngIf="gameState === LobbyState.EVALUATED && !loading && !submissionsViewed"
+  *ngIf="gameState === LobbyState.EVALUATED && !loading"
   [round]="currentRound"
   [lobby]="lobby"
   (submissions-viewed)="showWinner()"
 ></app-submissions-view>
 <app-winner-view
-  *ngIf="gameState === LobbyState.EVALUATED && !loading && submissionsViewed"
+  *ngIf="gameState === LobbyState.WINNER && !loading"
   [round]="currentRound"
   [lobby]="lobby"
   (continue)="showSummary()"

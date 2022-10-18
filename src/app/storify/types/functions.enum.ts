@@ -6,4 +6,5 @@ export enum Functions {
   SUBMIT = 'submit',
   STATE = 'state',
   EVALUATE = 'evaluate',
+  RATE = 'rate',
 }

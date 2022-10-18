@@ -1,23 +1,26 @@
 <div class="content">
-  <h3 class="winner-text">The Winner is...</h3>
-  <div class="username-wrapper">
-    <div class="username-box">
-      <h5>{{ winnerName }}</h5>
+  <div class="winner-container" *ngFor="let winner of winners">
+    <h3 class="winner-text">{{ winner.title }}</h3>
+    <div class="username-wrapper">
+      <div class="username-box">
+        <h5>{{ winner.username }}</h5>
+      </div>
     </div>
-  </div>
-  <div class="winning-sentence-wrapper">
-    <div class="winning-sentence-box">
-      <app-card size="large" color="inverted">
-        {{ winnerStory }}
-      </app-card>
+    <div class="winning-sentence-wrapper">
+      <div class="winning-sentence-box">
+        <app-card size="large" color="inverted">
+          {{ winner.story }}
+        </app-card>
+      </div>
     </div>
   </div>
   <div *ngIf="isHost" class="button-container">
     <app-button
       color="success"
-      class="relative"
+      class="relative continue-btn"
       size="large"
       (click)="continue()"
+      mobile="full"
       >continue
     </app-button>
   </div>

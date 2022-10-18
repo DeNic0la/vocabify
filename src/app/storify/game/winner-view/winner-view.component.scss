@@ -1,6 +1,10 @@
 @import "src/app/styles/colors.scss";
 
 .content {
+  .winner-container {
+    margin-top: 50px;
+  }
+
   .winner-text {
     margin-top: 36px;
     text-align: center;
@@ -45,6 +49,13 @@
       animation-delay: 1400ms;
       animation-fill-mode: forwards;
     }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .continue-btn {
+    position: absolute !important;
+    bottom: 16px;
   }
 }
 
