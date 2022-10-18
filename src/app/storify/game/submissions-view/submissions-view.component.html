@@ -1,5 +1,4 @@
-<app-loader *ngIf="isLoading"></app-loader>
-<div *ngIf="!isLoading" class="content">
+<div class="content">
   <div class="timer-wrapper">
     <app-timer
       [started]="timerStarted"
@@ -12,9 +11,11 @@
   <h5 class="title">{{ story }}</h5>
   <div class="sentence-wrapper" #sentence>
     <div class="sentence-box" *ngFor="let story of viewedStories">
-      <app-card (click)="vote(story.uid)" size="large" color="inverted">
+      <app-card size="large" color="inverted">
         {{ story.story }}
       </app-card>
+      <img (click)="vote(story)" src="../../../../assets/images/heart_empty.svg" />
+      <img src="../../../../assets/images/heart_filled.svg" />
     </div>
   </div>
 </div>

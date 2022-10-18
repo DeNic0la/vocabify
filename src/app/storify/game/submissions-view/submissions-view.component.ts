@@ -14,6 +14,9 @@ import { SubmittedStory } from '../game.types';
 import { TimerType } from 'src/app/ui/timer/timer.types';
 import { GameService } from '../../services/game.service';
 import { ToasterService } from 'src/app/services/toaster.service';
+import { Story } from '../../types/story';
+import { AuthService } from 'src/app/auth/auth.service';
+import { User } from 'functions/src/types/user';
 
 @Component({
   selector: 'app-submissions-view',
@@ -37,9 +40,14 @@ export class SubmissionsViewComponent implements AfterViewInit {
   public story: string = '';
   public showingStories: boolean = false;
   public title: string = 'submitted stories';
+  public user: User = { email: '', uid: '', username: '' };
   public isLoading: boolean = false;
 
-  constructor(private gameService: GameService, private toast: ToasterService) { }
+  constructor(private auth: AuthService, private gameService: GameService, private toast: ToasterService) {
+    this.auth.currentUser.subscribe((user) => {
+      this.user = user || { email: '', uid: '', username: '' };
+    });
+  }
 
   ngAfterViewInit(): void {
     this.round?.submittedStories.forEach((story) => {
@@ -50,6 +58,7 @@ export class SubmissionsViewComponent implements AfterViewInit {
             (participant) => participant.uid === story.uid
           )?.username || '',
         uid: story.uid,
+        userRatings: story.userRatings,
       });
     });
     this.story = this.lobby?.story[this.lobby?.story.length - 2].sentence || '';
@@ -59,15 +68,28 @@ export class SubmissionsViewComponent implements AfterViewInit {
     });
   }
 
-  public async vote(storyUid: string) {
-    if (this.timerStarted) {
+  public async vote(story: SubmittedStory) {
+    if (this.timerStarted && !this.isLoading) {
       try {
         this.isLoading = true;
-        await this.gameService.rate(this.lobby?.id || '', storyUid);
+        await this.gameService.rate(this.lobby?.id || '', story.uid);
+        this.addVote(story);
         this.toast.showToast('success', 'Your vote has been submitted');
-        this.isLoading = false;
       } catch (error: any) {
         this.toast.showToast('error', error.message);
+      }
+      this.isLoading = false;
+    }
+  }
+
+  public hasVotedFor(story: SubmittedStory): boolean {
+    return (story.userRatings.find((rating) => this.user.uid === rating)?.length || 0) > 0;
+  }
+
+  private addVote(story: SubmittedStory) {
+    for (let i = 0; i < this.viewedStories.length; i++) {
+      if (this.viewedStories[i].uid === story.uid) {
+        this.viewedStories[i].userRatings.push(this.user.uid);
       }
     }
   }
