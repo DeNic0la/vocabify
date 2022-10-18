@@ -1,15 +1,35 @@
 <div class="content">
-  <h3 class="header">submitted stories</h3>
-  <h5 class="title">{{ story }}</h5>
-  <div class="username-wrapper" #username *ngIf="showingStories">
-    <div class="username-box" [ngClass]="{ hidden: hidden }">
-      <h5>{{ currentStory.username }}</h5>
-    </div>
+  <div class="timer-wrapper">
+    <app-timer
+      [started]="timerStarted"
+      [type]="timerType"
+      [time]="20"
+      (tick)="checkTime($event)"
+    ></app-timer>
   </div>
-  <div class="sentence-wrapper" #sentence *ngIf="showingStories">
-    <div class="sentence-box" [ngClass]="{ hidden: hidden }">
+  <h3 class="header">{{ title }}</h3>
+  <h5 class="title">{{ story }}</h5>
+  <div class="sentence-wrapper" #sentence>
+    <div class="sentence-box" *ngFor="let story of viewedStories">
       <app-card size="large" color="inverted">
-        {{ currentStory.story }}
+        <div class="story">
+          {{ story.story }}
+        </div>
+        <div class="icon">
+          <img
+            *ngIf="
+              timerStarted && !hasVotedFor(story) && story.uid !== this.user.uid
+            "
+            (click)="vote(story)"
+            src="../../../../assets/images/heart_empty.svg"
+          />
+          <img
+            *ngIf="
+              timerStarted && hasVotedFor(story) && story.uid !== this.user.uid
+            "
+            src="../../../../assets/images/heart_filled.svg"
+          />
+        </div>
       </app-card>
     </div>
   </div>

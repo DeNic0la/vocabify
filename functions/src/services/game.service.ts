@@ -16,6 +16,7 @@ export class GameService {
       const story: Story = {
         uid,
         sentence,
+        userRatings: [],
       };
       const round = await this.getLastRound(lobby.id);
       let submittedStories = round.data().submittedStories;
@@ -44,6 +45,9 @@ export class GameService {
       const numberOfParticipants = (await new LobbyService().getParticipants(lobby.id)).length;
       if (numberOfParticipants < 3) throw new Error('There are not enough players in the lobby');
       await this.createRound(lobby.id);
+    }
+    if (lobby.state === LobbyState.EVALUATED && state === LobbyState.WINNER) {
+      await this.addPointsToMostVoted(lobby);
     }
     await this.db.collection('lobbies').doc(lobby.id).update({ state });
   }
@@ -92,6 +96,7 @@ export class GameService {
             lobby.story.push({
               uid: firebaseSentences[i].uid,
               sentence: firebaseSentences[i].sentence,
+              userRatings: firebaseSentences[i].userRatings,
             });
             await this.db
               .collection('lobbies')
@@ -103,6 +108,57 @@ export class GameService {
         }
       }
     }
+  }
+
+  public async rate(uid: string, lobby: Lobby, storyUid: any) {
+    if (uid === storyUid) throw new Error('You cannot vote for your story');
+
+    const roundFirebase = (await this.getLastRound(lobby.id)).data();
+    let round: Round = {
+      createdAt: roundFirebase.createdAt,
+      submittedStories: roundFirebase.submittedStories,
+      winner: roundFirebase.winner,
+    };
+
+    if (!this.hasAlreadyVoted(uid, round.submittedStories)) {
+      for (let i = 0; i < round.submittedStories.length; i++) {
+        if (round.submittedStories[i].uid === storyUid) {
+          round.submittedStories[i].userRatings.push(uid);
+          const roundRef = this.getRoundById(
+            lobby.id,
+            round.createdAt.toString()
+          );
+          await roundRef.update({ submittedStories: round.submittedStories });
+          break;
+        }
+      }
+    } else {
+      throw new Error('You only can vote once');
+    }
+  }
+
+  private async addPointsToMostVoted(lobby: Lobby) {
+    const round = await this.getLastRound(lobby.id);
+    let bestStory = round.data().submittedStories[0];
+
+    for (let story of round.data().submittedStories) {
+      if (bestStory.userRatings.length < story.userRatings.length) {
+        bestStory = story;
+      }
+    }
+    const participants = await new LobbyService().getParticipants(lobby.id);
+    await this.addPoints(bestStory.uid, lobby.id, participants.length * 25);
+  }
+
+  private hasAlreadyVoted(uid: string, stories: Story[]) {
+    for (let i = 0; i < stories.length; i++) {
+      for (let j = 0; j < stories[i].userRatings.length; j++) {
+        if (stories[i].userRatings[j] === uid) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   private async addPoints(uid: string, lobbyId: string, points: number) {
@@ -145,5 +201,13 @@ export class GameService {
       );
     }
     return firebaseRound;
+  }
+
+  private getRoundById(lobbyId: string, roundId: string) {
+    return this.db
+      .collection('lobbies')
+      .doc(lobbyId)
+      .collection('rounds')
+      .doc(roundId);
   }
 }
