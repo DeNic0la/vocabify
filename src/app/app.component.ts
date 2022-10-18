@@ -9,6 +9,5 @@ import { ToasterService } from './services/toaster.service';
 export class AppComponent {
   title = 'vocabify';
 
-  constructor(public toasterService: ToasterService) {
-  }
+  constructor(public toasterService: ToasterService) {}
 }
