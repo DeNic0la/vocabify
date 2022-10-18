@@ -38,6 +38,20 @@
       animation: appear 1000ms;
       animation-delay: 1400ms;
       animation-fill-mode: forwards;
+      transform-origin: left top;
+      transition: flex-grow 1000ms linear;
+
+      .story {
+        position: relative;
+        top: 0;
+        height: 80%;
+      }
+
+      .icon {
+        position: relative;
+        bottom: 0;
+        height: 20%;
+      }
     }
   }
 }

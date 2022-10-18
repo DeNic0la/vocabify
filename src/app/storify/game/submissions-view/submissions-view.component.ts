@@ -3,7 +3,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  EventEmitter,
+  EventEmitter, HostListener,
   Input,
   Output,
   ViewChild,
@@ -51,6 +51,15 @@ export class SubmissionsViewComponent implements AfterViewInit {
     this.auth.currentUser.subscribe((user) => {
       this.user = user || { email: '', uid: '', username: '' };
     });
+  }
+
+  @HostListener('window:resize')
+  private handleWindowResize() {
+    if (document.body.clientWidth <= 800) {
+      this.timerType = 'horizontal';
+    } else {
+      this.timerType = 'vertical';
+    }
   }
 
   ngAfterViewInit(): void {
