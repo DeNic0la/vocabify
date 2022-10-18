@@ -110,13 +110,28 @@ export class GameService {
 
     let round = await this.getLastRound(lobby.id);
     let stories = round.data().submittedStories;
+    if (!this.hasAlreadyVoted(uid, stories)) {
+      for (let i = 0; i < stories.length; i++) {
+        if (stories[i].uid === storyUid) {
+          stories[i].userRatings.push(uid);
+          (await this.getRoundById(lobby.id, round.data().createdAt)).update({ submittedStories: stories });
+          break;
+        }
+      }
+    } else {
+      throw new Error('You only can vote once');
+    }
+  }
+
+  private hasAlreadyVoted(uid: string, stories: Story[]) {
     for (let i = 0; i < stories.length; i++) {
-      if (stories[i].uid === storyUid) {
-        stories[i].userRatings.push(storyUid);
-        (await this.getRoundById(lobby.id, round.data().createdAt)).update({ submittedStories: stories });
-        break;
+      for (let j = 0; j < stories[i].userRatings.length; j++) {
+        if (stories[i].userRatings[j] === uid) {
+          return true;
+        }
       }
     }
+    return false;
   }
 
   private async addPoints(uid: string, lobbyId: string, points: number) {
