@@ -14,8 +14,15 @@
       <app-card size="large" color="inverted">
         {{ story.story }}
       </app-card>
-      <img (click)="vote(story)" src="../../../../assets/images/heart_empty.svg" />
-      <img src="../../../../assets/images/heart_filled.svg" />
+      <img
+        *ngIf="timerStarted && !hasVotedFor(story)"
+        (click)="vote(story)"
+        src="../../../../assets/images/heart_empty.svg"
+      />
+      <img
+        *ngIf="timerStarted && hasVotedFor(story)"
+        src="../../../../assets/images/heart_filled.svg"
+      />
     </div>
   </div>
 </div>

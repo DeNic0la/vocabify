@@ -43,7 +43,11 @@ export class SubmissionsViewComponent implements AfterViewInit {
   public user: User = { email: '', uid: '', username: '' };
   public isLoading: boolean = false;
 
-  constructor(private auth: AuthService, private gameService: GameService, private toast: ToasterService) {
+  constructor(
+    private auth: AuthService,
+    private gameService: GameService,
+    private toast: ToasterService
+  ) {
     this.auth.currentUser.subscribe((user) => {
       this.user = user || { email: '', uid: '', username: '' };
     });
@@ -63,7 +67,7 @@ export class SubmissionsViewComponent implements AfterViewInit {
     });
     this.story = this.lobby?.story[this.lobby?.story.length - 2].sentence || '';
     this.showStories().then(() => {
-      this.title = 'which is your favourite?'
+      this.title = 'which is your favourite?';
       this.timerStarted = true;
     });
   }
@@ -83,7 +87,10 @@ export class SubmissionsViewComponent implements AfterViewInit {
   }
 
   public hasVotedFor(story: SubmittedStory): boolean {
-    return (story.userRatings.find((rating) => this.user.uid === rating)?.length || 0) > 0;
+    return (
+      (story.userRatings.find((rating) => this.user.uid === rating)?.length ||
+        0) > 0
+    );
   }
 
   private addVote(story: SubmittedStory) {

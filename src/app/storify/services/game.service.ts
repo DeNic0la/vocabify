@@ -11,7 +11,7 @@ export class GameService {
   constructor(
     private httpService: HttpService,
     private fireStore: AngularFirestore
-  ) { }
+  ) {}
 
   /**
    * Submits the answer
@@ -52,7 +52,10 @@ export class GameService {
 
   public async rate(lobbyId: string, storyUid: string) {
     try {
-      await this.httpService.put(Functions.RATE, { lobbyId: lobbyId, storyUid: storyUid });
+      await this.httpService.put(Functions.RATE, {
+        lobbyId: lobbyId,
+        storyUid: storyUid,
+      });
     } catch (error: any) {
       throw new Error(error.error);
     }
