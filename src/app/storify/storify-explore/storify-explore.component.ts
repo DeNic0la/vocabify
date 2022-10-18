@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { LobbyItem } from './storify-explore';
 import { Lobby } from '../types/lobby';
 import { LobbyService } from '../services/lobby.service';
@@ -10,7 +10,7 @@ import { ToasterService } from '../../services/toaster.service';
   templateUrl: './storify-explore.component.html',
   styleUrls: ['./storify-explore.component.scss'],
 })
-export class StorifyExploreComponent implements OnInit {
+export class StorifyExploreComponent {
   public isLoading: boolean = true;
   public isOpen: boolean = false;
 
@@ -21,8 +21,6 @@ export class StorifyExploreComponent implements OnInit {
   ) {
     this.loadLobbies();
   }
-
-  ngOnInit(): void {}
 
   async loadLobbies() {
     const value = await this.lobbyService.getLobbiesToJoin();
@@ -46,8 +44,12 @@ export class StorifyExploreComponent implements OnInit {
         )
       );
     });
-    this.Lobbies = items;
+    this.lobbies = items.sort(StorifyExploreComponent.sortLobbies);
     this.isLoading = false;
+  }
+
+  private static sortLobbies(a: LobbyItem, b: LobbyItem): number {
+    return (b.id as unknown as number) - (a.id as unknown as number);
   }
 
   getJoinLobbyCallback(lobbyId: string, lobbyService: LobbyService) {
@@ -56,7 +58,7 @@ export class StorifyExploreComponent implements OnInit {
       lobbyService
         .joinLobby(lobbyId)
         .then(() => (this.isLoading = false))
-        .catch((reason) => {
+        .catch(() => {
           this.isLoading = false;
           this.msgService.showToast(
             'error',
@@ -72,5 +74,5 @@ export class StorifyExploreComponent implements OnInit {
     this.isLoading = false;
   }
 
-  public Lobbies: LobbyItem[] = [];
+  public lobbies: LobbyItem[] = [];
 }
