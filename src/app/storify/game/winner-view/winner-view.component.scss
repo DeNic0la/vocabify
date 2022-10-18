@@ -48,6 +48,14 @@
   }
 }
 
+@media screen and (max-width: 480px){
+
+  .continue-btn {
+    position: absolute !important;
+    bottom: 16px;
+  }
+}
+
 @keyframes appear-title {
   0% {
     transform: scale(0);

@@ -57,6 +57,28 @@
   }
 }
 
+@media screen and (max-width: 480px) {
+  .card {
+    transform: translateY(-64px);
+  }
+
+  .story {
+    height: calc(60vh - 96px) !important;
+  }
+
+  .submission {
+    height: 40vh !important;
+    overflow: hidden !important;
+  }
+
+  .button-wrapper {
+    transform: none !important;
+    width: auto !important;
+    height: auto !important;
+    margin-top: 8px;
+  }
+}
+
 @media screen and (max-width: 800px) {
   .timer-wrapper {
     margin-top: 32px !important;
@@ -78,10 +100,6 @@
 @media screen and (max-width: 620px) {
   .submission-container {
     display: initial !important;
-
-    .button-wrapper {
-      transform: translate(calc(50vw - 8px), -312px) !important;
-    }
   }
 }
 

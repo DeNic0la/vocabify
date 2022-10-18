@@ -2,12 +2,12 @@
   <app-card-grid title="Lobbies" [cards]="Lobbies">
     <div class="grid">
       <div class="button-container">
-        <app-button color="success" class="relative" (click)="createPage()"
+        <app-button color="success" class="relative" (click)="createPage()" mobile="full"
           >CREATE
         </app-button>
       </div>
       <div class="refresh-container refresh">
-        <app-button class="relative" (click)="refresh()">Refresh</app-button>
+        <app-button class="relative" (click)="refresh()" mobile="full">Refresh</app-button>
       </div>
     </div>
   </app-card-grid>
