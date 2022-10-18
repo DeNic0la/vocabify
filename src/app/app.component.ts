@@ -10,7 +10,12 @@ export class AppComponent {
   title = 'vocabify';
 
   constructor(public toasterService: ToasterService) {
-    const viewport: HTMLMetaElement = document.querySelector('meta[name="viewport"]') as HTMLMetaElement;
-    viewport.setAttribute('content', viewport.content + `, height=${window.innerHeight}`)
+    const viewport: HTMLMetaElement = document.querySelector(
+      'meta[name="viewport"]'
+    ) as HTMLMetaElement;
+    viewport.setAttribute(
+      'content',
+      viewport.content + `, height=${window.innerHeight}`
+    );
   }
 }
