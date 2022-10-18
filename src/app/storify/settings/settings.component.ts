@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { LobbyService } from '../services/lobby.service';
 import { Router } from '@angular/router';
 import { ToasterService } from '../../services/toaster.service';
+import * as images from "./imageUrl.json"
 import {
   AngularFireStorage,
   AngularFireStorageReference,
@@ -18,8 +19,7 @@ export class SettingsComponent {
   public selectedFile: File | undefined;
   public filereader: FileReader = new FileReader();
   ref: AngularFireStorageReference | undefined;
-  private static defaultImgUrl: string =
-    'https://images.pexels.com/photos/1670977/pexels-photo-1670977.jpeg?auto=compress&cs=tinysrgb&w=640&h=443&dpr=1';
+  private static imageUrls: string[] = images;
 
   constructor(
     private lobbyService: LobbyService,
@@ -51,7 +51,7 @@ export class SettingsComponent {
           },
         });
       } else {
-        this.createSeLobby(topic, SettingsComponent.defaultImgUrl, '');
+        this.createSeLobby(topic, SettingsComponent.imageUrls[Math.floor(Math.random()* SettingsComponent.imageUrls.length)], '');
       }
     }
   }
