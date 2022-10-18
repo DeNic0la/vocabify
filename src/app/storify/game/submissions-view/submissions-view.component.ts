@@ -11,6 +11,9 @@ import {
 import { Round } from '../../types/round';
 import { Lobby } from '../../types/lobby';
 import { SubmittedStory } from '../game.types';
+import { TimerType } from 'src/app/ui/timer/timer.types';
+import { GameService } from '../../services/game.service';
+import { ToasterService } from 'src/app/services/toaster.service';
 
 @Component({
   selector: 'app-submissions-view',
@@ -27,13 +30,16 @@ export class SubmissionsViewComponent implements AfterViewInit {
   @ViewChild('username') usernameBox: ElementRef | undefined;
   @ViewChild('sentence') sentenceBox: ElementRef | undefined;
 
+  public timerStarted: boolean = false;
+  public timerType: TimerType = 'vertical';
   public stories: SubmittedStory[] = [];
-  public currentStory: SubmittedStory = this.stories[0];
+  public viewedStories: SubmittedStory[] = [];
   public story: string = '';
   public showingStories: boolean = false;
-  public hidden: boolean = false;
+  public title: string = 'submitted stories';
+  public isLoading: boolean = false;
 
-  constructor() {}
+  constructor(private gameService: GameService, private toast: ToasterService) { }
 
   ngAfterViewInit(): void {
     this.round?.submittedStories.forEach((story) => {
@@ -43,12 +49,27 @@ export class SubmissionsViewComponent implements AfterViewInit {
           this.lobby?.participants.find(
             (participant) => participant.uid === story.uid
           )?.username || '',
+        uid: story.uid,
       });
     });
     this.story = this.lobby?.story[this.lobby?.story.length - 2].sentence || '';
     this.showStories().then(() => {
-      this.submissionsViewed.emit();
+      this.title = 'which is your favourite?'
+      this.timerStarted = true;
     });
+  }
+
+  public async vote(storyUid: string) {
+    if (this.timerStarted) {
+      try {
+        this.isLoading = true;
+        await this.gameService.rate(this.lobby?.id || '', storyUid);
+        this.toast.showToast('success', 'Your vote has been submitted');
+        this.isLoading = false;
+      } catch (error: any) {
+        this.toast.showToast('error', error.message);
+      }
+    }
   }
 
   private async showStories(): Promise<void> {
@@ -63,14 +84,16 @@ export class SubmissionsViewComponent implements AfterViewInit {
 
   private showStory(story: SubmittedStory): Promise<void> {
     return new Promise<void>((resolve) => {
-      this.currentStory = story;
-      this.hidden = false;
+      this.viewedStories.unshift(story);
       setTimeout(() => {
-        this.hidden = true;
         setTimeout(() => {
           resolve();
         }, 600);
       }, 6000);
     });
+  }
+
+  checkTime($event: number) {
+    if ($event <= 0) this.submissionsViewed.emit();
   }
 }

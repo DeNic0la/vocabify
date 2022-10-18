@@ -1,15 +1,19 @@
-<div class="content">
-  <h3 class="header">submitted stories</h3>
-  <h5 class="title">{{ story }}</h5>
-  <div class="username-wrapper" #username *ngIf="showingStories">
-    <div class="username-box" [ngClass]="{ hidden: hidden }">
-      <h5>{{ currentStory.username }}</h5>
-    </div>
+<app-loader *ngIf="isLoading"></app-loader>
+<div *ngIf="!isLoading" class="content">
+  <div class="timer-wrapper">
+    <app-timer
+      [started]="timerStarted"
+      [type]="timerType"
+      [time]="20"
+      (tick)="checkTime($event)"
+    ></app-timer>
   </div>
-  <div class="sentence-wrapper" #sentence *ngIf="showingStories">
-    <div class="sentence-box" [ngClass]="{ hidden: hidden }">
-      <app-card size="large" color="inverted">
-        {{ currentStory.story }}
+  <h3 class="header">{{ title }}</h3>
+  <h5 class="title">{{ story }}</h5>
+  <div class="sentence-wrapper" #sentence>
+    <div class="sentence-box" *ngFor="let story of viewedStories">
+      <app-card (click)="vote(story.uid)" size="large" color="inverted">
+        {{ story.story }}
       </app-card>
     </div>
   </div>
