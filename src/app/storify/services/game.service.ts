@@ -50,6 +50,17 @@ export class GameService {
     }
   }
 
+  public async rate(lobbyId: string, storyUid: string) {
+    try {
+      await this.httpService.put(Functions.RATE, {
+        lobbyId: lobbyId,
+        storyUid: storyUid,
+      });
+    } catch (error: any) {
+      throw new Error(error.error);
+    }
+  }
+
   public getAllRounds(lobbyId: string) {
     return this.fireStore
       .collection('lobbies')

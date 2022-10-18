@@ -17,6 +17,7 @@ export class AiService {
     return {
       uid: 'ai',
       sentence: result.choices[0].text,
+      userRatings: [],
     };
   }
 

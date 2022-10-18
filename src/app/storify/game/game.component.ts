@@ -32,7 +32,6 @@ export class GameComponent implements OnDestroy {
   public user: User | undefined;
   public story: string = '';
   public currentRound: Round | undefined;
-  public submissionsViewed: boolean = false;
   private roundsSubscription: Subscription = new Subscription();
   private timeLeft: number = -1;
   private isEvaluating: boolean = false;
@@ -173,16 +172,16 @@ export class GameComponent implements OnDestroy {
 
   private setGameState(state: LobbyState | undefined) {
     if (state) this.gameState = state;
-    if (this.gameState === LobbyState.SUBMITTING)
-      this.submissionsViewed = false;
   }
 
   public tick(time: number): void {
     this.timeLeft = time;
   }
 
-  public showWinner() {
-    this.submissionsViewed = true;
+  public async showWinner() {
+    this.loading = true;
+    await this.gameService.changeState(this.lobby.id, LobbyState.WINNER);
+    this.loading = false;
   }
 
   public async showSummary() {
