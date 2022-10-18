@@ -121,8 +121,8 @@ export class LobbyComponent implements OnInit, OnDestroy {
   }
 
   public async start() {
-    this.isStarting = true;
     if (this.lobby.participants.length >= 3) {
+      this.isStarting = true;
       this.headerService.setAction(undefined);
       if (this.isHost && this.lobby) {
         try {
