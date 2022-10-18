@@ -16,4 +16,5 @@ export enum LobbyState {
   EVALUATING = 2,
   EVALUATED = 3,
   ENDED = 4,
+  RANKING = 5,
 }
