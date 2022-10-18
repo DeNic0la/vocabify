@@ -15,7 +15,7 @@
       margin-top: 36px;
       max-width: 512px;
       width: 512px;
-      min-height: 512px;
+      min-height: 256px;
       border: 4px solid $color-main;
       border-radius: 4px;
       background-color: $color-white;
@@ -42,10 +42,14 @@
   }
 
   .button-container {
-    bottom: 36px;
+    bottom: 0;
     right: 36px;
-    position: fixed;
+    position: absolute;
     z-index: 1;
+
+    .button {
+      margin: 8px 0;
+    }
   }
 
   .left {
