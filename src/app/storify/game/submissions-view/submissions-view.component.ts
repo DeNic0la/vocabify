@@ -1,5 +1,4 @@
 import {
-  AfterContentChecked,
   AfterViewInit,
   Component,
   ElementRef,
@@ -63,6 +62,7 @@ export class SubmissionsViewComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.handleWindowResize();
     this.round?.submittedStories.forEach((story) => {
       this.stories.push({
         story: story.sentence,
