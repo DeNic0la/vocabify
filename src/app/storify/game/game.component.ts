@@ -123,12 +123,12 @@ export class GameComponent implements OnDestroy {
         !storyPart.sentence.endsWith('?')
       ) {
         if (storyPart.uid !== 'ai') {
-          storyPart.sentence += '. ';
+          storyPart.sentence += '.';
         } else {
           storyPart.sentence += ' ';
         }
       }
-      story += storyPart.sentence;
+      story += storyPart.sentence + ' ';
     });
     this.story = story;
   }
@@ -155,6 +155,7 @@ export class GameComponent implements OnDestroy {
   private async checkForEvaluation() {
     const playersAmount = this.lobby?.participants.length;
     const sentencesAmount = this.currentRound?.submittedStories.length;
+
     if (playersAmount === sentencesAmount || this.timeLeft === 0) {
       if (this.isHost) {
         if (
@@ -172,7 +173,8 @@ export class GameComponent implements OnDestroy {
 
   private setGameState(state: LobbyState | undefined) {
     if (state) this.gameState = state;
-    console.log(this.gameState);
+    if (this.gameState === LobbyState.SUBMITTING)
+      this.submissionsViewed = false;
   }
 
   public tick(time: number): void {
@@ -183,12 +185,24 @@ export class GameComponent implements OnDestroy {
     this.submissionsViewed = true;
   }
 
-  public showSummary() {
-    this.gameService.changeState(this.lobby.id, LobbyState.RANKING);
-    this.submissionsViewed = false;
+  public async showSummary() {
+    this.loading = true;
+    await this.gameService.changeState(this.lobby.id, LobbyState.RANKING);
+    this.loading = false;
   }
 
-  public nextRound() {
-    this.submissionsViewed = false;
+  public async nextRound() {
+    this.loading = true;
+    await this.gameService.changeState(
+      this.lobby?.id || '',
+      LobbyState.SUBMITTING
+    );
+    this.loading = false;
+  }
+
+  public async endGame() {
+    this.loading = true;
+    await this.gameService.changeState(this.lobby?.id || '', LobbyState.ENDED);
+    this.loading = false;
   }
 }

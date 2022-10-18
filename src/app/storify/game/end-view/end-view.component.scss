@@ -1,9 +1,24 @@
 @import "src/app/styles/colors.scss";
 
 .content {
-  .summary-text {
-    margin-top: 36px;
-    text-align: center;
+  text-align: center;
+  padding-top: 50px;
+
+  .section {
+    height: 100vh;
+  }
+
+  .card-wrapper {
+    width: 100vw;
+    display: flex;
+    justify-content: space-around;
+    height: calc(100vh - 352px);
+    vertical-align: center;
+    min-height: 328px;
+
+    .card {
+      margin-top: calc(50vh - 352px);
+    }
   }
 
   .summary-wrapper {
@@ -39,33 +54,5 @@
         }
       }
     }
-  }
-
-  .button-container {
-    bottom: 36px;
-    right: 36px;
-    position: fixed;
-    z-index: 1;
-  }
-
-  .left {
-    float: left;
-  }
-
-  .right {
-    float: right;
-  }
-}
-
-@media only screen and (max-width: 540px) {
-  .summary {
-    width: 100vw;
-    border-radius: 0px;
-  }
-
-  .button-container {
-    bottom: 36px;
-    right: 50vw !important;
-    transform: translateX(50%);
   }
 }

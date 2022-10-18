@@ -1,16 +1,19 @@
 <div class="content">
   <h3 class="summary-text">Summary</h3>
-  <div *ngFor="let participant of this.lobby?.participants">
-    {{ participant.username }}
-    {{ participant.points }}
+  <div class="summary-wrapper">
+    <div class="summary">
+      <div *ngFor="let participant of participantsSorted" class="participant">
+        <h4 class="username text">{{ participant.username }}</h4>
+        <h4 class="points text">{{ participant.points }}</h4>
+      </div>
+    </div>
   </div>
   <div *ngIf="isHost" class="button-container">
-    <app-button
-      color="success"
-      class="relative"
-      size="large"
-      (click)="nextRound()"
+    <app-button color="success" class="right" size="large" (click)="nextRound()"
       >next round
+    </app-button>
+    <app-button color="error" class="left" size="large" (click)="endGame()"
+      >end game
     </app-button>
   </div>
 </div>

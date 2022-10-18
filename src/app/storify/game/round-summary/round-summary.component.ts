@@ -4,6 +4,7 @@ import { LobbyState } from '../../../../../functions/src/types/lobby';
 import { GameService } from '../../services/game.service';
 import { Lobby } from '../../types/lobby';
 import { Round } from '../../types/round';
+import { Participant } from '../../types/participant';
 
 @Component({
   selector: 'app-round-summary',
@@ -16,8 +17,11 @@ export class RoundSummaryComponent implements OnInit {
 
   @Output('next-round') nextRoundEvent: EventEmitter<void> =
     new EventEmitter<void>();
+  @Output('end-game') endGameEvent: EventEmitter<void> =
+    new EventEmitter<void>();
 
-  isHost: boolean = false;
+  public isHost: boolean = false;
+  public participantsSorted: Participant[] = [];
 
   constructor(private auth: AuthService, private gameService: GameService) {
     auth.currentUser.subscribe((x) => {
@@ -28,16 +32,16 @@ export class RoundSummaryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.lobby?.participants.forEach((participant) => {
-      console.log(participant);
-    });
+    this.participantsSorted =
+      this.lobby?.participants.sort((a, b) => b.points - a.points) || [];
+    console.log(this.participantsSorted);
   }
 
   public async nextRound() {
-    await this.gameService.changeState(
-      this.lobby?.id || '',
-      LobbyState.SUBMITTING
-    );
     this.nextRoundEvent.emit();
+  }
+
+  public async endGame() {
+    this.endGameEvent.emit();
   }
 }
