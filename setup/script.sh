@@ -59,4 +59,7 @@ cd functions/
 npm ci --silent;
 cd ${repositoryBase}
 
-firebase functions:secrets:set OPENAI_API_KEY
+
+printf "${Cyan}Starting ${Yellow}Firebase${Cyan} setup. Please follow instructions\n"
+firebase login
+firebase projects:create
