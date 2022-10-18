@@ -36,6 +36,9 @@ export class LobbyService {
     if (lobby.state !== LobbyState.JOINING) {
       throw new Error('The lobby is already in progress.');
     }
+    const numberOfParticipants = (await this.getParticipants(lobby.id)).length;
+    if (numberOfParticipants >= 10) throw new Error('The lobby is full');
+
     const particpant: Participant = {
       uid: user.uid,
       username: user.username,
@@ -62,7 +65,7 @@ export class LobbyService {
       .delete();
 
     const participants = await this.getParticipants(lobby.id);
-    if (participants.length == 0) {
+    if (participants.length < 3) {
       await this.deleteLobby(lobby.id);
     } else if (uid === lobby.hostid) {
       await this.setNewHost(participants[0].uid, lobby.id);
