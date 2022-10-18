@@ -9,6 +9,7 @@ import { HeaderService } from '../../services/header.service';
 import { ToasterService } from '../../services/toaster.service';
 import { Subscription } from 'rxjs';
 import { GameService } from '../services/game.service';
+import { SoundService } from 'src/app/services/sound.service';
 
 @Component({
   selector: 'app-lobby',
@@ -33,6 +34,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
   hostId: string = '';
 
   private subscriptions: Subscription = new Subscription();
+  private soundtrack: HTMLAudioElement = new Audio();
 
   get isLoading() {
     return (
@@ -56,7 +58,8 @@ export class LobbyComponent implements OnInit, OnDestroy {
     private router: Router,
     private headerService: HeaderService,
     private toast: ToasterService,
-    private gameService: GameService
+    private gameService: GameService,
+    private sounds: SoundService
   ) {}
 
   ngOnInit(): void {
@@ -107,6 +110,8 @@ export class LobbyComponent implements OnInit, OnDestroy {
 
     this.subscriptions.add(userSub);
     this.subscriptions.add(lobbySub);
+    this.soundtrack = this.sounds.playSound('lobby.mp3');
+    this.soundtrack.loop = true;  
   }
 
   public async removeParticipant(participant: Participant) {
@@ -116,6 +121,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
   }
 
   public async leave() {
+    this.sounds.playSound('logout.mp3')
     this.isLeaving = true;
     await this.lobbyService.leave(this.lobby?.id || '');
   }
@@ -150,6 +156,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unsubscribeToAllObservables();
     this.headerService.setAction(undefined);
+    this.soundtrack.pause();
   }
 
   @HostListener(

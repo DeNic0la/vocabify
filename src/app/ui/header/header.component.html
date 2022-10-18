@@ -1,39 +1,17 @@
 <div class="header">
   <div class="home">
-    <app-icon
-      name="home"
-      color="white"
-      class="home-icon"
-      routerLink="/home"
-    ></app-icon>
+    <app-icon name="home" color="white" class="home-icon" routerLink="/home" (click)="playIconsound()"></app-icon>
   </div>
   <div class="logo">
     <p class="logo-text">vocabify</p>
   </div>
-  <app-button
-    *ngIf="!loading && !isLoggedIn && !this.headerService.getAction()"
-    class="sign-in"
-    size="large"
-    color="inverted"
-    routerLink="/login"
-    >sign in</app-button
-  >
-  <app-button
-    *ngIf="!loading && isLoggedIn && !this.headerService.getAction()"
-    (click)="signOut()"
-    class="sign-in"
-    size="large"
-    color="inverted"
-    routerLink="/login"
-  >
-    sign out</app-button
-  >
-  <app-button
-    *ngIf="this.headerService.getAction()"
-    (click)="this.headerService.getAction()?.action()"
-    class="sign-in"
+  <app-button *ngIf="!loading && !isLoggedIn && !this.headerService.getAction()" class="sign-in" size="large"
+    color="inverted" routerLink="/login">sign in</app-button>
+  <app-button *ngIf="!loading && isLoggedIn && !this.headerService.getAction()" (click)="signOut()" class="sign-in"
+    size="large" color="inverted" routerLink="/login">
+    sign out</app-button>
+  <app-button *ngIf="this.headerService.getAction()" (click)="this.headerService.getAction()?.action()" class="sign-in"
     [size]="this.headerService.getAction()?.size || 'medium'"
-    [color]="this.headerService.getAction()?.color || 'inverted'"
-    >{{ this.headerService.getAction()?.prompt }}</app-button
-  >
+    [color]="this.headerService.getAction()?.color || 'inverted'">{{ this.headerService.getAction()?.prompt }}
+  </app-button>
 </div>

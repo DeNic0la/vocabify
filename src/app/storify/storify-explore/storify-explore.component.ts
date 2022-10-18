@@ -4,6 +4,7 @@ import { Lobby } from '../types/lobby';
 import { LobbyService } from '../services/lobby.service';
 import { Router } from '@angular/router';
 import { ToasterService } from '../../services/toaster.service';
+import { SoundService } from 'src/app/services/sound.service';
 
 @Component({
   selector: 'app-storify-explore',
@@ -17,7 +18,8 @@ export class StorifyExploreComponent implements OnInit {
   constructor(
     private lobbyService: LobbyService,
     private router: Router,
-    private msgService: ToasterService
+    private msgService: ToasterService,
+    private sound: SoundService
   ) {
     this.loadLobbies();
   }
@@ -30,6 +32,7 @@ export class StorifyExploreComponent implements OnInit {
   }
 
   createPage() {
+    this.sound.playSound('menuselect.mp3');
     this.isOpen = true;
   }
 
@@ -67,6 +70,7 @@ export class StorifyExploreComponent implements OnInit {
   }
 
   async refresh() {
+    this.sound.playSound('refresh.mp3');
     this.isLoading = true;
     await this.loadLobbies();
     this.isLoading = false;

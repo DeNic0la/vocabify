@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { SoundService } from 'src/app/services/sound.service';
 import {
   GameLobbyCardColor,
   GameLobbyCardTitleSize,
@@ -19,7 +20,10 @@ export class GameLobbyCardComponent {
 
   @Output('action') click: EventEmitter<void> = new EventEmitter<void>();
 
+  constructor( private sounds: SoundService) {}
+
   emitClick(): void {
+    this.sounds.playSound('menuselect.mp3');
     this.click.emit();
   }
 }
