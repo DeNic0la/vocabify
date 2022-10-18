@@ -12,6 +12,7 @@ import { TimerType } from '../../../ui/timer/timer.types';
 import { Lobby } from '../../types/lobby';
 import { TextfieldColor } from '../../../ui/textfield/textfield.types';
 import { ToasterService } from '../../../services/toaster.service';
+import { TimerService } from '../../services/timer.service';
 
 @Component({
   selector: 'app-submission',
@@ -31,11 +32,17 @@ export class SubmissionComponent implements OnInit {
   public textareaColor: TextfieldColor = 'inverted';
   private timeLeft: number = -1;
 
-  constructor(private toastService: ToasterService) {}
+  constructor(private toastService: ToasterService, private timer: TimerService) { }
 
   ngOnInit(): void {
     this.handleWindowResize();
     setTimeout(() => (this.timerStarted = true), 1000);
+    this.timer.interval.subscribe(() => {
+      this.timeLeft = this.timer.timeRemaining;
+      console.log(this.timeLeft  );
+      this.tick.emit(this.timeLeft);
+      if (this.timeLeft <= 0) this.submitSentence();
+    });
   }
 
   @HostListener('window:resize')
@@ -58,11 +65,5 @@ export class SubmissionComponent implements OnInit {
         'You need to write a whole sentence.'
       );
     }
-  }
-
-  checkTime(time: number) {
-    this.timeLeft = time;
-    this.tick.emit(this.timeLeft);
-    if (this.timeLeft === 0) this.submitSentence();
   }
 }

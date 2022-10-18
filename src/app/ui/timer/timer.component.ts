@@ -8,6 +8,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { TimerService } from 'src/app/storify/services/timer.service';
 import { TimerType } from './timer.types';
 
 @Component({
@@ -24,58 +25,45 @@ export class TimerComponent implements OnInit, OnChanges {
 
   @ViewChild('timeSlider') timeSlider: ElementRef | undefined;
 
-  public timeRemaining: number = 0;
-  private timeInterval: NodeJS.Timer | null = null;
-  private timerRunning = false;
-  private timePercentilePx = 0;
+  constructor(public timer: TimerService) { }
 
   ngOnInit() {
-    this.timeRemaining = this.totalTime;
-    this.timePercentilePx = 248 / this.totalTime;
-    this.adjustTimeSlider();
+    this.timer.timeRemaining = this.totalTime;
+    this.timer.timePercentilePx = 248 / this.totalTime;
+    this.timer.interval.subscribe(() => {
+      this.adjustTimeSlider();
+      if (this.timer.timeRemaining <= 0) this.stopTimer();
+    });
   }
 
   ngOnChanges() {
-    if (this.started && !this.timerRunning) {
+    if (this.started && !this.timer.timerRunning) {
       this.startTimer();
     }
   }
 
   private startTimer(): void {
-    this.timerRunning = true;
-    this.timeInterval = setInterval(() => this.tick(), 1000);
-  }
-
-  private tick(): void {
-    this.timeRemaining--;
-    if (this.timeRemaining === 0) {
-      this.stopTimer();
-    }
-    this.adjustTimeSlider();
-    this.tickEvent.emit(this.timeRemaining);
+    this.timer.startTimer();
   }
 
   private stopTimer(): void {
-    this.timerRunning = false;
     this.started = false;
-    if (this.timeInterval) clearInterval(this.timeInterval);
+    this.timer.stopTimer();
   }
 
   private adjustTimeSlider(): void {
     if (this.timeSlider) {
       const timeSliderStyle = this.timeSlider.nativeElement.style;
-      timeSliderStyle.height = `${
-        this.timePercentilePx * this.timeRemaining
-      }px`;
-      timeSliderStyle.marginTop = `${
-        this.timePercentilePx * (this.totalTime - this.timeRemaining)
-      }px`;
+      timeSliderStyle.height = `${this.timer.timePercentilePx * this.timer.timeRemaining
+        }px`;
+      timeSliderStyle.marginTop = `${this.timer.timePercentilePx * (this.totalTime - this.timer.timeRemaining)
+        }px`;
 
-      if (this.timeRemaining <= this.totalTime / 2) {
+      if (this.timer.timeRemaining <= this.totalTime / 2) {
         timeSliderStyle.backgroundColor = '#ffca3a';
       }
 
-      if (this.timeRemaining <= this.totalTime / 10) {
+      if (this.timer.timeRemaining <= this.totalTime / 10) {
         timeSliderStyle.backgroundColor = '#ff595e';
       }
     }
