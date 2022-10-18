@@ -7,8 +7,6 @@ import {
 } from '@angular/core';
 import { Round } from '../../types/round';
 import { Lobby } from '../../types/lobby';
-import { GameService } from '../../services/game.service';
-import { LobbyState } from 'functions/src/types/lobby';
 import { AuthService } from '../../../auth/auth.service';
 import { Winner } from './winner.type';
 
@@ -25,7 +23,7 @@ export class WinnerViewComponent implements OnChanges {
     new EventEmitter<void>();
 
   public isHost: boolean = false;
-
+  public winner: Winner | undefined;
   public winners: Winner[] = [];
 
   constructor(private auth: AuthService) {
@@ -67,6 +65,13 @@ export class WinnerViewComponent implements OnChanges {
         );
       }
     }
+    this.winner = this.winners[0];
+    setTimeout(() => {
+      this.winner = undefined;
+      setTimeout(() => {
+        this.winner = this.winners[1]
+      }, 1000)
+    }, 6000)
   }
 
   private getWinnerObj(title: string, winnerId: string): Winner {
