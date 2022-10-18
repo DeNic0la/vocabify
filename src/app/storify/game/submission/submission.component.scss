@@ -40,7 +40,7 @@
       justify-content: space-around;
 
       .submission-container {
-        margin-top: 32px;
+        margin-top: 16px;
         display: flex;
 
         .textfield {
@@ -67,6 +67,7 @@
   }
 
   .submission {
+    position: absolute;
     height: 40vh !important;
     overflow: hidden !important;
   }
