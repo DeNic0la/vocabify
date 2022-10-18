@@ -56,7 +56,8 @@ export class AiService {
         story[story.length - 1].sentence.trim() +
         ' ' +
         senArray[0].trim() +
-        symbol + '", ';
+        symbol +
+        '", ';
     }
     prompt += ']';
     return prompt;
