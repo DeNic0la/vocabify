@@ -1,7 +1,7 @@
 # Vocabify
 
-This Project was Developed during the Silicon Valley IT-Weeks.
-We are a Team of 5 Developers:
+This project was developed during the Silicon Valley IT-Weeks.
+We are a team of 5 developers:
 
 <div>
   <img src="https://images.weserv.nl/?url=avatars.githubusercontent.com/u/57986114?v=4&h=50&w=50&fit=cover&mask=circle&maxage=7d" alt="Nicola">
@@ -12,15 +12,15 @@ We are a Team of 5 Developers:
 </div>
 
 [Nicola](https://github.com/DeNic0la), [Silvan](https://github.com/Sili-Dev), [Fabian](https://github.com/fabianmueller7), [Dawid](https://github.com/DawidKapka) and [Max](https://github.com/maxdeans).
-Special Thanks to Ben Pietrzak for Mentoring and Supporting us during this Project.
+Special thanks to Ben Pietrzak for mentoring and supporting us during the project.
 
 ## How to play
 
-We are currently hosting a instance of the Application on [the web](https://vocabify-3d855.web.app/) you might get some errors (saying the site is insecure) those happen sometimes when hosting on Firebase.
+We are currently hosting a instance of the application on [the web](https://vocabify-3d855.web.app/). You might get some errors (saying the site is insecure), this happen sometimes when hosting on Firebase.
 
 ## Setup
 
-Are you a Developer and want to Host/Setup this Application yourself?
-[Click here for Information about the Setup](setup/Readme.md).
-The setup for the Deployment is Simple if you have some basic webdevelopment and some Firebase Knowledge.
-We do not provied help with setting up the github workflows.
+Are you a developer and want to host/setup this application yourself?
+[Click here for information about the setup](setup/Readme.md).
+The setup for the deployment is simple, if you have some basic web development and some Firebase knowledge.
+We do not provide help with setting up the github workflows.
