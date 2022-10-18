@@ -57,7 +57,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
     private headerService: HeaderService,
     private toast: ToasterService,
     private gameService: GameService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const userSub = this.authService.currentUser.subscribe((user) => {
@@ -122,24 +122,28 @@ export class LobbyComponent implements OnInit, OnDestroy {
 
   public async start() {
     this.isStarting = true;
-    this.headerService.setAction(undefined);
-    if (this.isHost && this.lobby) {
-      try {
-        await this.gameService.changeState(
-          this.lobby?.id || '',
-          LobbyState.SUBMITTING
-        );
-        this.isStarting = false;
-      } catch (e: any) {
-        this.isStarting = false;
-        this.headerService.setAction({
-          prompt: 'Start Game',
-          size: 'large',
-          color: 'success',
-          action: this.start.bind(this),
-        });
-        this.toast.showToast('error', e.message);
+    if (this.lobby.participants.length >= 3) {
+      this.headerService.setAction(undefined);
+      if (this.isHost && this.lobby) {
+        try {
+          await this.gameService.changeState(
+            this.lobby?.id || '',
+            LobbyState.SUBMITTING
+          );
+          this.isStarting = false;
+        } catch (e: any) {
+          this.isStarting = false;
+          this.headerService.setAction({
+            prompt: 'Start Game',
+            size: 'large',
+            color: 'success',
+            action: this.start.bind(this),
+          });
+          this.toast.showToast('error', e.message);
+        }
       }
+    } else {
+      this.toast.showToast('error', 'There are not enough players in the lobby to start the game.');
     }
   }
 

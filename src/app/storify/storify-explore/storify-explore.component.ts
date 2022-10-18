@@ -41,7 +41,7 @@ export class StorifyExploreComponent implements OnInit {
           i.name,
           i.id,
           i.participants.length,
-          this.getJoinLobbyCallback(i.id, this.lobbyService),
+          this.getJoinLobbyCallback(i, this.lobbyService),
           i.imgUrl
         )
       );
@@ -50,19 +50,23 @@ export class StorifyExploreComponent implements OnInit {
     this.isLoading = false;
   }
 
-  getJoinLobbyCallback(lobbyId: string, lobbyService: LobbyService) {
+  getJoinLobbyCallback(lobby: Lobby, lobbyService: LobbyService) {
     return () => {
       this.isLoading = true;
-      lobbyService
-        .joinLobby(lobbyId)
-        .then(() => (this.isLoading = false))
-        .catch((error: any) => {
-          this.isLoading = false;
-          this.msgService.showToast(
-            'error',
-            error.message
-          );
-        });
+      if (lobby.participants.length <= 10) {
+        lobbyService
+          .joinLobby(lobby.id)
+          .then(() => (this.isLoading = false))
+          .catch((error: any) => {
+            this.isLoading = false;
+            this.msgService.showToast(
+              'error',
+              error.message
+            );
+          });
+      } else {
+        this.msgService.showToast('error', 'The lobby is full.');
+      }
     };
   }
 
