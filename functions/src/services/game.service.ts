@@ -108,13 +108,19 @@ export class GameService {
   public async rate(uid: string, lobby: Lobby, storyUid: any) {
     if (uid === storyUid) throw new Error('You cannot vote for your story')
 
-    let round = await this.getLastRound(lobby.id);
-    let stories = round.data().submittedStories;
-    if (!this.hasAlreadyVoted(uid, stories)) {
-      for (let i = 0; i < stories.length; i++) {
-        if (stories[i].uid === storyUid) {
-          stories[i].userRatings.push(uid);
-          (await this.getRoundById(lobby.id, round.data().createdAt)).update({ submittedStories: stories });
+    const roundFirebase = (await this.getLastRound(lobby.id)).data();
+    let round: Round = {
+      createdAt: roundFirebase.createdAt,
+      submittedStories: roundFirebase.submittedStories,
+      winner: roundFirebase.winner,
+    }
+
+    if (!this.hasAlreadyVoted(uid, round.submittedStories)) {
+      for (let i = 0; i < round.submittedStories.length; i++) {
+        if (round.submittedStories[i].uid === storyUid) {
+          round.submittedStories[i].userRatings.push(uid);
+          const roundRef = this.getRoundById(lobby.id, round.createdAt.toString());
+          await roundRef.update({ submittedStories: round.submittedStories });
           break;
         }
       }
@@ -176,7 +182,7 @@ export class GameService {
     return firebaseRound;
   }
 
-  private async getRoundById(lobbyId: string, roundId: string) {
+  private getRoundById(lobbyId: string, roundId: string) {
     return this.db.collection('lobbies').doc(lobbyId).collection('rounds').doc(roundId);
   }
 }
