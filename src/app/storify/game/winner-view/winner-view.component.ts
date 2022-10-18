@@ -42,7 +42,14 @@ export class WinnerViewComponent implements OnChanges {
         this.round.submittedStories[this.round.winner as number]?.uid || '';
       if (winnerId) {
         this.winners = [];
-        this.winners.push(this.getWinnerObj("AI's winner... (+" + this.lobby.participants.length * 50 + " Points)", winnerId));
+        this.winners.push(
+          this.getWinnerObj(
+            "AI's winner... (+" +
+              this.lobby.participants.length * 50 +
+              ' Points)',
+            winnerId
+          )
+        );
 
         let bestStory = this.round.submittedStories[0];
         for (let story of this.round.submittedStories) {
@@ -50,7 +57,14 @@ export class WinnerViewComponent implements OnChanges {
             bestStory = story;
           }
         }
-        this.winners.push(this.getWinnerObj("The audience winner is... (+" + this.lobby.participants.length * 25 + " Points)", bestStory.uid));
+        this.winners.push(
+          this.getWinnerObj(
+            'The audience winner is... (+' +
+              this.lobby.participants.length * 25 +
+              ' Points)',
+            bestStory.uid
+          )
+        );
       }
     }
   }
@@ -59,15 +73,17 @@ export class WinnerViewComponent implements OnChanges {
     if (this.lobby && this.round) {
       const winner: Winner = {
         title,
-        story: this.round.submittedStories.find((story) => story.uid === winnerId)
-          ?.sentence || '',
-        username: this.lobby.participants.find(
-          (participant) => participant.uid === winnerId
-        )?.username || '',
-      }
+        story:
+          this.round.submittedStories.find((story) => story.uid === winnerId)
+            ?.sentence || '',
+        username:
+          this.lobby.participants.find(
+            (participant) => participant.uid === winnerId
+          )?.username || '',
+      };
       return winner;
     }
-    return { story: '', title: '', username: '' }
+    return { story: '', title: '', username: '' };
   }
 
   async continue() {
