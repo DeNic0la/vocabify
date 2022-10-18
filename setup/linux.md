@@ -1,4 +1,4 @@
-# Script 
+# Script
 This script will automate some parts of the Setup, run
 ```shell
 cd setup
