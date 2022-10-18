@@ -35,7 +35,7 @@ export class AiService {
 
   private getPrompt(sentences: string[], story: Story[]): string {
     let prompt =
-      'Sort the sentences from best to worst.' + 'Reward longer sentences.';
+      'Rank the sentences from best to worst without changing any of the sentences. Reward longer sentences. Sentences: [';
     for (let sentence of sentences) {
       let senArray: string[];
       let symbol: string = '.';
@@ -52,12 +52,13 @@ export class AiService {
 
       prompt =
         prompt +
-        '\nSentence: ' +
+        '"' +
         story[story.length - 1].sentence.trim() +
         ' ' +
         senArray[0].trim() +
-        symbol;
+        symbol + '", ';
     }
+    prompt += ']';
     return prompt;
   }
 }

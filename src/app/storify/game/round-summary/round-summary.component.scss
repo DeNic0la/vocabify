@@ -47,6 +47,14 @@
     position: fixed;
     z-index: 1;
   }
+
+  .left {
+    float: left;
+  }
+
+  .right {
+    float: right;
+  }
 }
 
 @media only screen and (max-width: 540px) {
