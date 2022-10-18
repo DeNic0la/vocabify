@@ -42,6 +42,11 @@ export class GameService {
       (lobby.state === LobbyState.RANKING && state === LobbyState.SUBMITTING) ||
       (lobby.state === LobbyState.JOINING && state === LobbyState.SUBMITTING)
     ) {
+      const numberOfParticipants = (
+        await new LobbyService().getParticipants(lobby.id)
+      ).length;
+      if (numberOfParticipants < 3)
+        throw new Error('There are not enough players in the lobby');
       await this.createRound(lobby.id);
     }
     if (lobby.state === LobbyState.EVALUATED && state === LobbyState.WINNER) {
@@ -56,6 +61,16 @@ export class GameService {
       throw new Error('The evaluation was already triggered');
     }
     const firebaseSentences: Story[] = round.data().submittedStories;
+    const participants = await new LobbyService().getParticipants(lobby.id);
+
+    for (let participant of participants) {
+      if (
+        !firebaseSentences.find((sentence) => participant.uid === sentence.uid)
+      ) {
+        new LobbyService().leave(participant.uid, lobby);
+      }
+    }
+
     const stories: string[] = [];
     for (let story of firebaseSentences) {
       stories.push(story.sentence);
@@ -79,7 +94,6 @@ export class GameService {
       return;
     }
 
-    const participants = await new LobbyService().getParticipants(lobby.id);
     let rank = participants.length;
     for (let x = 0; x < sortedArray.length; x++) {
       for (let i = 0; i < firebaseSentences.length; i++) {
