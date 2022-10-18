@@ -57,7 +57,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
     private headerService: HeaderService,
     private toast: ToasterService,
     private gameService: GameService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     const userSub = this.authService.currentUser.subscribe((user) => {
@@ -143,7 +143,10 @@ export class LobbyComponent implements OnInit, OnDestroy {
         }
       }
     } else {
-      this.toast.showToast('error', 'There are not enough players in the lobby to start the game.');
+      this.toast.showToast(
+        'error',
+        'There are not enough players in the lobby to start the game.'
+      );
     }
   }
 

@@ -22,7 +22,7 @@ export class StorifyExploreComponent implements OnInit {
     this.loadLobbies();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   async loadLobbies() {
     const value = await this.lobbyService.getLobbiesToJoin();
@@ -59,10 +59,7 @@ export class StorifyExploreComponent implements OnInit {
           .then(() => (this.isLoading = false))
           .catch((error: any) => {
             this.isLoading = false;
-            this.msgService.showToast(
-              'error',
-              error.message
-            );
+            this.msgService.showToast('error', error.message);
           });
       } else {
         this.msgService.showToast('error', 'The lobby is full.');
