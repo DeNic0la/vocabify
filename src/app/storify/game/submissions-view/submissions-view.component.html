@@ -15,12 +15,12 @@
         {{ story.story }}
       </app-card>
       <img
-        *ngIf="timerStarted && !hasVotedFor(story)"
+        *ngIf="timerStarted && !hasVotedFor(story) && story.uid !== this.user.uid"
         (click)="vote(story)"
         src="../../../../assets/images/heart_empty.svg"
       />
       <img
-        *ngIf="timerStarted && hasVotedFor(story)"
+        *ngIf="timerStarted && hasVotedFor(story) && story.uid !== this.user.uid"
         src="../../../../assets/images/heart_filled.svg"
       />
     </div>
