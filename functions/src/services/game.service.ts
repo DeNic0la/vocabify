@@ -44,6 +44,9 @@ export class GameService {
     ) {
       await this.createRound(lobby.id);
     }
+    if (lobby.state === LobbyState.EVALUATED && state === LobbyState.WINNER) {
+      await this.addPointsToMostVoted(lobby);
+    }
     await this.db.collection('lobbies').doc(lobby.id).update({ state });
   }
 
@@ -127,6 +130,19 @@ export class GameService {
     } else {
       throw new Error('You only can vote once');
     }
+  }
+
+  private async addPointsToMostVoted(lobby: Lobby) {
+    const round = await this.getLastRound(lobby.id);
+    let bestStory = round.data().submittedStories[0];
+
+    for (let story of round.data().submittedStories) {
+      if (bestStory.userRatings.length < story.userRatings.length) {
+        bestStory = story;
+      }
+    }
+    const participants = await new LobbyService().getParticipants(lobby.id);
+    await this.addPoints(bestStory.uid, lobby.id, participants.length * 25);
   }
 
   private hasAlreadyVoted(uid: string, stories: Story[]) {
