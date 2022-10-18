@@ -6,9 +6,10 @@
         {{ story }}
       </app-card>
     </div>
+    <app-button size="large" color="success" mobile="full" (click)="scrollToSummary()">continue</app-button>
   </div>
 
-  <div class="section">
+  <div class="section" #summary>
     <div class="summary-wrapper">
       <div class="summary">
         <div *ngFor="let participant of participantsSorted" class="participant">
@@ -17,5 +18,6 @@
         </div>
       </div>
     </div>
+    <app-button size="large" color="success" mobile="full" (click)="goToHome()">end</app-button>
   </div>
 </div>
