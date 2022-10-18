@@ -16,7 +16,7 @@ Special thanks to Ben Pietrzak for mentoring and supporting us during the projec
 
 ## How to play
 
-We are currently hosting a instance of the application on [the web](https://vocabify-3d855.web.app/). You might get some errors (saying the site is insecure), this happen sometimes when hosting on Firebase.
+We are currently hosting a instance of the application on [the web](https://vocabify-3d855.web.app/). You might get some errors (saying the site is insecure)those sometimes appear when hosting on Firebase.
 
 ## Setup
 

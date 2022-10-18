@@ -1,7 +1,6 @@
 # Setup
 
-It is highly recommend doing this setup on a Linux machine.
-
+To setup this project simply follow this guide. I highly recommend doing this on a Linux machine.
 ## Step 1
 
 Clone the project and open it in your IDE(A).
@@ -12,7 +11,7 @@ git clone https://github.com/DeNic0la/vocabify.git && cd vocabify
 
 ## Step 2
 
-There is a script for the setup if you are using Linux. For the setup with Linux read the [script tutorial](linux.md). Else follow these steps.
+There is a script for the setup if you are using Linux. For the setup with Linux read the [script tutorial](linux.md). Else follow the steps listed below.
 
 ### Step 2.1
 
@@ -20,7 +19,7 @@ Make sure you have npm, firebase-tools and angular-cli installed.
 
 ### Step 2.2
 
-Run these commands
+Run the listed commands
 
 ```shell
 firebase login
