@@ -26,11 +26,12 @@ export class TimerComponent implements OnInit, OnChanges {
 
   public timeRemaining: number = 0;
   private timeInterval: NodeJS.Timer | null = null;
-  private timePercentilePx = 248 / this.totalTime;
   private timerRunning = false;
+  private timePercentilePx = 0;
 
   ngOnInit() {
     this.timeRemaining = this.totalTime;
+    this.timePercentilePx = 248 / this.totalTime;
     this.adjustTimeSlider();
   }
 

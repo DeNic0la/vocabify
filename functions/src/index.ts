@@ -183,6 +183,28 @@ exports.evaluate = functions.https.onRequest(async (req, res) => {
   });
 });
 
+exports.rate = functions.https.onRequest(async (req, res) => {
+  cors(req, res, async () => {
+    if (req.method !== 'PUT' || !req.body.lobbyId || !req.body.storyUid)
+      res.status(400).send('Bad request');
+    const authService = new AuthService();
+    const idToken = await authService.validateFirebaseIdToken(req);
+    if (!idToken) res.status(403).send('Unauthorized');
+
+    try {
+      const gameService = new GameService();
+      const lobbyService = new LobbyService();
+      const uid = idToken?.uid || '';
+
+      const lobby = await lobbyService.getLobby(req.body.lobbyId);
+      await gameService.rate(uid, lobby, req.body.storyUid);
+      res.status(200).send();
+    } catch (error: any) {
+      res.status(500).send(error.message);
+    }
+  });
+});
+
 exports.lobbyDeletion = functions.pubsub
   .schedule('every 24 hours')
   .onRun(async () => {
