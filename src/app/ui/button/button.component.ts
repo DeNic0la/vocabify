@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import {ButtonColor, ButtonMobileSize, ButtonSize} from './button.types';
+import { ButtonColor, ButtonMobileSize, ButtonSize } from './button.types';
 
 @Component({
   selector: 'app-button',
