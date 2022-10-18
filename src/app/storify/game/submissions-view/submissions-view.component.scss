@@ -38,8 +38,6 @@
       animation: appear 1000ms;
       animation-delay: 1400ms;
       animation-fill-mode: forwards;
-      transform-origin: left top;
-      transition: flex-grow 1000ms linear;
 
       .story {
         position: relative;
@@ -101,7 +99,7 @@
   }
 
   .sentences {
-    margin-top: 128px;
+    margin-top: 164px;
   }
 }
 
