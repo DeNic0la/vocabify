@@ -25,7 +25,7 @@ export class LobbyItem implements LobbyCardItem {
     this.color = 'primary';
     this.description = '';
     this.imgSrc = imgUrl ? imgUrl : (this.imgSrc = '');
-    this.maxPlayers = 4;
+    this.maxPlayers = 10;
     this.players = players;
     this.title = title;
     this.titleSize = 'small';

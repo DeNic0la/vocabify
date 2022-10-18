@@ -176,6 +176,9 @@ export class GameComponent implements OnDestroy {
 
   public tick(time: number): void {
     this.timeLeft = time;
+    if (time <= 0) {
+      this.checkForEvaluation();
+    }
   }
 
   public async showWinner() {
