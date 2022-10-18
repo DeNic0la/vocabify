@@ -1,7 +1,7 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Lobby } from '../../types/lobby';
 import { Participant } from '../../types/participant';
-import {LobbyService} from "../../services/lobby.service";
+import { LobbyService } from '../../services/lobby.service';
 
 @Component({
   selector: 'app-end-view',
@@ -12,7 +12,7 @@ export class EndViewComponent implements OnInit {
   @Input('lobby') lobby: Lobby | undefined;
   @Input('story') story: string = '';
 
-  @ViewChild('summary') summarySection: ElementRef | undefined
+  @ViewChild('summary') summarySection: ElementRef | undefined;
 
   public participantsSorted: Participant[] = [];
 
@@ -24,7 +24,7 @@ export class EndViewComponent implements OnInit {
   }
 
   scrollToSummary() {
-    this.summarySection?.nativeElement.scrollIntoView({behavior: "smooth"});
+    this.summarySection?.nativeElement.scrollIntoView({ behavior: 'smooth' });
   }
 
   public async goToHome() {
