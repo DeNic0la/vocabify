@@ -1,6 +1,7 @@
 # Setup
 
 To setup this project simply follow this guide. I highly recommend doing this on a Linux machine.
+
 ## Step 1
 
 Clone the project and open it in your IDE(A).
