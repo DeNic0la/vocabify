@@ -20,7 +20,7 @@ export class GameLobbyCardComponent {
 
   @Output('action') click: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor( private sounds: SoundService) {}
+  constructor(private sounds: SoundService) {}
 
   emitClick(): void {
     this.sounds.playSound('menuselect.mp3');

@@ -111,7 +111,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
     this.subscriptions.add(userSub);
     this.subscriptions.add(lobbySub);
     this.soundtrack = this.sounds.playSound('lobby.mp3');
-    this.soundtrack.loop = true;  
+    this.soundtrack.loop = true;
   }
 
   public async removeParticipant(participant: Participant) {
@@ -121,7 +121,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
   }
 
   public async leave() {
-    this.sounds.playSound('logout.mp3')
+    this.sounds.playSound('logout.mp3');
     this.isLeaving = true;
     await this.lobbyService.leave(this.lobby?.id || '');
   }

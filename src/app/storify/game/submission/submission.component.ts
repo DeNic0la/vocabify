@@ -35,9 +35,9 @@ export class SubmissionComponent implements OnInit, OnDestroy {
   private soundtrack: HTMLAudioElement = new Audio();
 
   constructor(
-    private toastService: ToasterService, 
+    private toastService: ToasterService,
     private sounds: SoundService
-    ) {}
+  ) {}
 
   ngOnInit(): void {
     this.handleWindowResize();

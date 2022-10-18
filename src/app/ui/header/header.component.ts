@@ -30,7 +30,7 @@ export class HeaderComponent {
   }
 
   public signOut() {
-    this.sounds.playSound('logout.mp3')
+    this.sounds.playSound('logout.mp3');
     firebase
       .auth()
       .signOut()

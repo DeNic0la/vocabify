@@ -28,12 +28,12 @@ export class WinnerViewComponent implements OnChanges {
 
   public winnerName: string = '';
   public winnerStory: string = '';
-  
+
   constructor(
-    private gameService: GameService, 
+    private gameService: GameService,
     private auth: AuthService,
     private sounds: SoundService
-    ) {
+  ) {
     auth.currentUser.subscribe((x) => {
       if (x?.uid == this.lobby?.hostid) {
         this.isHost = true;

@@ -1,7 +1,11 @@
 <div class="content">
   <div class="story">
     <div class="timer-wrapper">
-      <app-timer [started]="timerStarted" [type]="timerType" (tick)="checkTime($event)"></app-timer>
+      <app-timer
+        [started]="timerStarted"
+        [type]="timerType"
+        (tick)="checkTime($event)"
+      ></app-timer>
     </div>
     <div class="card-wrapper">
       <app-card size="large" color="inverted" class="card">
@@ -12,7 +16,12 @@
   <div class="submission">
     <div class="submission-wrapper">
       <div class="submission-container">
-        <app-textfield class="textfield" size="large" [color]="textareaColor" [(value)]="sentence"></app-textfield>
+        <app-textfield
+          class="textfield"
+          size="large"
+          [color]="textareaColor"
+          [(value)]="sentence"
+        ></app-textfield>
         <div class="button-wrapper">
           <app-button size="mini" color="success" (click)="submitSentence()">
             <app-icon name="arrow-right" color="white"></app-icon>
