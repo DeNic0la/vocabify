@@ -10,6 +10,7 @@ import { Lobby } from '../../types/lobby';
 import { GameService } from '../../services/game.service';
 import { LobbyState } from 'functions/src/types/lobby';
 import { AuthService } from '../../../auth/auth.service';
+import { SoundService } from 'src/app/services/sound.service';
 
 @Component({
   selector: 'app-winner-view',
@@ -28,7 +29,11 @@ export class WinnerViewComponent implements OnChanges {
   public winnerName: string = '';
   public winnerStory: string = '';
 
-  constructor(private auth: AuthService) {
+  constructor(
+    private gameService: GameService,
+    private auth: AuthService,
+    private sounds: SoundService
+  ) {
     auth.currentUser.subscribe((x) => {
       if (x?.uid == this.lobby?.hostid) {
         this.isHost = true;
@@ -50,6 +55,7 @@ export class WinnerViewComponent implements OnChanges {
           )?.username || '';
       }
     }
+    this.sounds.playSound('winner.mp3');
   }
 
   async continue() {

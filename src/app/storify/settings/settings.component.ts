@@ -6,6 +6,7 @@ import {
   AngularFireStorage,
   AngularFireStorageReference,
 } from '@angular/fire/compat/storage';
+import { SoundService } from 'src/app/services/sound.service';
 
 @Component({
   selector: 'app-settings',
@@ -25,12 +26,14 @@ export class SettingsComponent {
     private lobbyService: LobbyService,
     private router: Router,
     private msgService: ToasterService,
-    private afStorage: AngularFireStorage
+    private afStorage: AngularFireStorage,
+    private sounds: SoundService
   ) {}
 
   public previewSrcImage: string = '';
 
   async createLobby(topic: string) {
+    this.sounds.playSound('menuselect.mp3');
     if (topic.trim().length === 0) {
       this.msgService.showToast('error', 'Enter a topic.');
       return;

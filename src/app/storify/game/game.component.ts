@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LobbyService } from '../services/lobby.service';
 import { Lobby, LobbyState } from '../types/lobby';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,6 +10,7 @@ import firebase from 'firebase/compat';
 import { AuthService } from '../../auth/auth.service';
 import { User } from 'functions/src/types/user';
 import DocumentData = firebase.firestore.DocumentData;
+import { SoundService } from 'src/app/services/sound.service';
 
 @Component({
   selector: 'app-game',

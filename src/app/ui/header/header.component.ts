@@ -4,6 +4,7 @@ import { AuthService } from '../../auth/auth.service';
 import { HeaderService } from '../../services/header.service';
 import { Router } from '@angular/router';
 import { ToasterService } from '../../services/toaster.service';
+import { SoundService } from 'src/app/services/sound.service';
 
 @Component({
   selector: 'app-header',
@@ -18,7 +19,8 @@ export class HeaderComponent {
     private authService: AuthService,
     public headerService: HeaderService,
     private router: Router,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private sounds: SoundService
   ) {
     this.loading = true;
     authService.currentUser.subscribe((user) => {
@@ -28,6 +30,7 @@ export class HeaderComponent {
   }
 
   public signOut() {
+    this.sounds.playSound('logout.mp3');
     firebase
       .auth()
       .signOut()
@@ -39,5 +42,9 @@ export class HeaderComponent {
             this.toasterService.showToast('success', 'you have been signed out')
           )
       );
+  }
+
+  public playIconsound() {
+    this.sounds.playSound('menuselect.mp3');
   }
 }

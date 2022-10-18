@@ -5,6 +5,7 @@
       color="white"
       class="home-icon"
       routerLink="/home"
+      (click)="playIconsound()"
     ></app-icon>
   </div>
   <div class="logo">
@@ -34,6 +35,6 @@
     class="sign-in"
     [size]="this.headerService.getAction()?.size || 'medium'"
     [color]="this.headerService.getAction()?.color || 'inverted'"
-    >{{ this.headerService.getAction()?.prompt }}</app-button
-  >
+    >{{ this.headerService.getAction()?.prompt }}
+  </app-button>
 </div>
