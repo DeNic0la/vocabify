@@ -9,16 +9,16 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import {Round} from '../../types/round';
-import {Lobby, LobbyState} from '../../types/lobby';
-import {SubmittedStory} from '../game.types';
-import {TimerType} from 'src/app/ui/timer/timer.types';
-import {GameService} from '../../services/game.service';
-import {ToasterService} from 'src/app/services/toaster.service';
-import {AuthService} from 'src/app/auth/auth.service';
-import {User} from 'functions/src/types/user';
-import {TimerService} from '../../services/timer.service';
-import {Subscription} from 'rxjs';
+import { Round } from '../../types/round';
+import { Lobby, LobbyState } from '../../types/lobby';
+import { SubmittedStory } from '../game.types';
+import { TimerType } from 'src/app/ui/timer/timer.types';
+import { GameService } from '../../services/game.service';
+import { ToasterService } from 'src/app/services/toaster.service';
+import { AuthService } from 'src/app/auth/auth.service';
+import { User } from 'functions/src/types/user';
+import { TimerService } from '../../services/timer.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-submissions-view',
@@ -72,8 +72,8 @@ export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    if (this.lobby?.state !== LobbyState.EVALUATED){
-      console.log("Not doing the rating");
+    if (this.lobby?.state !== LobbyState.EVALUATED) {
+      console.log('Not doing the rating');
       return;
     }
     console.log(this.lobby);
@@ -91,13 +91,13 @@ export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
     });
     this.story = this.lobby?.story[this.lobby?.story.length - 2].sentence || '';
     this.showStories().then(() => {
-      if (this.lobby?.state !== LobbyState.EVALUATED){
-        console.log("Not doing the timer cause i am not an idiot");
+      if (this.lobby?.state !== LobbyState.EVALUATED) {
+        console.log('Not doing the timer cause i am not an idiot');
         return;
       }
-      console.log(this)
+      console.log(this);
       this.title = 'which is your favourite?';
-      console.log("Start a 20 second Timer");
+      console.log('Start a 20 second Timer');
       this.timer.startTimer(20); // Start a 20 s Timer
       this.sub.add(
         this.timer.timeLeft?.subscribe({
@@ -119,7 +119,7 @@ export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
         this.isLoading = true;
         this.addVote(story);
         await this.gameService.rate(this.lobby?.id || '', story.uid);
-      } catch (error: any) { }
+      } catch (error: any) {}
       this.isLoading = false;
     }
   }

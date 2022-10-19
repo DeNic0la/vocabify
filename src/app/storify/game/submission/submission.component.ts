@@ -3,19 +3,20 @@ import {
   ElementRef,
   EventEmitter,
   HostListener,
-  Input, OnChanges,
+  Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import {TimerType} from '../../../ui/timer/timer.types';
-import {Lobby} from '../../types/lobby';
-import {TextfieldColor} from '../../../ui/textfield/textfield.types';
-import {ToasterService} from '../../../services/toaster.service';
-import {TimerService} from '../../services/timer.service';
-import {Subscription} from 'rxjs';
+import { TimerType } from '../../../ui/timer/timer.types';
+import { Lobby } from '../../types/lobby';
+import { TextfieldColor } from '../../../ui/textfield/textfield.types';
+import { ToasterService } from '../../../services/toaster.service';
+import { TimerService } from '../../services/timer.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-submission',
@@ -38,13 +39,12 @@ export class SubmissionComponent implements OnInit, OnDestroy, OnChanges {
   constructor(
     private toastService: ToasterService,
     private timer: TimerService
-  ) {
-  }
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes);
-    if (changes['story']){
-      console.log("Story Changes: starting Timer");
+    if (changes['story']) {
+      console.log('Story Changes: starting Timer');
       this.timer.startTimer(60); // Start Timer
       this.sub.add(
         this.timer.timeLeft?.subscribe({
