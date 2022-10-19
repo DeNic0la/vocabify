@@ -1,6 +1,6 @@
 <div class="content">
   <div class="timer-wrapper">
-    <app-timer
+    <app-timer *ngIf="timerStarted"
       [started]="timerStarted"
       [type]="timerType"
       [time]="20"
