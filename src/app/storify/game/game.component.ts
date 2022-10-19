@@ -212,7 +212,10 @@ export class GameComponent implements OnDestroy {
   public async endGame() {
     this.loading = true;
     if (this.isHost) {
-      await this.gameService.changeState(this.lobby?.id || '', LobbyState.ENDED);
+      await this.gameService.changeState(
+        this.lobby?.id || '',
+        LobbyState.ENDED
+      );
     }
     this.loading = false;
   }
