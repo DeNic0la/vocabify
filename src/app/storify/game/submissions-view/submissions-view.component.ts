@@ -3,23 +3,22 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostListener,
   Input,
   OnDestroy,
-  HostListener,
   Output,
   ViewChild,
 } from '@angular/core';
-import { Round } from '../../types/round';
-import { Lobby } from '../../types/lobby';
-import { SubmittedStory } from '../game.types';
-import { TimerType } from 'src/app/ui/timer/timer.types';
-import { GameService } from '../../services/game.service';
-import { ToasterService } from 'src/app/services/toaster.service';
-import { Story } from '../../types/story';
-import { AuthService } from 'src/app/auth/auth.service';
-import { User } from 'functions/src/types/user';
-import { TimerService } from '../../services/timer.service';
-import { Subscription } from 'rxjs';
+import {Round} from '../../types/round';
+import {Lobby, LobbyState} from '../../types/lobby';
+import {SubmittedStory} from '../game.types';
+import {TimerType} from 'src/app/ui/timer/timer.types';
+import {GameService} from '../../services/game.service';
+import {ToasterService} from 'src/app/services/toaster.service';
+import {AuthService} from 'src/app/auth/auth.service';
+import {User} from 'functions/src/types/user';
+import {TimerService} from '../../services/timer.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-submissions-view',
@@ -46,6 +45,7 @@ export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
   public user: User = { email: '', uid: '', username: '' };
   public isLoading: boolean = false;
   private sub: Subscription = new Subscription();
+  private hasVoted: boolean = false;
 
   constructor(
     private auth: AuthService,
@@ -72,6 +72,11 @@ export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    if (this.lobby?.state !== LobbyState.EVALUATED){
+      console.log("Not doing the rating");
+      return;
+    }
+    console.log(this.lobby);
     this.handleWindowResize();
     this.round?.submittedStories.forEach((story) => {
       this.stories.push({
@@ -86,7 +91,13 @@ export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
     });
     this.story = this.lobby?.story[this.lobby?.story.length - 2].sentence || '';
     this.showStories().then(() => {
+      if (this.lobby?.state !== LobbyState.EVALUATED){
+        console.log("Not doing the timer cause i am not an idiot");
+        return;
+      }
+      console.log(this)
       this.title = 'which is your favourite?';
+      console.log("Start a 20 second Timer");
       this.timer.startTimer(20); // Start a 20 s Timer
       this.sub.add(
         this.timer.timeLeft?.subscribe({
@@ -103,12 +114,12 @@ export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
   }
 
   public async vote(story: SubmittedStory) {
-    if (this.timerStarted && !this.isLoading) {
+    if (this.timerStarted && !this.isLoading && !this.hasVoted) {
       try {
         this.isLoading = true;
         this.addVote(story);
         await this.gameService.rate(this.lobby?.id || '', story.uid);
-      } catch (error: any) {}
+      } catch (error: any) { }
       this.isLoading = false;
     }
   }
@@ -121,9 +132,12 @@ export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
   }
 
   private addVote(story: SubmittedStory) {
-    for (let i = 0; i < this.viewedStories.length; i++) {
-      if (this.viewedStories[i].uid === story.uid) {
-        this.viewedStories[i].userRatings.push(this.user.uid);
+    if (!this.hasVoted) {
+      this.hasVoted = true;
+      for (let i = 0; i < this.viewedStories.length; i++) {
+        if (this.viewedStories[i].uid === story.uid) {
+          this.viewedStories[i].userRatings.push(this.user.uid);
+        }
       }
     }
   }

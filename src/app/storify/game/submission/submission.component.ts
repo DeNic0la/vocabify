@@ -3,25 +3,26 @@ import {
   ElementRef,
   EventEmitter,
   HostListener,
-  Input,
+  Input, OnChanges,
   OnDestroy,
   OnInit,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { TimerType } from '../../../ui/timer/timer.types';
-import { Lobby } from '../../types/lobby';
-import { TextfieldColor } from '../../../ui/textfield/textfield.types';
-import { ToasterService } from '../../../services/toaster.service';
-import { TimerService } from '../../services/timer.service';
-import { Subscription } from 'rxjs';
+import {TimerType} from '../../../ui/timer/timer.types';
+import {Lobby} from '../../types/lobby';
+import {TextfieldColor} from '../../../ui/textfield/textfield.types';
+import {ToasterService} from '../../../services/toaster.service';
+import {TimerService} from '../../services/timer.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-submission',
   templateUrl: './submission.component.html',
   styleUrls: ['./submission.component.scss'],
 })
-export class SubmissionComponent implements OnInit, OnDestroy {
+export class SubmissionComponent implements OnInit, OnDestroy, OnChanges {
   @Input('lobby') lobby: Lobby | undefined;
   @Input('story') story: string = '';
 
@@ -37,23 +38,32 @@ export class SubmissionComponent implements OnInit, OnDestroy {
   constructor(
     private toastService: ToasterService,
     private timer: TimerService
-  ) {}
+  ) {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
+    if (changes['story']){
+      console.log("Story Changes: starting Timer");
+      this.timer.startTimer(60); // Start Timer
+      this.sub.add(
+        this.timer.timeLeft?.subscribe({
+          next: (val) => {
+            if (val <= 0) {
+              this.submit.emit(this.sentence);
+            }
+            if (val < 0) {
+              this.zero.emit(); // Host.evaluate with 1 sec delay
+            }
+          },
+        })
+      );
+    }
+  }
 
   ngOnInit(): void {
     this.handleWindowResize();
-    this.timer.startTimer(60); // Start Timer
-    this.sub.add(
-      this.timer.timeLeft?.subscribe({
-        next: (val) => {
-          if (val <= 0) {
-            this.submit.emit(this.sentence);
-          }
-          if (val < 0) {
-            this.zero.emit(); // Host.evaluate with 1 sec delay
-          }
-        },
-      })
-    );
+
     setTimeout(() => (this.timerStarted = true), 1000);
   }
 

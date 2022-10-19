@@ -1,14 +1,14 @@
-import { Component, OnDestroy } from '@angular/core';
-import { LobbyService } from '../services/lobby.service';
-import { Lobby, LobbyState } from '../types/lobby';
-import { ActivatedRoute, Router } from '@angular/router';
-import { GameService } from '../services/game.service';
-import { ToasterService } from '../../services/toaster.service';
-import { Subscription } from 'rxjs';
-import { Round } from '../types/round';
+import {Component, OnChanges, OnDestroy, SimpleChanges} from '@angular/core';
+import {LobbyService} from '../services/lobby.service';
+import {Lobby, LobbyState} from '../types/lobby';
+import {ActivatedRoute, Router} from '@angular/router';
+import {GameService} from '../services/game.service';
+import {ToasterService} from '../../services/toaster.service';
+import {Subscription} from 'rxjs';
+import {Round} from '../types/round';
 import firebase from 'firebase/compat';
-import { AuthService } from '../../auth/auth.service';
-import { User } from 'functions/src/types/user';
+import {AuthService} from '../../auth/auth.service';
+import {User} from 'functions/src/types/user';
 import DocumentData = firebase.firestore.DocumentData;
 
 @Component({
@@ -43,6 +43,7 @@ export class GameComponent implements OnDestroy {
     }
   }
 
+
   get isHost() {
     if (this.lobby && this.user) {
       return this.user.uid === this.lobby.hostid;
@@ -63,6 +64,7 @@ export class GameComponent implements OnDestroy {
     }
     return false;
   }
+
 
   constructor(
     private lobbyService: LobbyService,
@@ -119,6 +121,7 @@ export class GameComponent implements OnDestroy {
       });
     this.roundsSubscription.add(roundsSub);
   }
+
 
   public loadStory() {
     let story = '';
