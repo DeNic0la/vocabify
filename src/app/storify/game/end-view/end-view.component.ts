@@ -15,6 +15,7 @@ export class EndViewComponent implements OnInit {
   @ViewChild('summary') summarySection: ElementRef | undefined;
 
   public participantsSorted: Participant[] = [];
+  public isLoading = false;
 
   constructor(private lobbyService: LobbyService) {}
 
@@ -28,6 +29,8 @@ export class EndViewComponent implements OnInit {
   }
 
   public async goToHome() {
+    this.isLoading = true;
     await this.lobbyService.leave(this.lobby?.id || '');
+    this.isLoading = false;
   }
 }
