@@ -35,6 +35,14 @@ export class GameComponent implements OnDestroy {
   private roundsSubscription: Subscription = new Subscription();
   private isEvaluating: boolean = false;
 
+  get dynamicStyleClass(): string {
+    if (this.loading || this.isWaitingForEvaluation) {
+      return 'hide';
+    } else {
+      return '';
+    }
+  }
+
   get isHost() {
     if (this.lobby && this.user) {
       return this.user.uid === this.lobby.hostid;
