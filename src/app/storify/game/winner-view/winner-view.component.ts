@@ -25,6 +25,7 @@ export class WinnerViewComponent implements OnChanges {
   public isHost: boolean = false;
   public winner: Winner | undefined;
   public winners: Winner[] = [];
+  public showContinue: boolean = false;
 
   constructor(private auth: AuthService) {
     auth.currentUser.subscribe((x) => {
@@ -70,6 +71,7 @@ export class WinnerViewComponent implements OnChanges {
       this.winner = undefined;
       setTimeout(() => {
         this.winner = this.winners[1]
+        setTimeout(() => this.showContinue = true, 3000)
       }, 1000)
     }, 6000)
   }
