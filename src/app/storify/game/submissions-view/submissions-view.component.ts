@@ -87,6 +87,7 @@ export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
     this.story = this.lobby?.story[this.lobby?.story.length - 2].sentence || '';
     this.showStories().then(() => {
       this.title = 'which is your favourite?';
+      console.log("Start a 20 second Timer");
       this.timer.startTimer(20); // Start a 20 s Timer
       this.sub.add(
         this.timer.timeLeft?.subscribe({
