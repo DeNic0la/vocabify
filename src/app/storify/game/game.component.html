@@ -6,7 +6,7 @@
   [lobby]="lobby"
   [story]="story"
   (submit)="submitSentence($event)"
-  (tick)="tick($event)"
+  (zero)="checkForEvaluation(true)"
 ></app-submission>
 <app-submissions-view
   *ngIf="gameState === LobbyState.EVALUATED && !loading"

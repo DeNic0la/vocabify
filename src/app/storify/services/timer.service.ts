@@ -1,37 +1,20 @@
 import { Injectable } from '@angular/core';
-import {interval, Observable, Subscription } from "rxjs"
+import {interval, map, Observable } from "rxjs"
 
 @Injectable({
   providedIn: 'root'
 })
 export class TimerService {
-  private subscriptions: Subscription = new Subscription();
-  public timeRemaining: number = 0;
-  public timePercentilePx: number = 0;
-  public timerRunning = false;
-
-  public interval: Observable<any> =  interval(1000);
+  private start:number = 60;
+  public timeLeft:Observable<number> | undefined;
+  private interval: Observable<any> =  interval(1000);
 
   constructor() { }
 
-  public startTimer(): void {
-    const sub = this.interval.subscribe(()=>{
-      this.tick();
-    })
-    this.subscriptions.add(sub);
-    this.timerRunning = true;
+  public startTimer(start:number = 60): void {
+    this.start = start;
+    this.timeLeft =
+      this.interval.pipe(map(value => {return this.start - value}))
   }
 
-  public stopTimer(): void {
-    this.timerRunning = false;
-    this.subscriptions.unsubscribe();
-  }
-
-  private tick(): void {
-    this.timeRemaining--;
-
-    if (this.timeRemaining === 0) {
-      this.stopTimer();
-    }
-  }
 }

@@ -33,7 +33,6 @@ export class GameComponent implements OnDestroy {
   public story: string = '';
   public currentRound: Round | undefined;
   private roundsSubscription: Subscription = new Subscription();
-  private timeLeft: number = -1;
   private isEvaluating: boolean = false;
 
   get isHost() {
@@ -138,8 +137,9 @@ export class GameComponent implements OnDestroy {
   }
 
   async submitSentence(sentence: string) {
+    let wasLoading=this.loading; /*Only Submit if not loading*/
     this.loading = true;
-    if (sentence) {
+    if (sentence && !wasLoading) {
       await this.gameService
         .submitAnswer(this.lobby?.id || '', sentence)
         .catch((e) => this.toastService.showToast('error', e.error));
@@ -151,11 +151,11 @@ export class GameComponent implements OnDestroy {
     await this.checkForEvaluation();
   }
 
-  private async checkForEvaluation() {
+  public async checkForEvaluation(timeUp:boolean = false) {
     const playersAmount = this.lobby?.participants.length;
     const sentencesAmount = this.currentRound?.submittedStories.length;
 
-    if (playersAmount === sentencesAmount || this.timeLeft === 0) {
+    if (playersAmount === sentencesAmount || timeUp) {
       if (this.isHost) {
         if (
           this.currentRound?.winner === -1 &&
@@ -174,12 +174,6 @@ export class GameComponent implements OnDestroy {
     if (state) this.gameState = state;
   }
 
-  public tick(time: number): void {
-    this.timeLeft = time;
-    if (time <= 0) {
-      this.checkForEvaluation();
-    }
-  }
 
   public async showWinner() {
     this.loading = true;
