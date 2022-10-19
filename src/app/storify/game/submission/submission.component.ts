@@ -31,15 +31,20 @@ export class SubmissionComponent implements OnInit {
   public sentence: string = '';
   public textareaColor: TextfieldColor = 'inverted';
 
-  constructor(private toastService: ToasterService, private timer: TimerService) { }
+  constructor(
+    private toastService: ToasterService,
+    private timer: TimerService
+  ) {}
 
   ngOnInit(): void {
     this.handleWindowResize();
     this.timer.startTimer(60); // Start Timer
-    this.timer.timeLeft?.subscribe({next: (val)=>{
+    this.timer.timeLeft?.subscribe({
+      next: (val) => {
         if (val <= 0) this.submit.emit(this.sentence);
         if (val < 0) this.zero.emit(); // Host.evaluate with 1 sec delay
-      }})
+      },
+    });
     setTimeout(() => (this.timerStarted = true), 1000);
   }
 

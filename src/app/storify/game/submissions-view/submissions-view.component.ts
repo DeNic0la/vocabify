@@ -3,7 +3,8 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Input, OnDestroy,
+  Input,
+  OnDestroy,
   HostListener,
   Output,
   ViewChild,
@@ -17,15 +18,15 @@ import { ToasterService } from 'src/app/services/toaster.service';
 import { Story } from '../../types/story';
 import { AuthService } from 'src/app/auth/auth.service';
 import { User } from 'functions/src/types/user';
-import {TimerService} from "../../services/timer.service";
-import {Subscription} from "rxjs";
+import { TimerService } from '../../services/timer.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-submissions-view',
   templateUrl: './submissions-view.component.html',
   styleUrls: ['./submissions-view.component.scss'],
 })
-export class SubmissionsViewComponent implements AfterViewInit,OnDestroy {
+export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
   @Input('round') round: Round | undefined;
   @Input('lobby') lobby: Lobby | undefined;
 
@@ -44,13 +45,13 @@ export class SubmissionsViewComponent implements AfterViewInit,OnDestroy {
   public title: string = 'submitted stories';
   public user: User = { email: '', uid: '', username: '' };
   public isLoading: boolean = false;
-  private sub:Subscription|undefined;
+  private sub: Subscription | undefined;
 
   constructor(
     private auth: AuthService,
     private gameService: GameService,
     private toast: ToasterService,
-    private timer:TimerService
+    private timer: TimerService
   ) {
     this.auth.currentUser.subscribe((user) => {
       this.user = user || { email: '', uid: '', username: '' };
@@ -59,8 +60,8 @@ export class SubmissionsViewComponent implements AfterViewInit,OnDestroy {
 
   ngOnDestroy(): void {
     if (this.sub) this.sub.unsubscribe();
-   }
-   
+  }
+
   @HostListener('window:resize')
   private handleWindowResize() {
     if (document.body.clientWidth <= 800) {
@@ -87,7 +88,12 @@ export class SubmissionsViewComponent implements AfterViewInit,OnDestroy {
     this.showStories().then(() => {
       this.title = 'which is your favourite?';
       this.timer.startTimer(20); // Start a 20 s Timer
-      this.sub = this.timer.timeLeft?.subscribe({next: (val)=>{        if (val <= 0) this.submissionsViewed.emit();  this.sub?.unsubscribe();      }})
+      this.sub = this.timer.timeLeft?.subscribe({
+        next: (val) => {
+          if (val <= 0) this.submissionsViewed.emit();
+          this.sub?.unsubscribe();
+        },
+      });
       this.timerStarted = true;
     });
   }
@@ -141,5 +147,4 @@ export class SubmissionsViewComponent implements AfterViewInit,OnDestroy {
       }, 6000);
     });
   }
-
 }

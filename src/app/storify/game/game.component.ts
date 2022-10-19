@@ -137,7 +137,7 @@ export class GameComponent implements OnDestroy {
   }
 
   async submitSentence(sentence: string) {
-    let wasLoading=this.loading; /*Only Submit if not loading*/
+    let wasLoading = this.loading; /*Only Submit if not loading*/
     this.loading = true;
     if (sentence && !wasLoading) {
       await this.gameService
@@ -151,7 +151,7 @@ export class GameComponent implements OnDestroy {
     await this.checkForEvaluation();
   }
 
-  public async checkForEvaluation(timeUp:boolean = false) {
+  public async checkForEvaluation(timeUp: boolean = false) {
     const playersAmount = this.lobby?.participants.length;
     const sentencesAmount = this.currentRound?.submittedStories.length;
 
@@ -173,7 +173,6 @@ export class GameComponent implements OnDestroy {
   private setGameState(state: LobbyState | undefined) {
     if (state) this.gameState = state;
   }
-
 
   public async showWinner() {
     this.loading = true;

@@ -3,14 +3,15 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  OnChanges, OnDestroy,
+  OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
 import { TimerService } from 'src/app/storify/services/timer.service';
 import { TimerType } from './timer.types';
-import {Subscriber, Subscription} from "rxjs";
+import { Subscriber, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-timer',
@@ -23,15 +24,14 @@ export class TimerComponent implements OnChanges, OnDestroy {
   @Input('type') type: TimerType = 'vertical';
   @ViewChild('timeSlider') timeSlider: ElementRef | undefined;
 
-  constructor(public timer: TimerService) { }
+  constructor(public timer: TimerService) {}
 
-  get timePercentilePx():number{
+  get timePercentilePx(): number {
     return 248 / this.totalTime;
   }
 
-  private timeRemaining:number = 60;
-  private sub:Subscription|undefined;
-
+  private timeRemaining: number = 60;
+  private sub: Subscription | undefined;
 
   ngOnChanges() {
     if (this.started && !this.sub) {
@@ -56,10 +56,12 @@ export class TimerComponent implements OnChanges, OnDestroy {
   private adjustTimeSlider(): void {
     if (this.timeSlider) {
       const timeSliderStyle = this.timeSlider.nativeElement.style;
-      timeSliderStyle.height = `${this.timePercentilePx * this.timeRemaining
-        }px`;
-      timeSliderStyle.marginTop = `${this.timePercentilePx * (this.totalTime - this.timeRemaining)
-        }px`;
+      timeSliderStyle.height = `${
+        this.timePercentilePx * this.timeRemaining
+      }px`;
+      timeSliderStyle.marginTop = `${
+        this.timePercentilePx * (this.totalTime - this.timeRemaining)
+      }px`;
 
       if (this.timeRemaining <= this.totalTime / 2) {
         timeSliderStyle.backgroundColor = '#ffca3a';
