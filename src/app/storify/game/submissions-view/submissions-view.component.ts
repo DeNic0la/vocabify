@@ -109,7 +109,10 @@ export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
         this.toast.showToast('success', 'Your vote has been submitted');
       } catch (error: any) {
         this.removeVote(story);
-        this.toast.showToast('error', "There was an error during your submission of your vote.");
+        this.toast.showToast(
+          'error',
+          'There was an error during your submission of your vote.'
+        );
       }
       this.isLoading = false;
     }
@@ -133,7 +136,9 @@ export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
   private removeVote(story: SubmittedStory) {
     for (let i = 0; i < this.viewedStories.length; i++) {
       if (this.viewedStories[i].uid === story.uid) {
-        this.viewedStories[i].userRatings = this.viewedStories[i].userRatings.filter(uid => this.user.uid !== uid);
+        this.viewedStories[i].userRatings = this.viewedStories[
+          i
+        ].userRatings.filter((uid) => this.user.uid !== uid);
       }
     }
   }
