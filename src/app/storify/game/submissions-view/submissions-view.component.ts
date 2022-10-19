@@ -3,23 +3,22 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostListener,
   Input,
   OnDestroy,
-  HostListener,
   Output,
   ViewChild,
 } from '@angular/core';
-import { Round } from '../../types/round';
-import { Lobby } from '../../types/lobby';
-import { SubmittedStory } from '../game.types';
-import { TimerType } from 'src/app/ui/timer/timer.types';
-import { GameService } from '../../services/game.service';
-import { ToasterService } from 'src/app/services/toaster.service';
-import { Story } from '../../types/story';
-import { AuthService } from 'src/app/auth/auth.service';
-import { User } from 'functions/src/types/user';
-import { TimerService } from '../../services/timer.service';
-import { Subscription } from 'rxjs';
+import {Round} from '../../types/round';
+import {Lobby, LobbyState} from '../../types/lobby';
+import {SubmittedStory} from '../game.types';
+import {TimerType} from 'src/app/ui/timer/timer.types';
+import {GameService} from '../../services/game.service';
+import {ToasterService} from 'src/app/services/toaster.service';
+import {AuthService} from 'src/app/auth/auth.service';
+import {User} from 'functions/src/types/user';
+import {TimerService} from '../../services/timer.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-submissions-view',
@@ -73,6 +72,10 @@ export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    if (this.lobby?.state !== LobbyState.EVALUATED){
+      console.log("Not doing the rating");
+      return;
+    }
     this.handleWindowResize();
     this.round?.submittedStories.forEach((story) => {
       this.stories.push({
