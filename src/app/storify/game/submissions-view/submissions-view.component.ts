@@ -90,8 +90,10 @@ export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
       this.timer.startTimer(20); // Start a 20 s Timer
       this.sub = this.timer.timeLeft?.subscribe({
         next: (val) => {
-          if (val <= 0) {this.submissionsViewed.emit();
-          this.sub?.unsubscribe();}
+          if (val <= 0) {
+            this.submissionsViewed.emit();
+            this.sub?.unsubscribe();
+          }
         },
       });
       this.timerStarted = true;
