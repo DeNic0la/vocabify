@@ -76,6 +76,7 @@ export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
       console.log("Not doing the rating");
       return;
     }
+    console.log(this.lobby);
     this.handleWindowResize();
     this.round?.submittedStories.forEach((story) => {
       this.stories.push({
@@ -90,6 +91,11 @@ export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
     });
     this.story = this.lobby?.story[this.lobby?.story.length - 2].sentence || '';
     this.showStories().then(() => {
+      if (this.lobby?.state !== LobbyState.EVALUATED){
+        console.log("Not doing the timer cause i am not an idiot");
+        return;
+      }
+      console.log(this)
       this.title = 'which is your favourite?';
       console.log("Start a 20 second Timer");
       this.timer.startTimer(20); // Start a 20 s Timer
