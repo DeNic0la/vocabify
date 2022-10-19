@@ -104,8 +104,8 @@ export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
     if (this.timerStarted && !this.isLoading) {
       try {
         this.isLoading = true;
-        await this.gameService.rate(this.lobby?.id || '', story.uid);
         this.addVote(story);
+        await this.gameService.rate(this.lobby?.id || '', story.uid);
         this.toast.showToast('success', 'Your vote has been submitted');
       } catch (error: any) {
         this.removeVote(story);

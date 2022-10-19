@@ -65,7 +65,7 @@ export class LobbyService {
       .delete();
 
     const participants = await this.getParticipants(lobby.id);
-    if (participants.length < 3) {
+    if (participants.length < 3 && LobbyState.JOINING !== lobby.state) {
       await this.deleteLobby(lobby.id);
     } else if (uid === lobby.hostid) {
       await this.setNewHost(participants[0].uid, lobby.id);
