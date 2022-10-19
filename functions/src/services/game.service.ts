@@ -19,14 +19,12 @@ export class GameService {
         userRatings: [],
       };
       const round = await this.getLastRound(lobby.id);
-      let submittedStories = round.data().submittedStories;
-      submittedStories.push(story);
       await this.db
         .collection('lobbies')
         .doc(lobby.id)
         .collection('rounds')
         .doc(round.id)
-        .update({ submittedStories });
+        .update({ submittedStories: admin.firestore.FieldValue.arrayUnion(story) });
     } else {
       throw new Error(
         'You cannot submit your sentence in the current lobby state'
