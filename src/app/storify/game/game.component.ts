@@ -184,28 +184,36 @@ export class GameComponent implements OnDestroy {
 
   public async showWinner() {
     this.loading = true;
-    await this.gameService.changeState(this.lobby.id, LobbyState.WINNER);
+    if (this.isHost) {
+      await this.gameService.changeState(this.lobby.id, LobbyState.WINNER);
+    }
     this.loading = false;
   }
 
   public async showSummary() {
     this.loading = true;
-    await this.gameService.changeState(this.lobby.id, LobbyState.RANKING);
+    if (this.isHost) {
+      await this.gameService.changeState(this.lobby.id, LobbyState.RANKING);
+    }
     this.loading = false;
   }
 
   public async nextRound() {
     this.loading = true;
-    await this.gameService.changeState(
-      this.lobby?.id || '',
-      LobbyState.SUBMITTING
-    );
+    if (this.isHost) {
+      await this.gameService.changeState(
+        this.lobby?.id || '',
+        LobbyState.SUBMITTING
+      );
+    }
     this.loading = false;
   }
 
   public async endGame() {
     this.loading = true;
-    await this.gameService.changeState(this.lobby?.id || '', LobbyState.ENDED);
+    if (this.isHost) {
+      await this.gameService.changeState(this.lobby?.id || '', LobbyState.ENDED);
+    }
     this.loading = false;
   }
 }

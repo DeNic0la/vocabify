@@ -34,7 +34,6 @@ export class RoundSummaryComponent implements OnInit {
   ngOnInit() {
     this.participantsSorted =
       this.lobby?.participants.sort((a, b) => b.points - a.points) || [];
-    console.log(this.participantsSorted);
   }
 
   public async nextRound() {
