@@ -46,6 +46,7 @@ export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
   public user: User = { email: '', uid: '', username: '' };
   public isLoading: boolean = false;
   private sub: Subscription = new Subscription();
+  private hasVoted: boolean = false;
 
   constructor(
     private auth: AuthService,
@@ -109,7 +110,7 @@ export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
         this.isLoading = true;
         this.addVote(story);
         await this.gameService.rate(this.lobby?.id || '', story.uid);
-      } catch (error: any) {}
+      } catch (error: any) { }
       this.isLoading = false;
     }
   }
@@ -122,9 +123,12 @@ export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
   }
 
   private addVote(story: SubmittedStory) {
-    for (let i = 0; i < this.viewedStories.length; i++) {
-      if (this.viewedStories[i].uid === story.uid) {
-        this.viewedStories[i].userRatings.push(this.user.uid);
+    if (!this.hasVoted) {
+      this.hasVoted = true;
+      for (let i = 0; i < this.viewedStories.length; i++) {
+        if (this.viewedStories[i].uid === story.uid) {
+          this.viewedStories[i].userRatings.push(this.user.uid);
+        }
       }
     }
   }
