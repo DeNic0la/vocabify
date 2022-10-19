@@ -38,6 +38,18 @@
       animation: appear 1000ms;
       animation-delay: 1400ms;
       animation-fill-mode: forwards;
+
+      .story {
+        position: relative;
+        top: 0;
+        height: 80%;
+      }
+
+      .icon {
+        position: relative;
+        bottom: 0;
+        height: 20%;
+      }
     }
   }
 }
@@ -84,6 +96,10 @@
     left: 50vw;
     top: 480px;
     transform: translate(-32px, -384px) !important;
+  }
+
+  .sentences {
+    margin-top: 164px;
   }
 }
 

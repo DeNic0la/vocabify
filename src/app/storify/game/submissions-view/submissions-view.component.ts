@@ -1,10 +1,10 @@
 import {
-  AfterContentChecked,
   AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
   Input, OnDestroy,
+  HostListener,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -59,9 +59,19 @@ export class SubmissionsViewComponent implements AfterViewInit,OnDestroy {
 
   ngOnDestroy(): void {
     if (this.sub) this.sub.unsubscribe();
+   }
+   
+  @HostListener('window:resize')
+  private handleWindowResize() {
+    if (document.body.clientWidth <= 800) {
+      this.timerType = 'horizontal';
+    } else {
+      this.timerType = 'vertical';
+    }
   }
 
   ngAfterViewInit(): void {
+    this.handleWindowResize();
     this.round?.submittedStories.forEach((story) => {
       this.stories.push({
         story: story.sentence,
