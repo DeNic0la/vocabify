@@ -71,10 +71,10 @@ export class WinnerViewComponent implements OnChanges {
     setTimeout(() => {
       this.winner = undefined;
       setTimeout(() => {
-        this.winner = this.winners[1]
-        setTimeout(() => this.showContinue = true, 3000)
-      }, 1000)
-    }, 6000)
+        this.winner = this.winners[1];
+        setTimeout(() => (this.showContinue = true), 3000);
+      }, 1000);
+    }, 6000);
   }
 
   private getWinnerObj(title: string, winnerId: string): Winner {
