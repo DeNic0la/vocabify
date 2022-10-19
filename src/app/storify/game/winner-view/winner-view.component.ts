@@ -66,6 +66,7 @@ export class WinnerViewComponent implements OnChanges {
         );
       }
     }
+    // please ignore this, I'm tired...
     this.winner = this.winners[0];
     setTimeout(() => {
       this.winner = undefined;
