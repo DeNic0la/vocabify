@@ -1,8 +1,9 @@
 <app-loader *ngIf="loading || isWaitingForEvaluation"></app-loader>
 <app-submission
   *ngIf="
-    gameState === LobbyState.SUBMITTING && !loading && !isWaitingForEvaluation
+    gameState === LobbyState.SUBMITTING
   "
+  [class]="dynamicStyleClass"
   [lobby]="lobby"
   [story]="story"
   (submit)="submitSentence($event)"
