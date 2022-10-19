@@ -25,7 +25,9 @@ export class TimerComponent implements OnChanges, OnDestroy {
 
   constructor(public timer: TimerService) { }
 
-  private timePercentilePx:number = 248 / 60;
+  get timePercentilePx():number{
+    return 248 / this.totalTime;
+  }
 
   private timeRemaining:number = 60;
   private sub:Subscription|undefined;
