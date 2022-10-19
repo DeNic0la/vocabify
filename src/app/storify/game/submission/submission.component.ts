@@ -3,7 +3,8 @@ import {
   ElementRef,
   EventEmitter,
   HostListener,
-  Input, OnDestroy,
+  Input,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild,
@@ -35,7 +36,6 @@ export class SubmissionComponent implements OnInit {
     private toastService: ToasterService,
     private timer: TimerService
   ) {}
-
 
   ngOnInit(): void {
     this.handleWindowResize();

@@ -35,11 +35,11 @@ export class GameComponent implements OnDestroy {
   private roundsSubscription: Subscription = new Subscription();
   private isEvaluating: boolean = false;
 
-  get dynamicStyleClass():string{
-    if (this.loading || this.isWaitingForEvaluation){
-      return "hide"
-    }else {
-      return "";
+  get dynamicStyleClass(): string {
+    if (this.loading || this.isWaitingForEvaluation) {
+      return 'hide';
+    } else {
+      return '';
     }
   }
 
@@ -159,20 +159,17 @@ export class GameComponent implements OnDestroy {
     await this.checkForEvaluation();
   }
 
-
   public async checkForEvaluation(timeUp: boolean = false) {
     const playersAmount = this.lobby?.participants.length;
     const sentencesAmount = this.currentRound?.submittedStories.length;
 
     if (playersAmount === sentencesAmount || timeUp) {
       if (this.isHost) {
-
         if (
           this.currentRound?.winner === -1 &&
           !this.isEvaluating &&
           this.gameState === LobbyState.SUBMITTING
         ) {
-
           this.isEvaluating = true;
           await this.gameService.evaluate(this.lobby?.id || '');
           this.isEvaluating = false;
