@@ -59,9 +59,10 @@ export class StorifyExploreComponent {
         lobbyService
           .joinLobby(lobby.id)
           .then(() => (this.isLoading = false))
-          .catch((error: any) => {
+          .catch(() => {
             this.isLoading = false;
-            this.msgService.showToast('error', error.message);
+            this.msgService.showToast('error', "There was an error joining the lobby.");
+            this.loadLobbies();
           });
       } else {
         this.msgService.showToast('error', 'The lobby is full.');
