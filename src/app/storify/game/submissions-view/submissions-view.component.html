@@ -1,10 +1,10 @@
 <div class="content">
   <div class="timer-wrapper">
     <app-timer
+      *ngIf="timerStarted"
       [started]="timerStarted"
       [type]="timerType"
       [time]="20"
-      (tick)="checkTime($event)"
     ></app-timer>
   </div>
   <div class="sentences">

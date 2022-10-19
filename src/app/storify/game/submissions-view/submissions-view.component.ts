@@ -3,8 +3,9 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  HostListener,
   Input,
+  OnDestroy,
+  HostListener,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -17,13 +18,15 @@ import { ToasterService } from 'src/app/services/toaster.service';
 import { Story } from '../../types/story';
 import { AuthService } from 'src/app/auth/auth.service';
 import { User } from 'functions/src/types/user';
+import { TimerService } from '../../services/timer.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-submissions-view',
   templateUrl: './submissions-view.component.html',
   styleUrls: ['./submissions-view.component.scss'],
 })
-export class SubmissionsViewComponent implements AfterViewInit {
+export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
   @Input('round') round: Round | undefined;
   @Input('lobby') lobby: Lobby | undefined;
 
@@ -42,15 +45,21 @@ export class SubmissionsViewComponent implements AfterViewInit {
   public title: string = 'submitted stories';
   public user: User = { email: '', uid: '', username: '' };
   public isLoading: boolean = false;
+  private sub: Subscription | undefined;
 
   constructor(
     private auth: AuthService,
     private gameService: GameService,
-    private toast: ToasterService
+    private toast: ToasterService,
+    private timer: TimerService
   ) {
     this.auth.currentUser.subscribe((user) => {
       this.user = user || { email: '', uid: '', username: '' };
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub) this.sub.unsubscribe();
   }
 
   @HostListener('window:resize')
@@ -78,6 +87,13 @@ export class SubmissionsViewComponent implements AfterViewInit {
     this.story = this.lobby?.story[this.lobby?.story.length - 2].sentence || '';
     this.showStories().then(() => {
       this.title = 'which is your favourite?';
+      this.timer.startTimer(20); // Start a 20 s Timer
+      this.sub = this.timer.timeLeft?.subscribe({
+        next: (val) => {
+          if (val <= 0) this.submissionsViewed.emit();
+          this.sub?.unsubscribe();
+        },
+      });
       this.timerStarted = true;
     });
   }
@@ -130,9 +146,5 @@ export class SubmissionsViewComponent implements AfterViewInit {
         }, 600);
       }, 6000);
     });
-  }
-
-  checkTime($event: number) {
-    if ($event <= 0) this.submissionsViewed.emit();
   }
 }

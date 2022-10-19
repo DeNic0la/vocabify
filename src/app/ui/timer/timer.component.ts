@@ -4,61 +4,53 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
+import { TimerService } from 'src/app/storify/services/timer.service';
 import { TimerType } from './timer.types';
+import { Subscriber, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-timer',
   templateUrl: './timer.component.html',
   styleUrls: ['./timer.component.scss'],
 })
-export class TimerComponent implements OnInit, OnChanges {
+export class TimerComponent implements OnChanges, OnDestroy {
   @Input('started') started: boolean = false;
   @Input('time') totalTime = 60;
   @Input('type') type: TimerType = 'vertical';
-
-  @Output('tick') tickEvent: EventEmitter<number> = new EventEmitter<number>();
-
   @ViewChild('timeSlider') timeSlider: ElementRef | undefined;
 
-  public timeRemaining: number = 0;
-  private timeInterval: NodeJS.Timer | null = null;
-  private timerRunning = false;
-  private timePercentilePx = 0;
+  constructor(public timer: TimerService) {}
 
-  ngOnInit() {
-    this.timeRemaining = this.totalTime;
-    this.timePercentilePx = 248 / this.totalTime;
-    this.adjustTimeSlider();
+  get timePercentilePx(): number {
+    return 248 / this.totalTime;
   }
 
+  private timeRemaining: number = 60;
+  private sub: Subscription | undefined;
+
   ngOnChanges() {
-    if (this.started && !this.timerRunning) {
+    if (this.started && !this.sub) {
       this.startTimer();
     }
   }
 
   private startTimer(): void {
-    this.timerRunning = true;
-    this.timeInterval = setInterval(() => this.tick(), 1000);
-  }
-
-  private tick(): void {
-    this.timeRemaining--;
-    if (this.timeRemaining === 0) {
-      this.stopTimer();
-    }
-    this.adjustTimeSlider();
-    this.tickEvent.emit(this.timeRemaining);
+    this.sub = this.timer.timeLeft?.subscribe((val) => {
+      this.timeRemaining = val;
+      this.adjustTimeSlider();
+      if (val <= 0) this.stopTimer();
+    });
   }
 
   private stopTimer(): void {
-    this.timerRunning = false;
     this.started = false;
-    if (this.timeInterval) clearInterval(this.timeInterval);
+    this.sub?.unsubscribe();
+    this.sub = undefined;
   }
 
   private adjustTimeSlider(): void {
@@ -79,5 +71,9 @@ export class TimerComponent implements OnInit, OnChanges {
         timeSliderStyle.backgroundColor = '#ff595e';
       }
     }
+  }
+
+  ngOnDestroy(): void {
+    this.stopTimer();
   }
 }

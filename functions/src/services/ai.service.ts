@@ -22,6 +22,7 @@ export class AiService {
   }
 
   public async getSortedSentences(sentences: string[], lobby: Lobby) {
+    sentences = this.shuffleArray(sentences);
     const completionRequest: CompletionRequest = {
       prompt: this.getPrompt(sentences, lobby.story),
       temperature: 0.6,
@@ -32,6 +33,15 @@ export class AiService {
       completionRequest
     );
     return result.choices[0].text;
+  }
+
+  private shuffleArray(arrayParam: any[]) {
+    let array: any = arrayParam;
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
   }
 
   private getPrompt(sentences: string[], story: Story[]): string {
