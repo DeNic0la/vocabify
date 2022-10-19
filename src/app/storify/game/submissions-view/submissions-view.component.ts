@@ -108,7 +108,7 @@ export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
   }
 
   public async vote(story: SubmittedStory) {
-    if (this.timerStarted && !this.isLoading) {
+    if (this.timerStarted && !this.isLoading && !this.hasVoted) {
       try {
         this.isLoading = true;
         this.addVote(story);
