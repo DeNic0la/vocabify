@@ -125,11 +125,11 @@ export class GameService {
   public async rate(uid: string, lobby: Lobby, storyUid: any) {
     if (uid === storyUid) throw new Error('You cannot vote for your story');
 
-    const roundFirebase = (await this.getLastRound(lobby.id)).data();
+    const roundFirebase = (await this.getLastRound(lobby.id));
     let round: Round = {
-      createdAt: roundFirebase.createdAt,
-      submittedStories: roundFirebase.submittedStories,
-      winner: roundFirebase.winner,
+      createdAt: roundFirebase.data().createdAt,
+      submittedStories: roundFirebase.data().submittedStories,
+      winner: roundFirebase.data().winner,
     };
 
     if (!this.hasAlreadyVoted(uid, round.submittedStories)) {
@@ -138,7 +138,7 @@ export class GameService {
           round.submittedStories[i].userRatings.push(uid);
           const roundRef = this.getRoundById(
             lobby.id,
-            round.createdAt.toString()
+            roundFirebase.id,
           );
           await roundRef.update({ submittedStories: round.submittedStories });
           break;

@@ -35,11 +35,11 @@ export class GameComponent implements OnDestroy {
   private roundsSubscription: Subscription = new Subscription();
   private isEvaluating: boolean = false;
 
-  get dynamicStyleClass():string{
-    if (this.loading || this.isWaitingForEvaluation){
-      return "hide"
-    }else {
-      return "";
+  get dynamicStyleClass(): string {
+    if (this.loading || this.isWaitingForEvaluation) {
+      return 'hide';
+    } else {
+      return '';
     }
   }
 
@@ -159,20 +159,17 @@ export class GameComponent implements OnDestroy {
     await this.checkForEvaluation();
   }
 
-
   public async checkForEvaluation(timeUp: boolean = false) {
     const playersAmount = this.lobby?.participants.length;
     const sentencesAmount = this.currentRound?.submittedStories.length;
 
     if (playersAmount === sentencesAmount || timeUp) {
       if (this.isHost) {
-
         if (
           this.currentRound?.winner === -1 &&
           !this.isEvaluating &&
           this.gameState === LobbyState.SUBMITTING
         ) {
-
           this.isEvaluating = true;
           await this.gameService.evaluate(this.lobby?.id || '');
           this.isEvaluating = false;
@@ -187,28 +184,36 @@ export class GameComponent implements OnDestroy {
 
   public async showWinner() {
     this.loading = true;
-    await this.gameService.changeState(this.lobby.id, LobbyState.WINNER);
+    if (this.isHost) {
+      await this.gameService.changeState(this.lobby.id, LobbyState.WINNER);
+    }
     this.loading = false;
   }
 
   public async showSummary() {
     this.loading = true;
-    await this.gameService.changeState(this.lobby.id, LobbyState.RANKING);
+    if (this.isHost) {
+      await this.gameService.changeState(this.lobby.id, LobbyState.RANKING);
+    }
     this.loading = false;
   }
 
   public async nextRound() {
     this.loading = true;
-    await this.gameService.changeState(
-      this.lobby?.id || '',
-      LobbyState.SUBMITTING
-    );
+    if (this.isHost) {
+      await this.gameService.changeState(
+        this.lobby?.id || '',
+        LobbyState.SUBMITTING
+      );
+    }
     this.loading = false;
   }
 
   public async endGame() {
     this.loading = true;
-    await this.gameService.changeState(this.lobby?.id || '', LobbyState.ENDED);
+    if (this.isHost) {
+      await this.gameService.changeState(this.lobby?.id || '', LobbyState.ENDED);
+    }
     this.loading = false;
   }
 }

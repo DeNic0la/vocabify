@@ -44,8 +44,10 @@
   .button-container {
     bottom: 0;
     right: 36px;
+    left: 36px;
     position: absolute;
     z-index: 1;
+    width: 100vw;
 
     .button {
       margin: 8px 0;
@@ -53,11 +55,15 @@
   }
 
   .left {
-    float: left;
+    position: absolute;
+    left: 36px;
+    bottom: 36px;
   }
 
   .right {
-    float: right;
+    position: absolute;
+    right: 36px;
+    bottom: 36px;
   }
 }
 

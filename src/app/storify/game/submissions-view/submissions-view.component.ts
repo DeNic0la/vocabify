@@ -45,7 +45,7 @@ export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
   public title: string = 'submitted stories';
   public user: User = { email: '', uid: '', username: '' };
   public isLoading: boolean = false;
-  private sub: Subscription | undefined;
+  private sub: Subscription = new Subscription();
 
   constructor(
     private auth: AuthService,
@@ -88,14 +88,16 @@ export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
     this.showStories().then(() => {
       this.title = 'which is your favourite?';
       this.timer.startTimer(20); // Start a 20 s Timer
-      this.sub = this.timer.timeLeft?.subscribe({
-        next: (val) => {
-          if (val <= 0) {
-            this.submissionsViewed.emit();
-            this.sub?.unsubscribe();
-          }
-        },
-      });
+      this.sub.add(
+        this.timer.timeLeft?.subscribe({
+          next: (val) => {
+            if (val <= 0) {
+              this.sub?.unsubscribe();
+              this.submissionsViewed.emit();
+            }
+          },
+        })
+      );
       this.timerStarted = true;
     });
   }
@@ -104,12 +106,9 @@ export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
     if (this.timerStarted && !this.isLoading) {
       try {
         this.isLoading = true;
-        await this.gameService.rate(this.lobby?.id || '', story.uid);
         this.addVote(story);
-        this.toast.showToast('success', 'Your vote has been submitted');
-      } catch (error: any) {
-        this.toast.showToast('error', error.message);
-      }
+        await this.gameService.rate(this.lobby?.id || '', story.uid);
+      } catch (error: any) {}
       this.isLoading = false;
     }
   }

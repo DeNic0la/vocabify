@@ -1,4 +1,5 @@
-<div class="content">
+<app-loader *ngIf="isLoading"></app-loader>
+<div *ngIf="!isLoading" class="content">
   <div class="section">
     <h2>The Story</h2>
     <div class="card-wrapper">
