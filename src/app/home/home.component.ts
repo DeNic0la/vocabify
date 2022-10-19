@@ -23,6 +23,6 @@ export class HomeComponent {
       callback: () => {
         this.router.navigate(['/storify/explore']);
       },
-    }
+    },
   ];
 }
