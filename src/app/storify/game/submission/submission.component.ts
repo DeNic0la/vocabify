@@ -34,7 +34,7 @@ export class SubmissionComponent implements OnInit {
   constructor(
     private toastService: ToasterService,
     private timer: TimerService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.handleWindowResize();
@@ -59,6 +59,7 @@ export class SubmissionComponent implements OnInit {
 
   public submitSentence(): void {
     this.textareaColor = 'inverted';
+    this.sentence = this.sentence.replace('\n', ' ');
     if (this.sentence.split(' ').length >= 3) {
       this.submit.emit(this.sentence);
     } else {
@@ -68,5 +69,9 @@ export class SubmissionComponent implements OnInit {
         'You need to write a whole sentence.'
       );
     }
+  }
+
+  public onEnter() {
+    this.sentence = this.sentence.replace('\n', ' ');
   }
 }
