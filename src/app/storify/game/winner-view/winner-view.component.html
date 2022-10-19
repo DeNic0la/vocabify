@@ -1,5 +1,5 @@
 <div class="content">
-  <div class="winner-container" *ngFor="let winner of winners">
+  <div class="winner-container" *ngIf="winner">
     <h3 class="winner-text">{{ winner.title }}</h3>
     <div class="username-wrapper">
       <div class="username-box">
@@ -14,7 +14,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="isHost" class="button-container">
+  <div *ngIf="isHost && showContinue" class="button-container">
     <app-button
       color="success"
       class="relative continue-btn"

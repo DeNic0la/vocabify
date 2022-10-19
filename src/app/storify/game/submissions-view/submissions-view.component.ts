@@ -1,9 +1,9 @@
 import {
-  AfterContentChecked,
   AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
+  HostListener,
   Input,
   Output,
   ViewChild,
@@ -53,7 +53,17 @@ export class SubmissionsViewComponent implements AfterViewInit {
     });
   }
 
+  @HostListener('window:resize')
+  private handleWindowResize() {
+    if (document.body.clientWidth <= 800) {
+      this.timerType = 'horizontal';
+    } else {
+      this.timerType = 'vertical';
+    }
+  }
+
   ngAfterViewInit(): void {
+    this.handleWindowResize();
     this.round?.submittedStories.forEach((story) => {
       this.stories.push({
         story: story.sentence,

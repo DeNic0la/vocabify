@@ -34,7 +34,8 @@
 
   .text {
     width: 448px;
-    max-height: 192px;
+    max-height: 448px;
+    height: calc(100% - 64px);
   }
 }
 

@@ -7,30 +7,36 @@
       (tick)="checkTime($event)"
     ></app-timer>
   </div>
-  <h3 class="header">{{ title }}</h3>
-  <h5 class="title">{{ story }}</h5>
-  <div class="sentence-wrapper" #sentence>
-    <div class="sentence-box" *ngFor="let story of viewedStories">
-      <app-card size="large" color="inverted">
-        <div class="story">
-          {{ story.story }}
-        </div>
-        <div class="icon">
-          <img
-            *ngIf="
-              timerStarted && !hasVotedFor(story) && story.uid !== this.user.uid
-            "
-            (click)="vote(story)"
-            src="../../../../assets/images/heart_empty.svg"
-          />
-          <img
-            *ngIf="
-              timerStarted && hasVotedFor(story) && story.uid !== this.user.uid
-            "
-            src="../../../../assets/images/heart_filled.svg"
-          />
-        </div>
-      </app-card>
+  <div class="sentences">
+    <h3 class="header">{{ title }}</h3>
+    <h5 class="title">{{ story }}</h5>
+    <div class="sentence-wrapper" #sentence>
+      <div class="sentence-box" *ngFor="let story of viewedStories">
+        <app-card size="large" color="inverted">
+          <div class="story">
+            {{ story.story }}
+          </div>
+          <div class="icon">
+            <img
+              *ngIf="
+                timerStarted &&
+                !hasVotedFor(story) &&
+                story.uid !== this.user.uid
+              "
+              (click)="vote(story)"
+              src="../../../../assets/images/heart_empty.svg"
+            />
+            <img
+              *ngIf="
+                timerStarted &&
+                hasVotedFor(story) &&
+                story.uid !== this.user.uid
+              "
+              src="../../../../assets/images/heart_filled.svg"
+            />
+          </div>
+        </app-card>
+      </div>
     </div>
   </div>
 </div>
