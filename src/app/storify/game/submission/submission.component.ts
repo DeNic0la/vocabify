@@ -34,7 +34,7 @@ export class SubmissionComponent implements OnInit {
   constructor(
     private toastService: ToasterService,
     private timer: TimerService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.handleWindowResize();
