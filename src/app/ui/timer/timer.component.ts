@@ -21,9 +21,6 @@ export class TimerComponent implements OnChanges, OnDestroy {
   @Input('started') started: boolean = false;
   @Input('time') totalTime = 60;
   @Input('type') type: TimerType = 'vertical';
-
-  @Output('tick') tickEvent: EventEmitter<number> = new EventEmitter<number>();
-
   @ViewChild('timeSlider') timeSlider: ElementRef | undefined;
 
   constructor(public timer: TimerService) { }
