@@ -88,14 +88,16 @@ export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
     this.showStories().then(() => {
       this.title = 'which is your favourite?';
       this.timer.startTimer(20); // Start a 20 s Timer
-      this.sub.add(this.timer.timeLeft?.subscribe({
-        next: (val) => {
-          if (val <= 0) {
-            this.sub?.unsubscribe();
-            this.submissionsViewed.emit();
-          }
-        },
-      }));
+      this.sub.add(
+        this.timer.timeLeft?.subscribe({
+          next: (val) => {
+            if (val <= 0) {
+              this.sub?.unsubscribe();
+              this.submissionsViewed.emit();
+            }
+          },
+        })
+      );
       this.timerStarted = true;
     });
   }
@@ -106,7 +108,7 @@ export class SubmissionsViewComponent implements AfterViewInit, OnDestroy {
         this.isLoading = true;
         this.addVote(story);
         await this.gameService.rate(this.lobby?.id || '', story.uid);
-      } catch (error: any) { }
+      } catch (error: any) {}
       this.isLoading = false;
     }
   }
